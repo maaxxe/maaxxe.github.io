@@ -1,91 +1,140 @@
-cat > index.html << 'EOF'
 <!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8">
-    <title>Maxime Robin</title>
-    <style>
-      body {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        max-width: 800px;
-        margin: 40px auto;
-        padding: 0 16px;
-        line-height: 1.6;
-        background: #f9fafb;
-      }
-      header {
-        border-bottom: 2px solid #e5e7eb;
-        margin-bottom: 24px;
-        padding-bottom: 8px;
-      }
-      h1 {
-        margin: 0;
-        font-size: 2rem;
-      }
-      h2 {
-        margin-top: 24px;
-        font-size: 1.3rem;
-      }
-      a {
-        color: #2563eb;
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
-      .tags span {
-        display: inline-block;
-        background: #e5e7eb;
-        border-radius: 999px;
-        padding: 2px 10px;
-        margin: 2px 4px 0 0;
-        font-size: 0.85rem;
-      }
-    </style>
+    <title>Maxime Robin – Profil</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <header>
-      <h1>Maxime Robin</h1>
-      <p>Étudiant en informatique, passionné par l'IA, la vision par ordinateur et les réseaux de neurones.</p>
+    <header class="hero">
+      <div class="container hero-content">
+        <div>
+          <h1>Maxime Robin</h1>
+          <p class="hero-subtitle">
+            Étudiant à l'Université de Sherbrooke &amp; ESEO<br>
+            Double diplôme en intelligence artificielle et systèmes embarqués.
+          </p>
+          <div class="hero-tags">
+            <span>IA &amp; Deep Learning</span>
+            <span>Systèmes embarqués</span>
+            <span>Réseaux de neurones</span>
+            <span>Automatisation industrielle</span>
+          </div>
+        </div>
+        <div class="hero-links">
+          <a class="btn primary" href="CV_Maxime_Robin.pdf" target="_blank">📄 Voir mon CV</a>
+          <a class="btn" href="https://www.linkedin.com/in/maxime-robin-188462231/" target="_blank">🔗 LinkedIn</a>
+          <a class="btn" href="https://github.com/maaxxe" target="_blank">🐙 GitHub</a>
+        </div>
+      </div>
     </header>
 
-    <section>
-      <h2>À propos</h2>
-      <p>
-        Je suis étudiant à l'Université de Sherbrooke. Sur cette page, je regroupe quelques projets,
-        travaux de cours et expériences personnelles liés à la programmation et à l'apprentissage automatique.
-      </p>
-    </section>
+    <main class="container">
+      <section>
+        <h2>À propos</h2>
+        <p>
+          Actuellement en double diplôme entre l'ESEO (génie des systèmes embarqués) et
+          l'Université de Sherbrooke (maîtrise en informatique, spécialisation IA),
+          je m'intéresse particulièrement à la vision par ordinateur, au deep learning
+          et aux applications industrielles de l'IA.
+        </p>
+        <p>
+          J'aime travailler sur des projets concrets mêlant capteurs, code bas niveau
+          et modèles de haut niveau, avec une attention particulière à la qualité,
+          la reproductibilité et la documentation.
+        </p>
+      </section>
 
-    <section>
-      <h2>Projets récents</h2>
-      <ul>
-        <li><strong>IFT780 – Réseaux de neurones</strong> : implémentation de modèles de deep learning pour différents jeux de données.</li>
-        <li><strong>Projets personnels</strong> : petits scripts d'expérimentation, visualisation de données, et prototypes d'outils.</li>
-      </ul>
-    </section>
+      <section>
+        <h2>Expériences</h2>
+        <div class="cards">
+          <article class="card">
+            <h3>Automation Engineering Intern – OTHUA (Slovaquie)</h3>
+            <p class="card-meta">Juil. 2024 – Déc. 2024</p>
+            <p>
+              Modernisation de lignes de production Stellantis (Citroën C3, Opel Frontera) :
+              mise en service, validation de câblage, optimisation de systèmes automatisés,
+              programmation et dépannage de robots, automates et IHM (TIA Portal, STEP7).
+            </p>
+          </article>
 
-    <section>
-      <h2>Technologies</h2>
-      <div class="tags">
-        <span>Python</span>
-        <span>PyTorch</span>
-        <span>NumPy</span>
-        <span>Pandas</span>
-        <span>Git &amp; GitHub</span>
+          <article class="card">
+            <h3>Stagiaire technique – Stellantis / Groupe PSA</h3>
+            <p class="card-meta">Plusieurs stages entre 2018 et 2023</p>
+            <p>
+              Participation aux activités de mise au point géométrique, analyse de rapports
+              de mesure, préparation de KPI, contrôle qualité de véhicules électriques
+              (DS3 E-TENSE, Mokka électrique), et découverte des chaînes de production.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>Formation</h2>
+        <ul class="timeline">
+          <li>
+            <strong>Université de Sherbrooke</strong> – Maîtrise en informatique, spécialisation IA (2025–2026)<br>
+            Double diplôme en intelligence artificielle, approfondissement en apprentissage automatique
+            et vision par ordinateur.
+          </li>
+          <li>
+            <strong>ESEO</strong> – Diplôme d'ingénieur, systèmes embarqués (2023–2026)<br>
+            Projet ProSe : système de détection d'intrusion pour AEGIS avec réseau de caméras
+            Raspberry Pi, caméras IP et application Android connectée.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Compétences</h2>
+        <div class="skills-grid">
+          <div>
+            <h3>IA &amp; Data</h3>
+            <ul>
+              <li>Python, PyTorch, NumPy, Pandas, scikit-learn</li>
+              <li>Réseaux de neurones, deep learning</li>
+              <li>Préparation et visualisation de données</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Systèmes &amp; embarqué</h3>
+            <ul>
+              <li>C, Android, Linux</li>
+              <li>Raspberry Pi, caméras IP</li>
+              <li>Automates, TIA Portal, STEP7</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Transversal</h3>
+            <ul>
+              <li>Git &amp; GitHub</li>
+              <li>Gestion de projet (MOOC Gestion de Projet)</li>
+              <li>Anglais (TOEIC, 2025)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Me contacter</h2>
+        <p>
+          📧 <a href="mailto:robm8964@usherbrooke.ca">robm8964@usherbrooke.ca</a><br>
+          🔗 <a href="https://www.linkedin.com/in/maxime-robin-188462231/" target="_blank">
+          Profil LinkedIn</a><br>
+          🐙 <a href="https://github.com/maaxxe" target="_blank">github.com/maaxxe</a>
+        </p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p>© <span id="year"></span> Maxime Robin · Site personnel hébergé sur GitHub Pages.</p>
       </div>
-    </section>
-
-    <section>
-      <h2>Contact</h2>
-      <p>
-        Vous pouvez me joindre à : <a href="mailto:robm8964@usherbrooke.ca">robm8964@usherbrooke.ca</a>.
-      </p>
-      <p>
-        Voir aussi mon code sur GitHub : <a href="https://github.com/robin" target="_blank">github.com/robin</a>.
-        <!-- adapte le lien avec ton vrai pseudo -->
-      </p>
-    </section>
+      <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+      </script>
+    </footer>
   </body>
 </html>
-EOF
