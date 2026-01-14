@@ -1,0 +1,91 @@
+cat > index.html << 'EOF'
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>Maxime Robin</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 0 16px;
+        line-height: 1.6;
+        background: #f9fafb;
+      }
+      header {
+        border-bottom: 2px solid #e5e7eb;
+        margin-bottom: 24px;
+        padding-bottom: 8px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 2rem;
+      }
+      h2 {
+        margin-top: 24px;
+        font-size: 1.3rem;
+      }
+      a {
+        color: #2563eb;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .tags span {
+        display: inline-block;
+        background: #e5e7eb;
+        border-radius: 999px;
+        padding: 2px 10px;
+        margin: 2px 4px 0 0;
+        font-size: 0.85rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Maxime Robin</h1>
+      <p>Étudiant en informatique, passionné par l'IA, la vision par ordinateur et les réseaux de neurones.</p>
+    </header>
+
+    <section>
+      <h2>À propos</h2>
+      <p>
+        Je suis étudiant à l'Université de Sherbrooke. Sur cette page, je regroupe quelques projets,
+        travaux de cours et expériences personnelles liés à la programmation et à l'apprentissage automatique.
+      </p>
+    </section>
+
+    <section>
+      <h2>Projets récents</h2>
+      <ul>
+        <li><strong>IFT780 – Réseaux de neurones</strong> : implémentation de modèles de deep learning pour différents jeux de données.</li>
+        <li><strong>Projets personnels</strong> : petits scripts d'expérimentation, visualisation de données, et prototypes d'outils.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Technologies</h2>
+      <div class="tags">
+        <span>Python</span>
+        <span>PyTorch</span>
+        <span>NumPy</span>
+        <span>Pandas</span>
+        <span>Git &amp; GitHub</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <p>
+        Vous pouvez me joindre à : <a href="mailto:robm8964@usherbrooke.ca">robm8964@usherbrooke.ca</a>.
+      </p>
+      <p>
+        Voir aussi mon code sur GitHub : <a href="https://github.com/robin" target="_blank">github.com/robin</a>.
+        <!-- adapte le lien avec ton vrai pseudo -->
+      </p>
+    </section>
+  </body>
+</html>
+EOF
