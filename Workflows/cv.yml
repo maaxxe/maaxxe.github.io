@@ -1,0 +1,36 @@
+name: CV Python Generator
+on: 
+  workflow_dispatch:  # Manuel
+  push:
+    paths: ['moncv.txt']
+
+jobs:
+  generate-cv:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install FPDF
+      run: pip install fpdf2
+    
+    - name: Run conversion_cv.py
+      run: python conversion_cv.py
+    
+    - name: Upload CV PDF
+      uses: actions/upload-artifact@v4
+      with:
+        name: CV_ROBIN_Maxime.pdf
+        path: CV_ROBIN_Maxime.pdf
+    
+    - name: Commit PDF back
+      run: |
+        git config user.name "GitHub Action"
+        git config user.email "action@github.com"
+        git add CV_ROBIN_Maxime.pdf
+        git commit -m "🤖 Auto-generate CV PDF" || echo "No changes"
+        git push

@@ -7,34 +7,45 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <header class="hero">
-      <div class="hero-bg"></div>
-      <div class="container hero-content">
+  <!-- Header avec navigation vers outils -->
+  <header class="site-header">
+    <nav class="top-nav">
+      <div class="container">
+        <a href="index.html" class="nav-logo">Maxime Robin</a>
+        <div class="nav-links">
+          <a href="#cv-section" class="nav-link">CV</a>
+          <a href="outils.html" class="nav-link primary" target="_blank">  Mes Outils</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container">
+      <div class="hero-content">
         <div class="hero-text">
           <h1>Maxime Robin</h1>
-          <p class="hero-subtitle">
-            Ingénieur informatique • IA &amp; Systèmes embarqués<br>
-            Université de Sherbrooke &amp; ESEO
-          </p>
-          <p class="hero-desc">
-            Passionné par l'intelligence artificielle, la vision par ordinateur et les solutions industrielles.
-            Expérience internationale en France, Canada, Slovaquie et Lettonie.
-          </p>
+          <p class="hero-subtitle">Ingénieur informatique IA / Systèmes embarqués</p>
+          <p class="hero-desc">Université de Sherbrooke & ESEO. Passionné par l'IA et la vision par ordinateur.</p>
           <div class="hero-tags">
-            <span>🤖 IA &amp; Deep Learning</span>
-            <span>⚙️ Systèmes embarqués</span>
-            <span>🔧 Automatisation</span>
-            <span>🌍 Mobilité internationale</span>
+            <span>IA / Deep Learning</span>
+            <span>Systèmes embarqués</span>
+            <span>Automatisation</span>
+            <span>Mobilité internationale</span>
           </div>
         </div>
         <div class="hero-links">
-          <a class="btn primary" href="#cv-section">📄 Consulter mon CV</a>
-          <a class="btn" href="https://www.linkedin.com/in/maxime-robin-188462231/" target="_blank"> LinkedIn</a>
-          <a class="btn" href="https://github.com/maaxxe" target="_blank"> GitHub</a>
-          <a class="btn" href="mailto:robm8964@usherbrooke.ca"> Email</a>
+          <a href="#cv-section" class="btn primary large">Consulter mon CV</a>
+          <a href="https://www.linkedin.com/in/maxime-robin-188462231" target="_blank" class="btn">LinkedIn</a>
+          <a href="https://github.com/maaxxe" target="_blank" class="btn">GitHub</a>
+          <a href="mailto:robm8964@usherbrooke.ca" class="btn">Email</a>
         </div>
       </div>
-    </header>
+    </div>
+  </section>
 
     <main class="container">
       <!-- À propos -->
@@ -440,13 +451,11 @@
     </main>
 
     <footer class="footer">
-      <div class="container">
-        <p>© <span id="year"></span> Maxime Robin · Ingénieur informatique · Site personnel hébergé sur GitHub Pages.</p>
-        <p class="footer-note">Dernière mise à jour : janvier 2026</p>
-      </div>
-      <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
-      </script>
-    </footer>
-  </body>
+    <div class="container">
+      <p>&copy; <span id="year"></span> Maxime Robin</p>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
 </html>

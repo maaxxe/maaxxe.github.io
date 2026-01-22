@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>📄 CV Generator - Maxime Robin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style_conversion_CV.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="tools-page">
+  <header class="site-header">
+    <nav class="top-nav">
+      <div class="container">
+        <a href="index.html" class="nav-logo">Profil</a>
+        <a href="outils.html" class="nav-logo">← Outils</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="tools-section">
+      <div class="tools-header">
+        <h1> Générateur CV</h1>
+        <p>Syntaxe simple → PDF compact</p>
+      </div>
+
+      <div class="tool-container">
+        <div class="tool-card">
+          <h2>Saisissez votre CV</h2>
+          
+          <div class="syntax-help">
+            <code># Nom</code> <code>== Section</code> <code>** Poste **</code> <code>-- Détail</code> <code>* Puce</code>
+          </div>
+
+          <div id="drop-zone" class="drop-zone">
+            <div class="drop-icon">📄</div>
+            <p>Glissez .txt ou tapez</p>
+          </div>
+
+          <textarea id="cv-text" placeholder="# Titre CV
+
+== FORMATION
+** Double Master Génie Logiciel & IA **
+-- Université de Sherbrooke (UdeS) 2025-2026
+* IA 
+
+** Diplôme Ingénieur Systèmes Embarqués **
+-- ESEO, Angers, France 2021-2026
+* Électronique, automatisation industrielle
+
+== EXPÉRIENCES
+** Stage Assemblage Automobile **
+-- PSA Stellantis, Trnava, Slovaquie 2023
+* Géométrie, KPI production, mesures
+
+** Projet ProSAutomation **
+-- OTHUA, Haguenau, France 2025
+*Automatisation industrielle Siemens
+
+** Dev IA/ML **
+-- Projets perso/tech 2024-2026
+* Python, Java, C
+
+"></textarea>
+
+          <div class="converter-controls">
+            <button onclick="generatePDF()" class="btn primary large">💾 PDF</button>
+            <button onclick="downloadTxt()" class="btn accent large">📥 TXT</button>
+            <button onclick="generatePreview()" class="btn secondary large"> Preview</button>
+            <button onclick="clearText()" class="btn outline">🗑️</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const cvText = document.getElementById('cv-text');
+    const dropZone = document.getElementById('drop-zone');
+
+    // Drag & Drop
+    ['dragenter','dragover'].forEach(e=>dropZone.addEventListener(e,()=>dropZone.classList.add('drag-over')));
+    ['dragleave','drop'].forEach(e=>dropZone.addEventListener(e,()=>dropZone.classList.remove('drag-over')));
+    dropZone.addEventListener('drop',(e)=>{
+      e.preventDefault();
+      const file=e.dataTransfer.files[0];
+      if(file?.type==='text/plain'){
+        const reader=new FileReader();
+        reader.onload=ev=>cvText.value=ev.target.result;
+        reader.readAsText(file);
+      }
+    });
+    dropZone.addEventListener('click',()=>cvText.focus());
+
+    function downloadTxt(){
+      const content=cvText.value.trim();
+      if(!content)return alert('CV vide');
+      const blob=new Blob([content],{type:'text/plain'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;a.download='moncv.txt';a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function generatePDF(){
+      const {jsPDF}=window.jspdf;
+      const doc=new jsPDF();
+      const lines=cvText.value.split('\n').map(l=>l.trim()).filter(l=>l);
+      let y=22; // Espacement réduit
+
+      lines.forEach(line=>{
+        if(y>260){doc.addPage();y=20;} // Compact
+
+        if(line.startsWith('#')){
+          doc.setFontSize(20); // Plus petit
+          doc.setFont('helvetica','bold');
+          doc.text(line.replace(/^# */,'').toUpperCase(),12,y);
+          y+=12; // Réduit
+        }else if(line.startsWith('==')){
+          doc.setFontSize(14);
+          doc.setFont('helvetica','bold');
+          doc.text(line.replace(/^== */,''),12,y);
+          doc.line(12,y+2,195,y+2);
+          y+=10;
+        }else if(line.startsWith('**')){
+          doc.setFontSize(12);
+          doc.setFont('helvetica','bold');
+          doc.text(line.replace(/^\*\* | \*\*$/g,''),12,y);
+          y+=7; // Réduit
+        }else if(line.startsWith('--')){
+          doc.setFontSize(10);
+          doc.setFont('helvetica','italic');
+          doc.text(line.replace(/^-- */,''),17,y);
+          y+=6; // Réduit
+        }else if(line.startsWith('*')){
+          doc.setFontSize(10);
+          doc.text('• '+line.replace(/^\* */,''),17,y);
+          y+=6; // Réduit
+        }else{
+          doc.setFontSize(10);
+          const split=doc.splitTextToSize(line,175);
+          doc.text(split,12,y);
+          y+=split.length*5; // Très compact
+        }
+      });
+
+      doc.save('CV_.pdf');
+    }
+
+    function generatePreview(){
+      const {jsPDF}=window.jspdf;
+      const doc=new jsPDF();
+      const lines=cvText.value.split('\n').map(l=>l.trim()).filter(l=>l);
+      let y=22;
+
+      lines.forEach(line=>{
+        if(y>260){doc.addPage();y=20;}
+        if(line.startsWith('#')){
+          doc.setFontSize(20);doc.setFont('helvetica','bold');
+          doc.text(line.replace(/^# */,'').toUpperCase(),12,y);y+=12;
+        }else if(line.startsWith('==')){
+          doc.setFontSize(14);doc.setFont('helvetica','bold');
+          doc.text(line.replace(/^== */,''),12,y);
+          doc.line(12,y+2,195,y+2);y+=10;
+        }else if(line.startsWith('**')){
+          doc.setFontSize(12);doc.setFont('helvetica','bold');
+          doc.text(line.replace(/^\*\* | \*\*$/g,''),12,y);y+=7;
+        }else if(line.startsWith('--')){
+          doc.setFontSize(10);doc.setFont('helvetica','italic');
+          doc.text(line.replace(/^-- */,''),17,y);y+=6;
+        }else if(line.startsWith('*')){
+          doc.setFontSize(10);
+          doc.text('• '+line.replace(/^\* */,''),17,y);y+=6;
+        }else{
+          doc.setFontSize(10);
+          const split=doc.splitTextToSize(line,175);
+          doc.text(split,12,y);
+          y+=split.length*5;
+        }
+      });
+
+      const blob=doc.output('blob');
+      window.open(URL.createObjectURL(blob));
+    }
+
+    function clearText(){cvText.value='';}
+  </script>
+</body>
+</html>
