@@ -2,60 +2,95 @@
 <html lang="fr">
   <head>
     <meta charset="utf-8">
-    <title>Maxime Robin 7– Profil</title>
+    <title>Maxime Robin – Ingénieur IA & Systèmes embarqués</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-  <!-- Header avec navigation vers outils -->
+  
+  <!-- Header moderne avec navigation fixe -->
   <header class="site-header">
     <nav class="top-nav">
-      <div class="container">
-        <a href="index.html" class="nav-logo">Maxime Robin : Ingénieur informatique IA / Systèmes embarqués</a>
-        <div class="nav-links">
-          <a href="#cv-section" class="nav-link">CV</a>
-          <a href="outils.html" class="nav-link primary" target="_blank">  Mes Outils</a>
+      <div class="nav-container">
+        <a href="index.html" class="nav-brand">
+          <span class="brand-name">Maxime Robin</span>
+          <span class="brand-subtitle">Ingénieur IA & Systèmes Embarqués</span>
+        </a>
+        <div class="nav-menu">
+          <a href="#about-section" class="nav-item">À propos</a>
+          <a href="#cv-section" class="nav-item">CV</a>
+          <a href="#contact-section" class="nav-item">Contact</a>
+          <a href="outils.html" class="nav-item nav-cta" target="_blank">Mes Outils</a>
         </div>
       </div>
     </nav>
   </header>
 
-  
-<!-- Hero – Stage en avant-plan -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="container">
-    <div class="hero-content">
-      <div class="hero-text">
-        <h1>Recherche de stage IA/Embarqué</h1>
-        <p class="hero-desc">
-          <strong>À partir d'avril 2026 :</strong> Je suis à la recherche d'un stage de fin d’études de 6 mois en intelligence artificielle, deep learning ou Programmation. <strong>Contactez-moi !</strong>
-        </p>
-        <div class="hero-tags">
-          <span>IA / Deep Learning</span>
-          <span>Systèmes embarqués</span>
-          <span>Automatisation</span>
-          <span>Mobilité internationale</span>
-          <span>Python &amp; Git</span>
-          <span>Java &amp; Android</span>
-          <span> C++ &amp; html</span>
-          <span>TIA Portal &amp; STEP7</span>
-        </div>
-        <!-- Liens déplacés ici, plus bas -->
-        <div class="hero-links">
-          <a href="#cv-section" class="btn primary large">Consulter mon CV</a>
-          <a href="https://www.linkedin.com/in/maxime-robin-188462231" target="_blank" class="btn">LinkedIn</a>
-          <a href="https://github.com/maaxxe" target="_blank" class="btn">GitHub</a>
-          <a href="mailto:robm8964@usherbrooke.ca" class="btn">Email</a>
-        </div>
+  <!-- Hero moderne avec gradient animé -->
+  <section class="hero-modern">
+    <div class="hero-gradient"></div>
+    <div class="hero-pattern"></div>
+    
+    <div class="hero-container">
+      <div class="hero-badge">
+        <span class="badge-icon">🎓</span>
+        <span>Disponible à partir d'avril 2026</span>
+      </div>
+      
+      <h1 class="hero-title">
+        Recherche de stage<br>
+        <span class="title-highlight">IA & Systèmes embarqués</span>
+      </h1>
+      
+      <p class="hero-lead">
+        Étudiant en double diplôme (ESEO × UdeS) cherchant un stage de 6 mois
+        en intelligence artificielle, deep learning ou systèmes embarqués.
+      </p>
+      
+      <div class="hero-tags-modern">
+        <span class="tag"> Deep Learning</span>
+        <span class="tag"> Systèmes embarqués</span>
+        <span class="tag"> Python & PyTorch</span>
+        <span class="tag"> Java & Android</span>
+        <span class="tag"> TIA Portal</span>
+        <span class="tag"> Mobilité internationale</span>
+      </div>
+      
+      <div class="hero-actions">
+        <a href="#cv-section" class="btn-hero primary">
+          <span>Voir mon CV</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M7 10L10 13L13 10M10 3V13M3 17H17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </a>
+       
+      </div>
+      
+      <div class="hero-social">
+        <a href="https://www.linkedin.com/in/maxime-robin-188462231" target="_blank" class="social-link" aria-label="LinkedIn">
+          <span>in</span>
+        </a>
+        <a href="https://github.com/maaxxe" target="_blank" class="social-link" aria-label="GitHub">
+          <span>gh</span>
+        </a>
+        <a href="mailto:robm8964@usherbrooke.ca" class="social-link" aria-label="Email">
+          <span>@</span>
+        </a>
       </div>
     </div>
-  </div>
-</section>
+    
+    <div class="hero-scroll">
+      <span>Découvrir</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </section>
 
     <main class="container">
+      
       <!-- À propos -->
-      <section class="about-section">
+        <section id="about-section" class="about-section">
         <h2>À propos</h2>
         <div class="about-content">
           <p>
@@ -430,25 +465,25 @@
         </div>
       </section>
 
-      <!-- Contact -->
-      <section class="contact-section">
-        <h2>Contact &amp; Réseaux</h2>
-        <p>N'hésite pas à me joindre pour discuter de projets, stages ou opportunités !</p>
-        <div class="contact-links">
-          <a href="mailto:robm8964@usherbrooke.ca" class="contact-card">
-            <span class="icon"></span>
-            <span class="text">robm8964@usherbrooke.ca</span>
-          </a>
-          <a href="https://www.linkedin.com/in/maxime-robin-188462231/" target="_blank" class="contact-card">
-            <span class="icon"></span>
-            <span class="text">LinkedIn</span>
-          </a>
-          <a href="https://github.com/maaxxe" target="_blank" class="contact-card">
-            <span class="icon"></span>
-            <span class="text">GitHub</span>
-          </a>
-        </div>
-      </section>
+     <!-- Contact -->
+    <section id="contact-section" class="contact-section">
+      <h2>Contact &amp; Réseaux</h2>
+      <p>N'hésite pas à me joindre pour discuter de projets, stages ou opportunités !</p>
+      <div class="contact-links">
+        <a href="mailto:robm8964@usherbrooke.ca" class="contact-card">
+          <span class="icon">✉️</span>
+          <span class="text">robm8964@usherbrooke.ca</span>
+        </a>
+        <a href="https://www.linkedin.com/in/maxime-robin-188462231/" target="_blank" class="contact-card">
+          <span class="icon">💼</span>
+          <span class="text">LinkedIn</span>
+        </a>
+        <a href="https://github.com/maaxxe" target="_blank" class="contact-card">
+          <span class="icon">👨‍💻</span>
+          <span class="text">GitHub</span>
+        </a>
+      </div>
+    </section>
     </main>
 
     <footer class="footer">
