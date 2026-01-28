@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Sessions + Graphiques Dynamiques</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="F1_style.css">
+    <style>
+        .chart-container {
+            position: relative;
+            height: 600px;
+            width: 100%;
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .multi-select-dropdown { display: none; position: absolute; background: #222; border: 1px solid #444; width: 250px; z-index: 1000; }
+        .multi-select-dropdown.active { display: block; }
+        .select-option { padding: 5px 10px; cursor: pointer; color: white; }
+        .select-option:hover { background: #333; }
+        .year-select { padding: 10px; border-radius: 5px; background: #FF6600; color: white; border: none; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🏎️ F1 <span id="displayYear">2025</span> Sessions + Graphiques McLaren</h1>
+    
+    <div id="charts-section">
+        <h2 style="color: #FF6600;">📊 Analyses & Comparaisons</h2>
+        
+        <div class="controls" style="margin-bottom: 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            
+            <select id="seasonYear" class="year-select" onchange="changeYear()">
+                <option value="2025" selected>Saison 2025</option>
+                <option value="2024">Saison 2024</option>
+                <option value="2023">Saison 2023</option>
+            </select>
+
+            <div class="multi-select-container" style="position: relative;">
+                <div class="multi-select-header" onclick="toggleDropdown()" style="background: #333; padding: 10px; border-radius: 5px; cursor: pointer; border: 1px solid #555; color: white;">
+                    <span id="selectedCount">Sélectionner pilotes/équipes</span>
+                    <span>▼</span>
+                </div>
+                <div id="multiSelectDropdown" class="multi-select-dropdown">
+                    <div class="select-group">
+                        <div class="select-group-title" style="padding: 5px; color: #FF6600; font-weight: bold;">🏁 PILOTES</div>
+                        <div id="driverOptions"></div>
+                    </div>
+                    <div class="select-group">
+                        <div class="select-group-title" style="padding: 5px; color: #FF6600; font-weight: bold;">🏭 ÉQUIPES</div>
+                        <div id="teamOptions"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <select id="chartType" onchange="resetAnimationIndex()" style="padding: 10px; border-radius: 5px; background: #333; color: white;">
+                <option value="cumulative">📈 Points Cumulatifs</option>
+                <option value="position">📍 Positions</option>
+                <option value="points">🏆 Points par Course</option>
+            </select>
+            
+            <button class="update-btn" onclick="updateCharts()" style="padding: 10px 20px; cursor: pointer; background: #3b82f6; color: white; border: none; border-radius: 5px;">🔄 Actualiser</button>
+            <button class="update-btn" onclick="animateChart()" style="padding: 10px 20px; cursor: pointer; background: linear-gradient(135deg, #ec4899, #f472b6); color: white; border: none; border-radius: 5px;">🎬 Lancer l'Animation</button>
+            <button class="update-btn" onclick="clearSelection()" style="padding: 10px 20px; cursor: pointer; background: #666; color: white; border: none; border-radius: 5px;">🗑️ Effacer</button>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="mainChart"></canvas>
+        </div>
+        
+        <div id="stats"></div>
+    </div>
+
+    <h2 style="color: #FF6600; margin-top: 40px;">🏁 Courses de la saison</h2>
+    <div id="raceList" class="race-list"></div>
+    <div id="details" class="details"></div>
+
+    <script>
+        let allData = {};
+        let pilots = new Set();
+        let teams = new Set();
+        let chart = null;
+        let animationInterval = null;
+        let currentProgressIndex = 0; 
+        const colors = ['#FF6600', '#00ff88', '#3b82f6', '#f59e0b', '#ec4899', '#8b5cf6', '#10b981', '#ef4444'];
+
+        // FONCTION POUR CHANGER L'ANNÉE
+        function changeYear() {
+            const year = document.getElementById('seasonYear').value;
+            document.getElementById('displayYear').innerText = year;
+            
+            // Reset complet de l'interface
+            if (chart) chart.destroy();
+            chart = null;
+            currentProgressIndex = 0;
+            if (animationInterval) cancelAnimationFrame(animationInterval);
+            
+            loadData(year);
+        }
+
+        async function loadData(year = "2025") {
+            try {
+                // Charge le fichier correspondant à l'année choisie
+                const response = await fetch(`f1_complet_sessions_${year}.json`);
+                allData = await response.json();
+                
+                displayRaces(allData);
+                extractPilotsTeams(allData);
+                populateMultiSelect();
+                updateCharts(); 
+            } catch (error) {
+                console.error("Erreur de chargement du fichier JSON:", error);
+                document.getElementById('raceList').innerHTML = `<p style="color:red;">❌ Fichier f1_complet_sessions_${year}.json introuvable.</p>`;
+            }
+        }
+
+        function extractPilotsTeams(data) {
+            pilots.clear(); teams.clear();
+            Object.values(data.courses).forEach(course => {
+                if (course.sessions?.race) {
+                    course.sessions.race.forEach(row => {
+                        if (row.driver) pilots.add(row.driver);
+                        if (row.team) teams.add(row.team);
+                    });
+                }
+            });
+        }
+
+        function populateMultiSelect() {
+            const dOpt = document.getElementById('driverOptions');
+            const tOpt = document.getElementById('teamOptions');
+            dOpt.innerHTML = ''; tOpt.innerHTML = '';
+            Array.from(pilots).sort().forEach(p => {
+                dOpt.innerHTML += `<div class="select-option"><input type="checkbox" id="p_${p}" value="${p}" data-type="pilot" onchange="updateSelectedCount()"><label for="p_${p}">${p}</label></div>`;
+            });
+            Array.from(teams).sort().forEach(t => {
+                tOpt.innerHTML += `<div class="select-option"><input type="checkbox" id="t_${t}" value="${t}" data-type="team" onchange="updateSelectedCount()"><label for="t_${t}">${t}</label></div>`;
+            });
+            document.getElementById('selectedCount').textContent = 'Sélectionner pilotes/équipes';
+        }
+
+        function toggleDropdown() { document.getElementById('multiSelectDropdown').classList.toggle('active'); }
+
+        function updateSelectedCount() {
+            const checked = document.querySelectorAll('#multiSelectDropdown input[type="checkbox"]:checked');
+            document.getElementById('selectedCount').textContent = checked.length === 0 ? 'Sélectionner pilotes/équipes' : `${checked.length} sélectionné(s)`;
+            if (chart && !animationInterval) syncStaticChart();
+        }
+
+        function getLabels() {
+            if (!allData.courses) return [];
+            return Object.keys(allData.courses).sort((a,b) => parseInt(a) - parseInt(b))
+                .map(k => allData.courses[k].race_name.replace('Grand Prix', 'GP'));
+        }
+
+        function resetAnimationIndex() {
+            currentProgressIndex = 0;
+            if (chart) { chart.destroy(); chart = null; }
+            updateCharts();
+        }
+
+        function clearSelection() {
+            document.querySelectorAll('#multiSelectDropdown input[type="checkbox"]').forEach(cb => cb.checked = false);
+            updateSelectedCount();
+            currentProgressIndex = 0;
+            if (animationInterval) cancelAnimationFrame(animationInterval);
+            animationInterval = null;
+            if (chart) { chart.destroy(); chart = null; }
+            updateCharts();
+        }
+
+        function syncStaticChart() {
+            const checked = document.querySelectorAll('#multiSelectDropdown input[type="checkbox"]:checked');
+            const chartType = document.getElementById('chartType').value;
+            const labels = getLabels();
+
+            const datasets = Array.from(checked).map((cb, idx) => {
+                const source = cb.dataset.type === 'pilot' ? getDriverData(cb.value, chartType) : getTeamData(cb.value, chartType);
+                return {
+                    label: cb.value,
+                    data: source.values.slice(0, currentProgressIndex || source.values.length),
+                    borderColor: colors[idx % colors.length],
+                    backgroundColor: colors[idx % colors.length] + '33',
+                    tension: 0.4,
+                    borderDash: cb.dataset.type === 'team' ? [5, 5] : []
+                };
+            });
+            renderChart(datasets, chartType, labels);
+        }
+
+        function updateCharts() {
+            if (animationInterval) cancelAnimationFrame(animationInterval);
+            animationInterval = null;
+            const labels = getLabels();
+            currentProgressIndex = labels.length; 
+            syncStaticChart();
+        }
+
+        function animateChart() {
+            if (animationInterval) cancelAnimationFrame(animationInterval);
+            const labels = getLabels();
+            const checked = document.querySelectorAll('#multiSelectDropdown input[type="checkbox"]:checked');
+            const chartType = document.getElementById('chartType').value;
+            if (checked.length === 0) return alert("Sélectionnez d'abord quelqu'un !");
+            if (currentProgressIndex >= labels.length) currentProgressIndex = 0;
+
+            const fullSources = Array.from(checked).map(cb => 
+                cb.dataset.type === 'pilot' ? getDriverData(cb.value, chartType) : getTeamData(cb.value, chartType)
+            );
+
+            const initialDatasets = Array.from(checked).map((cb, idx) => ({
+                label: cb.value,
+                data: fullSources[idx].values.slice(0, currentProgressIndex),
+                borderColor: colors[idx % colors.length],
+                tension: 0.4
+            }));
+            renderChart(initialDatasets, chartType, labels);
+
+            let lastTime = Date.now();
+            function step() {
+                const now = Date.now();
+                if (now - lastTime >= 200) {
+                    if (currentProgressIndex >= labels.length) {
+                        animationInterval = null;
+                        return;
+                    }
+                    chart.data.datasets.forEach((ds, i) => {
+                        ds.data.push(fullSources[i].values[currentProgressIndex]);
+                    });
+                    chart.update();
+                    currentProgressIndex++;
+                    lastTime = now;
+                }
+                animationInterval = requestAnimationFrame(step);
+            }
+            animationInterval = requestAnimationFrame(step);
+        }
+
+        function renderChart(datasets, type, labels) {
+            const ctx = document.getElementById('mainChart').getContext('2d');
+            if (chart) chart.destroy();
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: { labels: labels, datasets: datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { reverse: type === 'position', ticks: { color: 'white' } },
+                        x: { ticks: { color: 'white' } }
+                    },
+                    plugins: { legend: { labels: { color: 'white' } } }
+                }
+            });
+        }
+
+        function getDriverData(driver, type) {
+            let cumulative = 0;
+            const values = Object.keys(allData.courses).sort((a,b) => parseInt(a)-parseInt(b)).map(k => {
+                const res = allData.courses[k].sessions?.race?.find(r => r.driver === driver);
+                const p = res ? parseFloat(res.points) || 0 : 0;
+                cumulative += p;
+                if (type === 'cumulative') return cumulative;
+                if (type === 'position') return res ? parseInt(res.position) || 20 : 20;
+                return p;
+            });
+            return { values };
+        }
+
+        function getTeamData(team, type) {
+            let cumulative = 0;
+            const values = Object.keys(allData.courses).sort((a,b) => parseInt(a)-parseInt(b)).map(k => {
+                const res = allData.courses[k].sessions?.race?.filter(r => r.team === team) || [];
+                const p = res.reduce((sum, r) => sum + (parseFloat(r.points) || 0), 0);
+                cumulative += p;
+                if (type === 'cumulative') return cumulative;
+                if (type === 'position') return res.length ? Math.min(...res.map(r => parseInt(r.position))) : 20;
+                return p;
+            });
+            return { values };
+        }
+
+        function displayRaces(data) {
+            const list = document.getElementById('raceList');
+            list.innerHTML = '';
+            if (!data.courses) return;
+            Object.values(data.courses).forEach(course => {
+                const card = document.createElement('div');
+                card.style = "background: #333; padding: 10px; margin: 5px; cursor: pointer; border-radius: 5px; color: white; display: inline-block; min-width: 150px;";
+                card.onclick = () => showDetails(course);
+                card.innerHTML = `<strong>${course.race_name}</strong>`;
+                list.appendChild(card);
+            });
+        }
+
+        function showDetails(course) {
+            const details = document.getElementById('details');
+            details.innerHTML = `<h3>${course.race_name}</h3><table border="1" style="width:100%; color:white; border-collapse: collapse;">
+                <tr><th>Pos</th><th>Pilote</th><th>Points</th></tr>
+                ${course.sessions.race.slice(0,10).map(r => `<tr><td>${r.position}</td><td>${r.driver}</td><td>${r.points}</td></tr>`).join('')}
+            </table>`;
+        }
+
+        // Lancement initial
+        loadData("2025");
+    </script>
+</body>
+</html>

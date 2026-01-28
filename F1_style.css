@@ -1,0 +1,338 @@
+/* 🏎️ F1 McLaren Orange Theme */
+:root {
+    --mclaren-orange: #FF6600;
+    --mclaren-light: #ff8c42;
+    --mclaren-dark: #1a1a1a;
+    --accent-green: #00ff88;
+    --accent-blue: #3b82f6;
+    --bg-dark: #2a2a2a;
+    --card-bg: rgba(255,255,255,0.05);
+    --card-hover: rgba(255,102,0,0.3);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body { 
+    font-family: 'Segoe UI', -apple-system, Arial, sans-serif; 
+    margin: 0; 
+    padding: 20px; 
+    background: linear-gradient(135deg, var(--mclaren-dark) 0%, var(--bg-dark) 100%);
+    color: white;
+    min-height: 100vh;
+}
+
+h1 { 
+    text-align: center; 
+    color: var(--mclaren-orange); 
+    text-shadow: 0 0 20px var(--mclaren-light);
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+
+h2 { color: var(--mclaren-orange); margin-top: 40px; }
+
+/* 📊 Charts Section */
+#charts-section {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 30px;
+    margin: 30px 0;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,102,0,0.2);
+}
+
+.controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+    padding: 25px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 15px;
+    align-items: flex-start;
+}
+
+/* 🔧 Multi-select amélioré */
+.multi-select-container {
+    position: relative;
+    min-width: 300px;
+    z-index: 1000;
+}
+
+.multi-select-header {
+    padding: 15px 25px;
+    background: linear-gradient(135deg, var(--mclaren-orange), var(--mclaren-light));
+    color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(255,102,0,0.4);
+    transition: all 0.3s ease;
+}
+
+.multi-select-header:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255,102,0,0.6);
+}
+
+.multi-select-dropdown {
+    display: none;
+    position: absolute;
+    top: 55px;
+    left: 0;
+    right: 0;
+    max-height: 500px;
+    overflow-y: auto;
+    background: var(--bg-dark);
+    border-radius: 15px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+    border: 2px solid rgba(255,102,0,0.3);
+    padding: 20px;
+    z-index: 1001;
+}
+
+.multi-select-dropdown.active { display: block; }
+
+.select-group {
+    margin-bottom: 20px;
+}
+
+.select-group-title {
+    color: var(--mclaren-orange);
+    font-weight: 700;
+    padding: 12px 15px;
+    border-bottom: 3px solid var(--mclaren-orange);
+    margin-bottom: 12px;
+    font-size: 1.1em;
+    letter-spacing: 1px;
+}
+
+.select-option {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.2s;
+    margin-bottom: 5px;
+}
+
+.select-option:hover {
+    background: var(--card-hover);
+    transform: translateX(5px);
+}
+
+.select-option input[type="checkbox"] {
+    margin-right: 15px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    accent-color: var(--mclaren-orange);
+    transform: scale(1.2);
+}
+
+/* 📈 Chart Container */
+.chart-container {
+    position: relative;
+    height: 500px;
+    margin: 25px 0;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(255,102,0,0.2);
+    box-shadow: inset 0 0 30px rgba(255,102,0,0.1);
+}
+
+/* 📊 Stats */
+#stats {
+    background: linear-gradient(135deg, rgba(255,102,0,0.3), rgba(255,140,66,0.2));
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 25px;
+    border-left: 5px solid var(--mclaren-orange);
+}
+
+#stats h3 { color: var(--mclaren-orange); margin-top: 0; }
+#stats > div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+#stats > div > div {
+    background: rgba(0,0,0,0.4);
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 4px solid var(--mclaren-orange);
+}
+
+/* 🎮 Boutons */
+select, .update-btn {
+    padding: 15px 25px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg, var(--mclaren-orange), var(--mclaren-light));
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 4px 15px rgba(255,102,0,0.3);
+    transition: all 0.3s ease;
+}
+
+select:hover, .update-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255,102,0,0.5);
+}
+
+.update-btn:active { transform: translateY(0); }
+
+/* 🏁 Race Cards */
+.race-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.race-card { 
+    background: linear-gradient(145deg, #333 0%, #444 100%);
+    border-radius: 20px; 
+    padding: 25px; 
+    box-shadow: 0 10px 35px rgba(255,102,0,0.3);
+    width: 320px;
+    cursor: pointer; 
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.race-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,102,0,0.1), transparent);
+    transition: left 0.5s;
+}
+
+.race-card:hover::before { left: 100%; }
+.race-card:hover { 
+    transform: translateY(-15px) scale(1.02); 
+    border-color: var(--mclaren-orange);
+    box-shadow: 0 25px 60px rgba(255,102,0,0.6);
+}
+
+.race-card h3 { 
+    margin: 0 0 20px; 
+    color: var(--mclaren-orange); 
+    font-size: 1.4em;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.race-card p { 
+    margin: 12px 0; 
+    font-size: 15px; 
+    color: #ddd; 
+    display: flex;
+    align-items: center;
+}
+
+.race-card p strong { 
+    color: white; 
+    min-width: 80px; 
+    font-weight: 600;
+}
+
+/* 📋 Details */
+.details { 
+    display: none; 
+    margin-top: 30px; 
+    background: rgba(255,255,255,0.08);
+    padding: 30px; 
+    border-radius: 20px; 
+    box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,102,0,0.2);
+}
+
+.details.active { display: block; animation: slideIn 0.5s ease; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+/* 🗂️ Tabs */
+.tab-buttons { 
+    display: flex; 
+    gap: 12px; 
+    margin-bottom: 25px; 
+    background: rgba(0,0,0,0.3);
+    padding: 12px;
+    border-radius: 15px;
+}
+.tab-btn { 
+    padding: 12px 25px; 
+    background: transparent; 
+    border: 2px solid transparent;
+    border-radius: 25px; 
+    cursor: pointer; 
+    color: white; 
+    font-weight: 600;
+    transition: all 0.3s;
+}
+.tab-btn:hover { background: rgba(255,102,0,0.2); border-color: var(--mclaren-orange); }
+.tab-btn.active { 
+    background: linear-gradient(135deg, var(--mclaren-orange), var(--mclaren-light));
+    box-shadow: 0 5px 20px rgba(255,102,0,0.4);
+}
+
+/* 📊 Tables */
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-bottom: 25px; 
+    background: rgba(0,0,0,0.4);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+th, td { 
+    padding: 15px; 
+    text-align: left; 
+    border-bottom: 1px solid rgba(255,255,255,0.1); 
+}
+th { 
+    background: linear-gradient(135deg, rgba(255,102,0,0.4), rgba(255,140,66,0.3)); 
+    font-weight: 700; 
+    color: white; 
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 1px;
+}
+td { color: #ddd; font-size: 14px; }
+tr:hover { background: rgba(255,102,0,0.15); }
+
+.pitstops { max-height: 350px; overflow-y: auto; }
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+    .controls { flex-direction: column; align-items: stretch; }
+    .multi-select-container { min-width: 100%; }
+    .chart-container { height: 400px; }
+    .race-card { width: 100%; max-width: 400px; }
+}
+
+/* 🌙 Scrollbar custom */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+::-webkit-scrollbar-thumb { 
+    background: linear-gradient(var(--mclaren-orange), var(--mclaren-light)); 
+    border-radius: 4px; 
+}
+::-webkit-scrollbar-thumb:hover { background: var(--mclaren-light); }
