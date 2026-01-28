@@ -28,10 +28,69 @@ h1 {
     color: var(--mclaren-orange); 
     text-shadow: 0 0 20px var(--mclaren-light);
     margin-bottom: 30px;
+    margin-top: 60px;
     font-size: 2.5em;
 }
 
-h2 { color: var(--mclaren-orange); margin-top: 40px; }
+h2 { 
+    color: var(--mclaren-orange); 
+    margin-top: 40px; 
+}
+
+/* 🏆 Team Selector (en haut à droite) */
+.team-selector-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px 25px;
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--mclaren-orange);
+    box-shadow: 0 8px 32px rgba(255, 102, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.team-selector-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(255, 102, 0, 0.6);
+}
+
+.team-selector-container label {
+    color: var(--mclaren-orange);
+    font-weight: bold;
+    font-size: 1em;
+    white-space: nowrap;
+}
+
+.team-selector {
+    padding: 10px 20px;
+    border-radius: 25px;
+    background: linear-gradient(135deg, var(--mclaren-orange), var(--mclaren-light));
+    color: white;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    min-width: 180px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(255, 102, 0, 0.3);
+}
+
+.team-selector:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 102, 0, 0.5);
+}
+
+.team-selector option {
+    background: #2a2a2a;
+    color: white;
+    padding: 10px;
+}
 
 /* 📊 Charts Section */
 #charts-section {
@@ -96,7 +155,9 @@ h2 { color: var(--mclaren-orange); margin-top: 40px; }
     z-index: 1001;
 }
 
-.multi-select-dropdown.active { display: block; }
+.multi-select-dropdown.active { 
+    display: block; 
+}
 
 .select-group {
     margin-bottom: 20px;
@@ -136,14 +197,20 @@ h2 { color: var(--mclaren-orange); margin-top: 40px; }
     transform: scale(1.2);
 }
 
+.select-option label {
+    cursor: pointer;
+    user-select: none;
+}
+
 /* 📈 Chart Container */
 .chart-container {
     position: relative;
-    height: 500px;
-    margin: 25px 0;
+    height: 600px;
+    width: 100%;
     background: var(--card-bg);
     border-radius: 20px;
     padding: 30px;
+    margin: 25px 0;
     border: 1px solid rgba(255,102,0,0.2);
     box-shadow: inset 0 0 30px rgba(255,102,0,0.1);
 }
@@ -157,7 +224,11 @@ h2 { color: var(--mclaren-orange); margin-top: 40px; }
     border-left: 5px solid var(--mclaren-orange);
 }
 
-#stats h3 { color: var(--mclaren-orange); margin-top: 0; }
+#stats h3 { 
+    color: var(--mclaren-orange); 
+    margin-top: 0; 
+}
+
 #stats > div {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -172,7 +243,7 @@ h2 { color: var(--mclaren-orange); margin-top: 40px; }
 }
 
 /* 🎮 Boutons */
-select, .update-btn {
+select, .update-btn, .year-select {
     padding: 15px 25px;
     border: none;
     border-radius: 30px;
@@ -185,12 +256,27 @@ select, .update-btn {
     transition: all 0.3s ease;
 }
 
-select:hover, .update-btn:hover {
+select:hover, .update-btn:hover, .year-select:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(255,102,0,0.5);
 }
 
-.update-btn:active { transform: translateY(0); }
+.update-btn:active { 
+    transform: translateY(0); 
+}
+
+.animate-btn {
+    background: linear-gradient(135deg, #ec4899, #f472b6);
+}
+
+.clear-btn {
+    background: linear-gradient(135deg, #666, #888);
+}
+
+#chartType {
+    background: #333;
+    color: white;
+}
 
 /* 🏁 Race Cards */
 .race-list {
@@ -224,7 +310,10 @@ select:hover, .update-btn:hover {
     transition: left 0.5s;
 }
 
-.race-card:hover::before { left: 100%; }
+.race-card:hover::before { 
+    left: 100%; 
+}
+
 .race-card:hover { 
     transform: translateY(-15px) scale(1.02); 
     border-color: var(--mclaren-orange);
@@ -264,8 +353,26 @@ select:hover, .update-btn:hover {
     border: 1px solid rgba(255,102,0,0.2);
 }
 
-.details.active { display: block; animation: slideIn 0.5s ease; }
-@keyframes slideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.details h2 {
+    color: var(--mclaren-orange);
+    margin-top: 0;
+}
+
+.details.active { 
+    display: block; 
+    animation: slideIn 0.5s ease; 
+}
+
+@keyframes slideIn { 
+    from { 
+        opacity: 0; 
+        transform: translateY(30px); 
+    } 
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    } 
+}
 
 /* 🗂️ Tabs */
 .tab-buttons { 
@@ -276,6 +383,7 @@ select:hover, .update-btn:hover {
     padding: 12px;
     border-radius: 15px;
 }
+
 .tab-btn { 
     padding: 12px 25px; 
     background: transparent; 
@@ -286,11 +394,26 @@ select:hover, .update-btn:hover {
     font-weight: 600;
     transition: all 0.3s;
 }
-.tab-btn:hover { background: rgba(255,102,0,0.2); border-color: var(--mclaren-orange); }
+
+.tab-btn:hover { 
+    background: rgba(255,102,0,0.2); 
+    border-color: var(--mclaren-orange); 
+}
+
 .tab-btn.active { 
     background: linear-gradient(135deg, var(--mclaren-orange), var(--mclaren-light));
     box-shadow: 0 5px 20px rgba(255,102,0,0.4);
 }
+
+.tab-content { 
+    display: none; 
+}
+
+.tab-content.active { 
+    display: block; 
+}
+
+
 
 /* 📊 Tables */
 table { 
@@ -302,11 +425,13 @@ table {
     overflow: hidden;
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
+
 th, td { 
     padding: 15px; 
     text-align: left; 
     border-bottom: 1px solid rgba(255,255,255,0.1); 
 }
+
 th { 
     background: linear-gradient(135deg, rgba(255,102,0,0.4), rgba(255,140,66,0.3)); 
     font-weight: 700; 
@@ -315,24 +440,168 @@ th {
     font-size: 0.9em;
     letter-spacing: 1px;
 }
-td { color: #ddd; font-size: 14px; }
-tr:hover { background: rgba(255,102,0,0.15); }
 
-.pitstops { max-height: 350px; overflow-y: auto; }
+td { 
+    color: #ddd; 
+    font-size: 14px; 
+}
+
+tr:hover { 
+    background: rgba(255,102,0,0.15); 
+}
+
+.pitstops { 
+    max-height: 600px; 
+    overflow-y: auto; 
+}
+
+/* 🏎️ Driver Selector pour Pitstops */
+.driver-selector {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(0,0,0,0.3);
+    padding: 15px 20px;
+    border-radius: 15px;
+    border: 2px solid var(--mclaren-orange);
+}
+
+.driver-selector label {
+    color: var(--mclaren-orange);
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.driver-selector select {
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #333, #444);
+    color: white;
+    border: 2px solid var(--mclaren-orange);
+    font-size: 14px;
+    cursor: pointer;
+    min-width: 250px;
+    transition: all 0.3s;
+}
+
+.driver-selector select:hover {
+    background: linear-gradient(135deg, #444, #555);
+    box-shadow: 0 5px 15px rgba(255,102,0,0.4);
+}
+
+.driver-pitstop-section {
+    margin-bottom: 30px;
+}
+
+.driver-pitstop-section h4 {
+    color: var(--mclaren-orange);
+    margin: 20px 0 10px 0;
+    font-size: 1.2em;
+    padding: 10px;
+    background: rgba(255,102,0,0.2);
+    border-left: 4px solid var(--mclaren-orange);
+    border-radius: 5px;
+}
 
 /* 📱 Responsive */
 @media (max-width: 768px) {
-    .controls { flex-direction: column; align-items: stretch; }
-    .multi-select-container { min-width: 100%; }
-    .chart-container { height: 400px; }
-    .race-card { width: 100%; max-width: 400px; }
+    .controls { 
+        flex-direction: column; 
+        align-items: stretch; 
+    }
+    .multi-select-container { 
+        min-width: 100%; 
+    }
+    .chart-container { 
+        height: 400px; 
+    }
+    .race-card { 
+        width: 100%; 
+        max-width: 400px; 
+    }
+    .team-selector-container {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-bottom: 20px;
+    }
+    h1 {
+        margin-top: 20px;
+    }
 }
 
 /* 🌙 Scrollbar custom */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+::-webkit-scrollbar { 
+    width: 8px; 
+}
+
+::-webkit-scrollbar-track { 
+    background: rgba(0,0,0,0.3); 
+}
+
 ::-webkit-scrollbar-thumb { 
     background: linear-gradient(var(--mclaren-orange), var(--mclaren-light)); 
     border-radius: 4px; 
 }
-::-webkit-scrollbar-thumb:hover { background: var(--mclaren-light); }
+
+::-webkit-scrollbar-thumb:hover { 
+    background: var(--mclaren-light); 
+}
+/* 🏠 Navigation Buttons - Version avec icônes stylisées */
+.container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    justify-content: flex-start;
+}
+
+.nav-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 30px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    text-decoration: none;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    border: 2px solid var(--mclaren-orange);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.nav-logo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(135deg, var(--mclaren-orange), var(--mclaren-light));
+    transition: width 0.4s ease;
+    z-index: -1;
+}
+
+.nav-logo:hover::before {
+    width: 100%;
+}
+
+.nav-logo:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 102, 0, 0.6);
+    color: white;
+}
+
+.nav-logo:active {
+    transform: translateY(-1px);
+}
+
+/* Emoji/Icône dans le bouton */
+.nav-logo::after {
+    font-size: 20px;
+}
