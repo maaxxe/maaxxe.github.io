@@ -1233,3 +1233,376 @@ section h2::after {
   .project-card:nth-child(3) { animation-delay: 0.3s; }
   .project-card:nth-child(4) { animation-delay: 0.4s; }
 }
+/* ==================== ANIMATIONS SCROLL REVEAL ==================== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Variantes d'animations */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-left.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-right.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-scale.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Délais pour effet cascade */
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+.reveal-delay-6 { transition-delay: 0.6s; }
+
+/* ==================== PAGE OUTILS - HERO ==================== */
+
+.tools-hero {
+  position: relative;
+  padding: 120px 0 80px;
+  background: linear-gradient(135deg, #1f5a37 0%, #2d7c4e 50%, #3fa561 100%);
+  overflow: hidden;
+}
+
+.tools-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 30% 40%, rgba(94, 201, 134, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 70% 60%, rgba(45, 124, 78, 0.3) 0%, transparent 50%);
+  animation: gradientShift 10s ease infinite;
+}
+
+.tools-hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tools-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tools-title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 800;
+  margin: 0 0 20px;
+  line-height: 1.1;
+}
+
+.tools-lead {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  line-height: 1.7;
+  opacity: 0.95;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ==================== GRILLE D'OUTILS ==================== */
+
+.tools-grid-section {
+  padding: 80px 0;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 32px;
+}
+
+.tool-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+  border: 2px solid var(--border);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.tool-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--primary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.tool-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent);
+}
+
+.tool-card:hover::before {
+  transform: scaleX(1);
+}
+
+.tool-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tool-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--accent-light), rgba(45, 124, 78, 0.1));
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  border: 2px solid var(--accent);
+  transition: var(--transition);
+}
+
+.tool-card:hover .tool-icon {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 24px rgba(45, 124, 78, 0.2);
+}
+
+.tool-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tool-card h3 {
+  font-size: 1.5rem;
+  color: var(--primary);
+  font-weight: 700;
+  margin: 0;
+  transition: var(--transition);
+}
+
+.tool-card:hover h3 {
+  color: var(--accent);
+}
+
+.tool-description {
+  color: var(--text-muted);
+  line-height: 1.7;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.tool-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.tool-tag {
+  background: var(--accent-light);
+  color: var(--primary);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid var(--accent);
+}
+
+.tool-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: var(--primary);
+  transition: var(--transition);
+}
+
+.tool-card:hover .tool-arrow {
+  transform: translateX(8px);
+  color: var(--accent);
+}
+
+/* Placeholder */
+.tool-placeholder {
+  opacity: 0.7;
+  cursor: default;
+  background: linear-gradient(135deg, var(--bg), rgba(94, 201, 134, 0.05));
+}
+
+.tool-placeholder:hover {
+  transform: none;
+  border-color: var(--border);
+}
+
+.tool-placeholder .tool-icon {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: var(--border);
+}
+
+.tool-placeholder:hover .tool-icon {
+  transform: none;
+}
+
+.tool-placeholder .tool-arrow {
+  display: none;
+}
+
+/* ==================== CTA SECTION ==================== */
+
+.tools-cta {
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  padding: 80px 60px;
+  border-radius: var(--radius-lg);
+  margin: 40px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tools-cta::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.tools-cta::after {
+  content: '';
+  position: absolute;
+  bottom: -150px;
+  left: -150px;
+  width: 400px;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+}
+
+.cta-content {
+  position: relative;
+  z-index: 10;
+}
+
+.tools-cta h2 {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  margin-bottom: 16px;
+  color: white;
+}
+
+.tools-cta h2::after {
+  display: none;
+}
+
+.tools-cta p {
+  font-size: 1.1rem;
+  margin-bottom: 32px;
+  opacity: 0.95;
+}
+
+/* ==================== RESPONSIVE OUTILS ==================== */
+
+@media (max-width: 768px) {
+  .tools-hero {
+    padding: 80px 0 60px;
+  }
+  
+  .tools-title {
+    font-size: 2rem;
+  }
+  
+  .tools-grid-section {
+    padding: 40px 0;
+  }
+  
+  .tools-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .tool-card {
+    padding: 32px 24px;
+  }
+  
+  .tool-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 2.5rem;
+  }
+  
+  .tools-cta {
+    padding: 48px 24px;
+    margin: 20px 0 40px;
+  }
+  
+  .tools-cta h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tool-card h3 {
+    font-size: 1.3rem;
+  }
+  
+  .tool-description {
+    font-size: 0.9rem;
+  }
+}
+
