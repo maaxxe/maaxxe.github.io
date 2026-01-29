@@ -1,0 +1,10 @@
+# VS Code
+.vscode/
+*.log
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+
+node_modules/
