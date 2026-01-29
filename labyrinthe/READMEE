@@ -1,0 +1,14 @@
+# 1 ouvrir environnement
+
+stage_on
+
+# 2 lancer emsdk_env.sh
+
+source ~/Git/Vide/emsdk/emsdk_env.sh
+
+# 3 MAKE
+
+make all
+ou
+make rebuild
+

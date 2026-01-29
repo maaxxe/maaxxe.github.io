@@ -1,0 +1,379 @@
+/* ==================== STYLES JEU DU LABYRINTHE ==================== */
+
+/* Container principal */
+.game-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Contrôles du jeu */
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.btn-game {
+    background: var(--primary);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-game:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Layout du jeu */
+.game-layout {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: start;
+}
+
+/* Canvas */
+.canvas-wrapper {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow-md);
+}
+
+canvas {
+    display: block;
+    border-radius: var(--radius-sm);
+}
+
+/* Sidebar */
+.game-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.info-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow-sm);
+}
+
+.info-card h3 {
+    color: var(--primary);
+    margin-bottom: 16px;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* Légende */
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 8px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+}
+
+.legend-item:hover {
+    background: var(--accent-light);
+}
+
+.legend-color {
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--border);
+}
+
+.legend-text {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* ==================== CLAVIER MÉCANIQUE ==================== */
+
+.keyboard-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.key-row {
+    display: flex;
+    gap: 4px;
+}
+
+.key {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(180deg, #4a4a4a 0%, #2a2a2a 100%);
+    border: 2px solid #1a1a1a;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e0e0e0;
+    font-weight: 700;
+    font-size: 1.3rem;
+    font-family: 'Courier New', monospace;
+    box-shadow: 
+        0 2px 0 #0a0a0a,
+        0 4px 8px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    transition: all 0.1s ease;
+    cursor: pointer;
+}
+
+.key::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 8px;
+    right: 8px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    border-radius: 2px;
+}
+
+.key:active {
+    transform: translateY(2px);
+    box-shadow: 
+        0 1px 0 #0a0a0a,
+        0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.key-arrow {
+    font-size: 1.1rem;
+}
+
+/* Effet de pression */
+.key.pressed {
+    background: linear-gradient(180deg, var(--accent) 0%, var(--primary) 100%);
+    transform: translateY(2px);
+    box-shadow: 
+        0 1px 0 var(--primary-dark),
+        0 2px 4px rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+.keyboard-label {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+/* ==================== VICTOIRE ==================== */
+
+.victory-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.victory-overlay.show {
+    display: flex;
+}
+
+.victory-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 60px 40px;
+    text-align: center;
+    border: 4px solid var(--accent);
+    box-shadow: var(--shadow-lg);
+    animation: victoryBounce 0.6s ease;
+}
+
+@keyframes victoryBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.victory-emoji {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    animation: spin 1s ease;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.victory-title {
+    font-size: 2.5rem;
+    color: var(--primary);
+    font-weight: 800;
+    margin-bottom: 16px;
+}
+
+.victory-text {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 32px;
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 1024px) {
+    .game-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .game-sidebar {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 768px) {
+    .game-container {
+        padding: 20px 16px;
+    }
+    
+    .game-sidebar {
+        flex-direction: column;
+    }
+    
+    canvas {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .key {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+    
+    .info-card {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .key {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .victory-card {
+        padding: 40px 24px;
+    }
+    
+    .victory-emoji {
+        font-size: 3.5rem;
+    }
+    
+    .victory-title {
+        font-size: 2rem;
+    }
+}
+/* ==================== CHRONOMÈTRE ==================== */
+
+.timer-card {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    text-align: center;
+}
+
+.timer-display {
+    font-size: 2.5rem;
+    font-weight: 800;
+    font-family: 'Courier New', monospace;
+    margin: 16px 0;
+    letter-spacing: 2px;
+}
+
+.timer-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 8px;
+}
+
+.best-time {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.reset-button {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 12px;
+    transition: var(--transition);
+}
+
+.reset-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.victory-time {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 16px 0;
+    font-family: 'Courier New', monospace;
+}
+
+.victory-stats {
+    background: var(--accent-light);
+    border: 2px solid var(--accent);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin: 20px 0;
+}
+
+.victory-stats p {
+    margin: 8px 0;
+    font-size: 1rem;
+}
+

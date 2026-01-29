@@ -34,11 +34,10 @@ ou
 # Option 1 : Charger depuis le chemin complet
 source ~/Git/Vide/emsdk/emsdk_env.sh
 
-# Option 2 : Recharger votre .bashrc (si vous avez ajouté la ligne permanente)
-source ~/.bashrc
-
 # Vérifier que ça marche
 emcc --version
+
+#aller a l'emplacement du fichier C
 
 # Maintenant vous pouvez compiler
 emcc hello.c -o hello.js -s WASM=1 -s EXPORTED_RUNTIME_METHODS='["ccall","cwrap"]' -s EXPORTED_FUNCTIONS='["_calculer","_afficherMessage","_fibonacci"]'

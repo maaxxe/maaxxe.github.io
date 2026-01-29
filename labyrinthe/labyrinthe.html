@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu du Labyrinthe</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="labyrinthe.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="../index.html" class="nav-brand">
+                    <div class="brand-name">PROFIL</div>
+                    <div class="brand-subtitle">Contact</div>
+                </a>
+                <div class="nav-menu">
+                    <a href="../index.html" class="nav-item">Accueil</a>
+                    <a href="../outils/outils.html" class="nav-item">Outils</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="game-container">
+        <div class="game-header">
+            <h1 class="tools-title">Jeu du Labyrinthe</h1>
+            <p class="tools-lead">Trouvez votre chemin jusqu'à la sortie !</p>
+        </div>
+
+        <div class="game-controls">
+            <button class="btn-game" id="btn-generer">
+                Nouveau Labyrinthe
+            </button>
+        </div>
+        <div class="info-card timer-card">
+                    <h3>Chronomètre</h3>
+                    <div class="timer-label">Temps écoulé</div>
+                    <div class="timer-display" id="timer">00:00.0</div>
+                    <div class="best-time">
+                        Meilleur: <span id="best-time">--:--.-</span>
+                    </div>
+                    <button class="reset-button" id="reset-best">Réinitialiser record</button>
+                </div>
+
+        <div class="game-layout">
+            <div class="canvas-wrapper">
+                <canvas id="canvas" width="630" height="630"></canvas>
+            </div>
+
+            <div class="game-sidebar">
+                
+
+                <div class="info-card">
+                    <h3>Légende</h3>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #3498db;"></div>
+                        <span class="legend-text">Vous</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #27ae60;"></div>
+                        <span class="legend-text">Sortie</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ecf0f1;"></div>
+                        <span class="legend-text">Chemin</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #2c3e50;"></div>
+                        <span class="legend-text">Mur</span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Contrôles</h3>
+                    <div class="keyboard-controls">
+                        <div class="key-row">
+                            <div class="key" data-key="z">
+                                <span class="key-arrow">Z</span>
+                            </div>
+                        </div>
+                        <div class="key-row">
+                            <div class="key" data-key="q">
+                                <span class="key-arrow">Q</span>
+                            </div>
+                            <div class="key" data-key="s">
+                                <span class="key-arrow">S</span>
+                            </div>
+                            <div class="key" data-key="d">
+                                <span class="key-arrow">D</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay de victoire -->
+    <div class="victory-overlay" id="victory-overlay">
+        <div class="victory-card">
+            <!-- <div class="victory-emoji">&#127881;</div>   Code Emoji de fête -->
+            <div class="victory-emoji">
+                <img src="../images/labirynthe/Victoire.jpeg" alt="Victoire">
+            </div>
+            <h2 class="victory-title">VICTOIRE !</h2>
+            
+            <div class="victory-stats">
+                <p><strong>Votre temps:</strong></p>
+                <div class="victory-time" id="victory-time">00:00.0</div>
+                <p id="new-record" style="display:none; color: var(--accent); font-weight: 700;">NOUVEAU RECORD !</p>
+            </div>
+            
+            <button class="btn-game" id="btn-rejouer">
+                Rejouer
+            </button>
+        </div>
+    </div>
+
+    <script>
+        var Module = {
+            onRuntimeInitialized: function() {
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+                const btnGenerer = document.getElementById('btn-generer');
+                const btnRejouer = document.getElementById('btn-rejouer');
+                const btnResetBest = document.getElementById('reset-best');
+                const victoryOverlay = document.getElementById('victory-overlay');
+                const keys = document.querySelectorAll('.key');
+                const timerDisplay = document.getElementById('timer');
+                const bestTimeDisplay = document.getElementById('best-time');
+                const victoryTimeDisplay = document.getElementById('victory-time');
+                const newRecordText = document.getElementById('new-record');
+                
+                // Fonctions C
+                const initialiser = Module.cwrap('initialiser', null, null);
+                const genererLabyrinthe = Module.cwrap('generer_labyrinthe', null, null);
+                const obtenirCase = Module.cwrap('obtenir_case', 'number', ['number', 'number']);
+                const deplacer = Module.cwrap('deplacer', 'number', ['number']);
+                const obtenirLargeur = Module.cwrap('obtenir_largeur', 'number', null);
+                const obtenirHauteur = Module.cwrap('obtenir_hauteur', 'number', null);
+                const obtenirTempsEcoule = Module.cwrap('obtenir_temps_ecoule', 'number', null);
+                const obtenirMeilleurTemps = Module.cwrap('obtenir_meilleur_temps', 'number', null);
+                const reinitialiserMeilleurTemps = Module.cwrap('reinitialiser_meilleur_temps', null, null);
+                const chronoEstDemarre = Module.cwrap('chrono_est_demarre', 'number', null);
+                
+                let largeur, hauteur, tailleCase;
+                let jeuActif = false;
+                let intervalTimer = null;
+                
+                initialiser();
+                
+                // Formater le temps en MM:SS.d
+                function formaterTemps(secondes) {
+                    if (secondes >= 999999) return '--:--.-';
+                    const minutes = Math.floor(secondes / 60);
+                    const secs = Math.floor(secondes % 60);
+                    const dixiemes = Math.floor((secondes % 1) * 10);
+                    return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}.${dixiemes}`;
+                }
+                
+                // Mettre à jour l'affichage du chronomètre
+                function mettreAJourChrono() {
+                    if (chronoEstDemarre() && jeuActif) {
+                        const temps = obtenirTempsEcoule();
+                        timerDisplay.textContent = formaterTemps(temps);
+                    }
+                }
+                
+                // Mettre à jour le meilleur temps
+                function mettreAJourMeilleurTemps() {
+                    const meilleurTemps = obtenirMeilleurTemps();
+                    bestTimeDisplay.textContent = formaterTemps(meilleurTemps);
+                }
+                
+                function dessinerLabyrinthe() {
+                    largeur = obtenirLargeur();
+                    hauteur = obtenirHauteur();
+                    tailleCase = 30;
+                    
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    for (let y = 0; y < hauteur; y++) {
+                        for (let x = 0; x < largeur; x++) {
+                            const caseType = obtenirCase(x, y);
+                            
+                            switch (caseType) {
+                                case 0: ctx.fillStyle = '#2c3e50'; break;
+                                case 1: ctx.fillStyle = '#ecf0f1'; break;
+                                case 2: ctx.fillStyle = '#3498db'; break;
+                                case 3: ctx.fillStyle = '#27ae60'; break;
+                            }
+                            
+                            ctx.fillRect(x * tailleCase, y * tailleCase, tailleCase, tailleCase);
+                            ctx.strokeStyle = '#95a5a6';
+                            ctx.lineWidth = 0.5;
+                            ctx.strokeRect(x * tailleCase, y * tailleCase, tailleCase, tailleCase);
+                        }
+                    }
+                }
+                
+                function nouveauLabyrinthe() {
+                    genererLabyrinthe();
+                    dessinerLabyrinthe();
+                    victoryOverlay.classList.remove('show');
+                    jeuActif = true;
+                    
+                    // Réinitialiser l'affichage du timer
+                    timerDisplay.textContent = '00:00.0';
+                    
+                    // Démarrer l'intervalle pour mettre à jour le chronomètre
+                    if (intervalTimer) clearInterval(intervalTimer);
+                    intervalTimer = setInterval(mettreAJourChrono, 100);
+                    
+                    // Mettre à jour le meilleur temps
+                    mettreAJourMeilleurTemps();
+                }
+                
+                btnGenerer.addEventListener('click', nouveauLabyrinthe);
+                btnRejouer.addEventListener('click', nouveauLabyrinthe);
+                
+                btnResetBest.addEventListener('click', () => {
+                    if (confirm('réinitialiser le record ?')) {
+                        reinitialiserMeilleurTemps();
+                        mettreAJourMeilleurTemps();
+                    }
+                });
+                
+                document.addEventListener('keydown', (e) => {
+                    if (!jeuActif) return;
+                    
+                    const touche = e.key.toLowerCase();
+                    if (['z', 'q', 's', 'd'].includes(touche)) {
+                        e.preventDefault();
+                        
+                        const keyElement = document.querySelector(`.key[data-key="${touche}"]`);
+                        if (keyElement) {
+                            keyElement.classList.add('pressed');
+                            setTimeout(() => keyElement.classList.remove('pressed'), 150);
+                        }
+                        
+                        const victoire = deplacer(touche.charCodeAt(0));
+                        dessinerLabyrinthe();
+                        
+                        if (victoire === 1) {
+                            jeuActif = false;
+                            clearInterval(intervalTimer);
+                            
+                            const tempsFinal = obtenirTempsEcoule();
+                            const meilleurTemps = obtenirMeilleurTemps();
+                            
+                            victoryTimeDisplay.textContent = formaterTemps(tempsFinal);
+                            
+                            // Vérifier si c'est un nouveau record
+                            if (tempsFinal === meilleurTemps && meilleurTemps < 999999) {
+                                newRecordText.style.display = 'block';
+                            } else {
+                                newRecordText.style.display = 'none';
+                            }
+                            
+                            victoryOverlay.classList.add('show');
+                            mettreAJourMeilleurTemps();
+                        }
+                    }
+                });
+                
+                keys.forEach(key => {
+                    key.addEventListener('click', () => {
+                        if (!jeuActif) return;
+                        const touche = key.dataset.key;
+                        const event = new KeyboardEvent('keydown', { key: touche });
+                        document.dispatchEvent(event);
+                    });
+                });
+                
+                nouveauLabyrinthe();
+            }
+        };
+    </script>
+    
+    <script src="labyrinthe.js"></script>
+</body>
+</html>
