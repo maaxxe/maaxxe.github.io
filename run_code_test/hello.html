@@ -41,36 +41,40 @@
     
     <div id="resultat"></div>
 
-    <!-- Charger le fichier JavaScript généré par Emscripten -->
-    <script src="hello.js"></script>
-    
+    <!-- IMPORTANT: Définir Module AVANT de charger hello.js -->
     <script>
-        // Attendre que le module WebAssembly soit chargé
-        Module.onRuntimeInitialized = function() {
-            const resultatDiv = document.getElementById('resultat');
-            
-            // Wrapper les fonctions C pour JavaScript
-            const calculer = Module.cwrap('calculer', 'number', ['number', 'number']);
-            const fibonacci = Module.cwrap('fibonacci', 'number', ['number']);
-            
-            // Bouton pour afficher un message
-            document.getElementById('btn-message').addEventListener('click', () => {
-                Module.ccall('afficherMessage', null, null, null);
-                resultatDiv.innerHTML = '<strong>Message affiché dans la console!</strong>';
-            });
-            
-            // Bouton pour calculer
-            document.getElementById('btn-calculer').addEventListener('click', () => {
-                const result = calculer(5, 3);
-                resultatDiv.innerHTML = `<strong>Résultat:</strong> 5 + 3 = ${result}`;
-            });
-            
-            // Bouton pour Fibonacci
-            document.getElementById('btn-fibonacci').addEventListener('click', () => {
-                const result = fibonacci(10);
-                resultatDiv.innerHTML = `<strong>Résultat:</strong> Fibonacci(10) = ${result}`;
-            });
+        var Module = {
+            onRuntimeInitialized: function() {
+                const resultatDiv = document.getElementById('resultat');
+                
+                // Wrapper les fonctions C pour JavaScript
+                const calculer = Module.cwrap('calculer', 'number', ['number', 'number']);
+                const fibonacci = Module.cwrap('fibonacci', 'number', ['number']);
+                
+                // Bouton pour afficher un message
+                document.getElementById('btn-message').addEventListener('click', () => {
+                    Module.ccall('afficherMessage', null, null, null);
+                    resultatDiv.innerHTML = '<strong>Message affiché dans la console!</strong>';
+                });
+                
+                // Bouton pour calculer
+                document.getElementById('btn-calculer').addEventListener('click', () => {
+                    const result = calculer(5, 3);
+                    resultatDiv.innerHTML = `<strong>Résultat:</strong> 5 + 3 = ${result}`;
+                });
+                
+                // Bouton pour Fibonacci
+                document.getElementById('btn-fibonacci').addEventListener('click', () => {
+                    const result = fibonacci(10);
+                    resultatDiv.innerHTML = `<strong>Résultat:</strong> Fibonacci(10) = ${result}`;
+                });
+                
+                resultatDiv.innerHTML = '<strong>Module WebAssembly chargé!</strong> Cliquez sur un bouton.';
+            }
         };
     </script>
+    
+    <!-- Charger le fichier JavaScript généré par Emscripten APRÈS Module -->
+    <script src="hello.js"></script>
 </body>
 </html>

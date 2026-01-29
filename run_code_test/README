@@ -12,7 +12,7 @@ cd emsdk
 ./emsdk install latest
 ./emsdk activate latest
 
-# Configuration permanente pour la session courante
+# Configuration non permanente pour la session courante
 source ./emsdk_env.sh
 
 # Configuration permanente
@@ -25,3 +25,20 @@ cd ~/Git/Projet_Personel/maaxxe.github.io/run_code
 
 # Compiler (remplacer nom_fichier et les fonctions exportées)
 emcc nom_fichier.c -o nom_fichier.js -s WASM=1 -s EXPORTED_RUNTIME_METHODS='["ccall","cwrap"]' -s EXPORTED_FUNCTIONS='["_fonction1","_fonction2","_fonction3"]'
+
+
+
+
+ou
+
+# Option 1 : Charger depuis le chemin complet
+source ~/Git/Vide/emsdk/emsdk_env.sh
+
+# Option 2 : Recharger votre .bashrc (si vous avez ajouté la ligne permanente)
+source ~/.bashrc
+
+# Vérifier que ça marche
+emcc --version
+
+# Maintenant vous pouvez compiler
+emcc hello.c -o hello.js -s WASM=1 -s EXPORTED_RUNTIME_METHODS='["ccall","cwrap"]' -s EXPORTED_FUNCTIONS='["_calculer","_afficherMessage","_fibonacci"]'
