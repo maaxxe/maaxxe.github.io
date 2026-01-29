@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code C sur GitHub Pages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #resultat {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Exécuter du Code C dans le Navigateur</h1>
+    
+    <button id="btn-message">Afficher Message</button>
+    <button id="btn-calculer">Calculer 5 + 3</button>
+    <button id="btn-fibonacci">Fibonacci(10)</button>
+    
+    <div id="resultat"></div>
+
+    <!-- Charger le fichier JavaScript généré par Emscripten -->
+    <script src="hello.js"></script>
+    
+    <script>
+        // Attendre que le module WebAssembly soit chargé
+        Module.onRuntimeInitialized = function() {
+            const resultatDiv = document.getElementById('resultat');
+            
+            // Wrapper les fonctions C pour JavaScript
+            const calculer = Module.cwrap('calculer', 'number', ['number', 'number']);
+            const fibonacci = Module.cwrap('fibonacci', 'number', ['number']);
+            
+            // Bouton pour afficher un message
+            document.getElementById('btn-message').addEventListener('click', () => {
+                Module.ccall('afficherMessage', null, null, null);
+                resultatDiv.innerHTML = '<strong>Message affiché dans la console!</strong>';
+            });
+            
+            // Bouton pour calculer
+            document.getElementById('btn-calculer').addEventListener('click', () => {
+                const result = calculer(5, 3);
+                resultatDiv.innerHTML = `<strong>Résultat:</strong> 5 + 3 = ${result}`;
+            });
+            
+            // Bouton pour Fibonacci
+            document.getElementById('btn-fibonacci').addEventListener('click', () => {
+                const result = fibonacci(10);
+                resultatDiv.innerHTML = `<strong>Résultat:</strong> Fibonacci(10) = ${result}`;
+            });
+        };
+    </script>
+</body>
+</html>
