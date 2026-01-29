@@ -31,7 +31,7 @@
         </select>
     </div>
 
-    <h1>🏎️ F1 <span id="displayYear">2025</span> Sessions </h1>
+    <h1>F1 <span id="displayYear">2025</span> Sessions </h1>
     
     <div id="charts-section">
         <h2> Analyses & Comparaisons</h2>
@@ -57,11 +57,11 @@
                 </div>
                 <div id="multiSelectDropdown" class="multi-select-dropdown">
                     <div class="select-group">
-                        <div class="select-group-title">🏁 PILOTES</div>
+                        <div class="select-group-title"> PILOTES</div>
                         <div id="driverOptions"></div>
                     </div>
                     <div class="select-group">
-                        <div class="select-group-title">🏭 ÉQUIPES</div>
+                        <div class="select-group-title"> ÉQUIPES</div>
                         <div id="teamOptions"></div>
                     </div>
                 </div>
@@ -358,9 +358,9 @@
                 <h2>${course.race_name} - Round ${course.round}</h2>
                 <p><strong>Circuit:</strong> ${course.circuit}</p>
                 <div class="tab-buttons">
-                    <button class="tab-btn active" onclick="switchTabDirect('race', event)">🏁 Course</button>
-                    <button class="tab-btn" onclick="switchTabDirect('qualifying', event)">⏱️ Qualifications</button>
-                    <button class="tab-btn" onclick="switchTabDirect('pitstops', event)">🔧 Arrêts aux Stands</button>
+                    <button class="tab-btn active" onclick="switchTabDirect('race', event)"> Course</button>
+                    <button class="tab-btn" onclick="switchTabDirect('qualifying', event)"> Qualifications</button>
+                    <button class="tab-btn" onclick="switchTabDirect('pitstops', event)"> Arrêts aux Stands</button>
                 </div>
                 <div id="raceTab" class="tab-content active">${renderRaceTable(course.sessions.race)}</div>
                 <div id="qualifyingTab" class="tab-content">${renderQualifyingTable(course.sessions.qualifying)}</div>
@@ -547,7 +547,7 @@
             let html = '';
             Object.keys(pitstops).sort().forEach(driver => {
                 html += `<div class="driver-pitstop-section" data-driver="${driver}">`;
-                html += `<h4>🏁 ${driver.replace(/_/g, ' ').toUpperCase()}</h4>`;
+                html += `<h4> ${driver.replace(/_/g, ' ').toUpperCase()}</h4>`;
                 html += '<table><thead><tr><th>Tour</th><th>Arrêt N°</th><th>Durée</th></tr></thead><tbody>';
                 pitstops[driver].forEach(stop => {
                     html += `<tr><td>${stop.lap}</td><td>${stop.stop}</td><td>${stop.duration}</td></tr>`;
