@@ -1,0 +1,27 @@
+# Code C sur GitHub Pages avec WebAssembly
+
+Exécuter du code C dans le navigateur via WebAssembly.
+
+## Installation Emscripten (première fois)
+
+```bash
+# Cloner et installer
+cd ~
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+./emsdk install latest
+./emsdk activate latest
+
+# Configuration permanente pour la session courante
+source ./emsdk_env.sh
+
+# Configuration permanente
+echo 'source "$HOME/Git/Vide/emsdk/emsdk_env.sh" > /dev/null 2>&1' >> ~/.bashrc
+source ~/.bashrc
+
+
+# Naviguer vers le projet
+cd ~/Git/Projet_Personel/maaxxe.github.io/run_code
+
+# Compiler (remplacer nom_fichier et les fonctions exportées)
+emcc nom_fichier.c -o nom_fichier.js -s WASM=1 -s EXPORTED_RUNTIME_METHODS='["ccall","cwrap"]' -s EXPORTED_FUNCTIONS='["_fonction1","_fonction2","_fonction3"]'
