@@ -1606,3 +1606,19 @@ section h2::after {
   }
 }
 
+.lang-switch {
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background: #0e08ad;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  z-index: 1000;
+}
+
+.lang-switch:hover {
+  background: #34495e;
+}
+
+
