@@ -58,18 +58,18 @@
 </head>
 <body>
     <div class="container">
-        <h1>🖱️ Compteur de Clics</h1>
+        <h1> Compteur de Clics</h1>
         <div class="counter" id="counter">0</div>
         <button onclick="trackClick()">👆 Cliquez-moi!</button>
         
         <div class="info">
-            <p>📊 Clics totaux: <strong id="total">0</strong></p>
-            <p>🌐 IP: <strong id="ip">...</strong></p>
-            <p>📍 Lieu: <strong id="location">...</strong></p>
-            <p>📱 Appareil: <strong id="device">...</strong></p>
+            <p> Clics totaux: <strong id="total">0</strong></p>
+            <p> IP: <strong id="ip">...</strong></p>
+            <p> Lieu: <strong id="location">...</strong></p>
+            <p> Appareil: <strong id="device">...</strong></p>
         </div>
         
-        <button onclick="downloadData()">💾 Télécharger données</button>
+        <button onclick="downloadData()"> Télécharger données</button>
         <button onclick="viewData()" style="background: #5ec986;">👁️ Voir données</button>
     </div>
 
@@ -176,7 +176,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        content: `🖱️ Nouveau clic #${data.id}`,
+                        content: ` Nouveau clic #${data.id}`,
                         embeds: [{
                             title: 'Détails du clic',
                             color: 3066993,
@@ -218,7 +218,7 @@
                     </style>
                 </head>
                 <body>
-                    <h2>📊 Données des clics</h2>
+                    <h2> Données des clics</h2>
                     <pre>${JSON.stringify(sessionData, null, 2)}</pre>
                 </body>
                 </html>
