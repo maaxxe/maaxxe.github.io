@@ -3,61 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Sudoku Solver</title>
+    <title>Sudoku</title>
     <link rel="stylesheet" href="style_sudoku.css">
-    
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header moderne -->
     <header class="site-header">
         <nav class="top-nav">
-            <div class="nav-container">
-                <a href="../index.html" class="nav-brand">
-                    <div class="brand-name">PROFIL</div>
-                    <div class="brand-subtitle">Contact</div>
-                </a>
-                <div class="nav-menu">
-                    <a href="../index.html" class="nav-item">Accueil</a>
-                    <a href="../outils/outils.html" class="nav-item">Projets</a>
-                </div>
+        <div class="nav-container">
+            <a href="../index.html" class="nav-brand">
+            <span class="brand-name">Maxime Robin</span>
+            <span class="brand-subtitle">Mes Projets</span>
+            </a>
+            <div class="nav-menu">
+            <a href="../index.html" class="nav-item nav-cta">← Retour au Profil</a>
             </div>
+        </div>
         </nav>
     </header>
-    <h1>Sudoku</h1>
-    
-    <div class="container">
-        <div class="puzzle-selector">
-            <select id="puzzle-select">
-                <option value="">Chargement...</option>
-            </select>
-            <button onclick="loadSelectedPuzzle()">Charger</button>
-        </div>
 
+    <main class="sudoku-main">
+        <h1> Sudoku</h1>
         
+        <div class="container">
+            <div class="puzzle-selector">
+                <select id="puzzle-select">
+                    <option value="">Chargement...</option>
+                </select>
+                <button onclick="loadSelectedPuzzle()">Charger</button>
+            </div>
 
-        <table id="sudoku-grid"></table>
+            <table id="sudoku-grid"></table>
 
-        <div class="number-pad">
-            <button onclick="insertNumber(1)">1</button>
-            <button onclick="insertNumber(2)">2</button>
-            <button onclick="insertNumber(3)">3</button>
-            <button onclick="insertNumber(4)">4</button>
-            <button onclick="insertNumber(5)">5</button>
-            <button onclick="insertNumber(6)">6</button>
-            <button onclick="insertNumber(7)">7</button>
-            <button onclick="insertNumber(8)">8</button>
-            <button onclick="insertNumber(9)">9</button>
-            <button onclick="clearCell()" class="clear-btn">❌</button>
+            <div class="number-pad">
+                <button onclick="insertNumber(1)">1</button>
+                <button onclick="insertNumber(2)">2</button>
+                <button onclick="insertNumber(3)">3</button>
+                <button onclick="insertNumber(4)">4</button>
+                <button onclick="insertNumber(5)">5</button>
+                <button onclick="insertNumber(6)">6</button>
+                <button onclick="insertNumber(7)">7</button>
+                <button onclick="insertNumber(8)">8</button>
+                <button onclick="insertNumber(9)">9</button>
+                <button onclick="clearCell()" class="clear-btn">❌</button>
+            </div>
+
+            <div class="action-buttons">
+                <button onclick="resetGrid()" class="reset-btn">🔄 Réinitialiser</button>
+            </div>
+
+            <div id="message" class="message"></div>
         </div>
+    </main>
 
-        <div class="action-buttons">
-            <button onclick="resetGrid()" class="reset-btn">🔄 Réinitialiser</button>
-        </div>
-
-        <div id="message" class="message"></div>
-    </div>
-
-    <script src="sudoku.js"></script>
     <script>
         let puzzles = [];
         let currentPuzzleId = 1;
@@ -97,12 +95,24 @@
         async function loadPuzzlesData() {
             try {
                 const response = await fetch('sudoku.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const data = await response.json();
                 puzzles = data.puzzles;
                 console.log('✓ Puzzles chargés:', puzzles.length);
                 
                 const select = document.getElementById('puzzle-select');
                 select.innerHTML = '';
+                
+                if (puzzles.length === 0) {
+                    select.innerHTML = '<option>Aucun puzzle disponible</option>';
+                    showMessage('❌ Aucun puzzle trouvé. Lancez: make run', 'error');
+                    return;
+                }
+                
                 puzzles.forEach(puzzle => {
                     const option = document.createElement('option');
                     option.value = puzzle.id;
@@ -110,11 +120,16 @@
                     select.appendChild(option);
                 });
                 
-                select.value = 1;
-                loadPuzzle(1);
+                select.value = puzzles[0].id;
+                loadPuzzle(puzzles[0].id);
+                
             } catch (error) {
                 console.error('❌ Erreur chargement puzzles:', error);
-                showMessage('Erreur de chargement des puzzles', 'error');
+                showMessage('❌ Fichier puzzles.json introuvable. Lancez: make run', 'error');
+                
+                // Afficher plus de détails dans la console
+                console.log('Vérifiez que puzzles.json existe dans le même dossier que sudoku.html');
+                console.log('Erreur détaillée:', error.message);
             }
         }
 
@@ -166,7 +181,6 @@
         }
 
         function validateAndCheckCompletion() {
-            // Retirer TOUTES les erreurs d'abord
             document.querySelectorAll('#sudoku-grid input').forEach(input => {
                 input.classList.remove('error');
             });
@@ -184,7 +198,6 @@
                         continue;
                     }
 
-                    // Vérifier les conflits
                     if (hasConflictClean(i, j, parseInt(value))) {
                         input.classList.add('error');
                         hasError = true;
@@ -202,34 +215,25 @@
         }
 
         function hasConflictClean(row, col, num) {
-            // Vérifier la ligne
             for (let j = 0; j < 9; j++) {
                 if (j === col) continue;
                 const input = document.getElementById(`cell-${row}-${j}`);
-                if (parseInt(input.value) === num) {
-                    return true;
-                }
+                if (parseInt(input.value) === num) return true;
             }
 
-            // Vérifier la colonne
             for (let i = 0; i < 9; i++) {
                 if (i === row) continue;
                 const input = document.getElementById(`cell-${i}-${col}`);
-                if (parseInt(input.value) === num) {
-                    return true;
-                }
+                if (parseInt(input.value) === num) return true;
             }
 
-            // Vérifier le carré 3x3
             const boxRow = Math.floor(row / 3) * 3;
             const boxCol = Math.floor(col / 3) * 3;
             for (let i = boxRow; i < boxRow + 3; i++) {
                 for (let j = boxCol; j < boxCol + 3; j++) {
                     if (i === row && j === col) continue;
                     const input = document.getElementById(`cell-${i}-${j}`);
-                    if (parseInt(input.value) === num) {
-                        return true;
-                    }
+                    if (parseInt(input.value) === num) return true;
                 }
             }
 
@@ -238,9 +242,7 @@
 
         function completePuzzle() {
             if (isCompleted) return;
-            
             isCompleted = true;
-            console.log('🎉 PUZZLE TERMINÉ !');
 
             document.querySelectorAll('#sudoku-grid input').forEach(input => {
                 if (!input.classList.contains('initial')) {
@@ -250,10 +252,8 @@
                 input.readOnly = true;
             });
 
-            const grid = document.getElementById('sudoku-grid');
-            grid.classList.add('completed');
-
-            showMessage('🎉 BRAVO ! Puzzle terminé avec succès ! 🎉', 'success');
+            document.getElementById('sudoku-grid').classList.add('completed');
+            showMessage(' BRAVO ! Puzzle terminé avec succès ! ', 'success');
             createConfetti();
         }
 
@@ -278,18 +278,15 @@
 
         function selectCell(row, col) {
             if (isCompleted) return;
-            
             selectedCell = { row, col };
             document.querySelectorAll('#sudoku-grid input').forEach(input => {
                 input.style.border = '';
             });
-            const input = document.getElementById(`cell-${row}-${col}`);
-            input.style.border = '3px solid #2196F3';
+            document.getElementById(`cell-${row}-${col}`).style.border = '3px solid #2196F3';
         }
 
         function insertNumber(num) {
             if (isCompleted) return;
-            
             if (!selectedCell) {
                 showMessage('Sélectionnez une cellule', 'error');
                 return;
@@ -306,13 +303,11 @@
             const input = document.getElementById(`cell-${row}-${col}`);
             input.value = num;
             input.classList.add('filled');
-            
             validateAndCheckCompletion();
         }
 
         function clearCell() {
             if (isCompleted) return;
-            
             if (!selectedCell) {
                 showMessage('Sélectionnez une cellule', 'error');
                 return;
@@ -346,22 +341,29 @@
             document.getElementById('message').className = 'message';
         }
 
-        if (typeof Module !== 'undefined') {
-            Module.onRuntimeInitialized = function() {
-                console.log('✓✓✓ WebAssembly chargé et prêt');
-                createGrid();
-                loadPuzzlesData();
-            };
-        } else {
-            window.addEventListener('load', function() {
-                setTimeout(function() {
-                    if (typeof Module !== 'undefined') {
-                        createGrid();
-                        loadPuzzlesData();
-                    }
-                }, 500);
-            });
-        }
+        // Initialisation au chargement de la page
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('🎮 Initialisation du Sudoku...');
+            createGrid();
+            loadPuzzlesData();
+        });
     </script>
+
+    <style>
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .sudoku-main {
+            min-height: calc(100vh - 100px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+    </style>
 </body>
 </html>

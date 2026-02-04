@@ -37,31 +37,135 @@ body {
     color: var(--text);
     line-height: 1.6;
     min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* ==================== HEADER MODERNE ==================== */
+.site-header {
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.top-nav {
+    padding: 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.brand-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: -0.5px;
+}
+
+.brand-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.nav-item {
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--transition);
+    position: relative;
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 60%;
+    height: 2px;
+    background: var(--accent);
+    transition: transform 0.3s ease;
+}
+
+.nav-item:hover {
+    color: var(--primary);
+}
+
+.nav-item:hover::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.nav-cta {
+    background: var(--primary);
+    color: white !important;
+    margin-left: 8px;
+    border-radius: 20px;
+}
+
+.nav-cta::after {
+    display: none;
+}
+
+.nav-cta:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(45, 124, 78, 0.3);
+}
+
+/* ==================== MAIN CONTENT ==================== */
+.sudoku-main {
+    min-height: calc(100vh - 80px);
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    touch-action: manipulation;
+    justify-content: center;
+    padding: 40px 20px;
 }
 
 /* ==================== HEADER ==================== */
 h1 {
     color: white;
-    margin: 20px 0;
-    font-size: clamp(1.8rem, 5vw, 3rem);
+    margin: 20px 0 40px;
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
     font-weight: 800;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
     text-align: center;
 }
 
-/* ==================== CONTAINER ==================== */
+/* ==================== CONTAINER AGRANDI ==================== */
 .container {
     background: var(--card-bg);
     border-radius: var(--radius-lg);
-    padding: 32px;
+    padding: 48px;
     box-shadow: var(--shadow-lg);
-    max-width: 600px;
-    width: 100%;
+    max-width: 950px;
+    width: 95%;
     position: relative;
     overflow: hidden;
 }
@@ -78,90 +182,11 @@ h1 {
     border-radius: 50%;
 }
 
-/* ==================== GENERATOR SECTION ==================== */
-.generator-section {
-    background: linear-gradient(135deg, var(--accent-light), rgba(45, 124, 78, 0.05));
-    border-radius: var(--radius-md);
-    padding: 24px;
-    margin-bottom: 24px;
-    border: 2px solid var(--border);
-    position: relative;
-    z-index: 1;
-}
-
-.generator-section h2 {
-    color: var(--primary);
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.generator-controls {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.generator-controls label {
-    color: var(--text);
-    font-weight: 600;
-    font-size: 0.95rem;
-}
-
-.generator-controls input {
-    width: 80px;
-    padding: 10px;
-    border: 2px solid var(--border);
-    border-radius: var(--radius-sm);
-    font-size: 1rem;
-    font-weight: 600;
-    text-align: center;
-    transition: var(--transition);
-}
-
-.generator-controls input:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-light);
-}
-
-.generator-controls button {
-    flex: 1;
-    min-width: 140px;
-    padding: 12px 24px;
-    background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: var(--radius-sm);
-    font-weight: 600;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: var(--transition);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.generator-controls button:hover {
-    background: var(--primary-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(45, 124, 78, 0.3);
-}
-
-.generator-controls button:active {
-    transform: translateY(0);
-}
-
 /* ==================== PUZZLE SELECTOR ==================== */
 .puzzle-selector {
     display: flex;
-    gap: 12px;
-    margin-bottom: 24px;
+    gap: 16px;
+    margin-bottom: 32px;
     flex-wrap: wrap;
     align-items: center;
     position: relative;
@@ -170,9 +195,9 @@ h1 {
 
 .puzzle-selector select {
     flex: 1;
-    min-width: 150px;
-    padding: 12px 16px;
-    font-size: 1rem;
+    min-width: 220px;
+    padding: 16px 20px;
+    font-size: 1.1rem;
     font-weight: 600;
     border: 2px solid var(--border);
     border-radius: var(--radius-sm);
@@ -193,8 +218,8 @@ h1 {
 }
 
 .puzzle-selector button {
-    padding: 12px 24px;
-    font-size: 1rem;
+    padding: 16px 32px;
+    font-size: 1.1rem;
     font-weight: 600;
     border: none;
     border-radius: var(--radius-sm);
@@ -214,14 +239,14 @@ h1 {
     transform: translateY(0);
 }
 
-/* ==================== SUDOKU GRID ==================== */
+/* ==================== SUDOKU GRID AGRANDI ==================== */
 #sudoku-grid {
     border-collapse: collapse;
-    margin: 0 auto 24px;
+    margin: 0 auto 32px;
     background: white;
-    border: 3px solid var(--primary-dark);
+    border: 4px solid var(--primary-dark);
     width: 100%;
-    max-width: 450px;
+    max-width: 650px;
     transition: var(--transition);
     box-shadow: var(--shadow-md);
 }
@@ -245,11 +270,11 @@ h1 {
 }
 
 #sudoku-grid td:nth-child(3n) {
-    border-right: 3px solid var(--primary-dark);
+    border-right: 4px solid var(--primary-dark);
 }
 
 #sudoku-grid tr:nth-child(3n) td {
-    border-bottom: 3px solid var(--primary-dark);
+    border-bottom: 4px solid var(--primary-dark);
 }
 
 #sudoku-grid input {
@@ -260,7 +285,7 @@ h1 {
     height: 100%;
     border: none;
     text-align: center;
-    font-size: clamp(1.2rem, 4vw, 2rem);
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
     font-weight: 700;
     background: transparent;
     outline: none;
@@ -303,19 +328,19 @@ h1 {
     80% { transform: translateX(5px); }
 }
 
-/* ==================== NUMBER PAD ==================== */
+/* ==================== NUMBER PAD AGRANDI ==================== */
 .number-pad {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-    margin-bottom: 24px;
+    gap: 16px;
+    margin-bottom: 28px;
 }
 
 .number-pad button {
-    padding: 16px;
-    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    padding: 22px;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
     font-weight: 700;
-    border: 2px solid var(--primary);
+    border: 3px solid var(--primary);
     border-radius: var(--radius-md);
     background: white;
     color: var(--primary);
@@ -350,12 +375,12 @@ h1 {
 .action-buttons {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 14px;
 }
 
 .action-buttons button {
-    padding: 16px;
-    font-size: 1.05rem;
+    padding: 20px;
+    font-size: 1.15rem;
     font-weight: 700;
     border: none;
     border-radius: var(--radius-md);
@@ -387,10 +412,11 @@ h1 {
 /* ==================== MESSAGE ==================== */
 .message {
     text-align: center;
-    padding: 16px;
-    margin-top: 16px;
+    padding: 18px;
+    margin-top: 20px;
     border-radius: var(--radius-md);
     font-weight: 600;
+    font-size: 1.05rem;
     display: none;
     animation: slideIn 0.4s ease;
 }
@@ -425,50 +451,79 @@ h1 {
     }
 }
 
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
 /* ==================== RESPONSIVE ==================== */
+@media (max-width: 1024px) {
+    .container {
+        max-width: 750px;
+        padding: 36px;
+    }
+    
+    #sudoku-grid {
+        max-width: 550px;
+    }
+}
+
 @media (max-width: 768px) {
-    body {
-        padding: 10px;
+    .sudoku-main {
+        padding: 20px 10px;
     }
 
     .container {
-        padding: 20px;
+        padding: 24px;
     }
 
-    .generator-section {
-        padding: 16px;
+    #sudoku-grid {
+        max-width: 480px;
     }
 
     .number-pad {
-        gap: 8px;
+        gap: 12px;
     }
 
     .number-pad button {
-        padding: 12px;
+        padding: 16px;
+        font-size: 1.4rem;
     }
 }
 
 @media (max-width: 480px) {
     h1 {
-        font-size: 1.6rem;
-        margin: 10px 0;
+        font-size: 2rem;
+        margin: 10px 0 20px;
     }
 
     .container {
-        padding: 16px;
+        padding: 20px;
+        width: 98%;
     }
 
-    .generator-controls {
+    #sudoku-grid {
+        max-width: 100%;
+    }
+
+    #sudoku-grid input {
+        font-size: 1.3rem;
+    }
+
+    .number-pad button {
+        padding: 14px;
+        font-size: 1.2rem;
+    }
+
+    .puzzle-selector {
         flex-direction: column;
         width: 100%;
     }
 
-    .generator-controls button,
-    .generator-controls input {
+    .puzzle-selector select,
+    .puzzle-selector button {
         width: 100%;
-    }
-
-    #sudoku-grid input {
-        font-size: 1.1rem;
     }
 }
