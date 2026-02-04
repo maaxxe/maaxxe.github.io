@@ -1,0 +1,153 @@
+
+#  Sudoku WebAssembly
+
+Jeu de Sudoku avec génération automatique de grilles en C et interface web moderne en HTML/CSS/JavaScript.
+
+# lancer le generateur + 18 sudokus
+
+# 1 Compiler avec gcc
+gcc -o Sudoku/generator Sudoku/generator.c
+
+#  2 Exécuter
+cd Sudoku && ./generator
+
+
+
+
+# Démarrage rapide
+
+Dans le dossier du projet :
+
+# Générer des puzzles (exécute generator.c)
+make generator
+make run
+
+# Lancer le jeu dans le navigateur
+make serveur
+
+# Arrêter le serveur
+make kill
+
+# Prérequis
+
+    Linux ou macOS
+
+    gcc
+
+    python3
+
+    Un navigateur moderne (Firefox, Chrome…)
+
+Installation rapide sur Ubuntu :
+
+bash
+sudo apt install gcc python3 firefox
+
+# Structure du projet
+
+Sudoku/
+├── sudoku.html      # Interface du jeu
+├── style.css        # Styles (UI moderne)
+├── generator.c      # Générateur de puzzles en C
+├── puzzles.json     # Puzzles + solutions en JSON
+└── generator        # Binaire compilé (gcc)
+
+# Utilisation détaillée
+Avec le Makefile
+Commande	Description
+make serveur	Compile (si besoin) + lance le jeu
+make generator	Compile le générateur de puzzles
+make run	Exécute ./generator (génère des puzzles)
+make kill	Arrête le serveur HTTP
+make clean	Supprime les fichiers compilés
+make info	Affiche des infos sur le projet
+Sans Makefile
+
+bash
+# Générer des puzzles
+gcc -o Sudoku/generator Sudoku/generator.c
+cd Sudoku && ./generator
+
+# Lancer le jeu
+cd Sudoku
+python3 -m http.server 8000
+# Puis ouvrir http://localhost:8000/sudoku.html dans le navigateur
+
+# Fonctionnement du générateur
+
+Dans generator.c :
+
+    Génère une grille complète valide avec backtracking (respect des lignes, colonnes et carrés 3×3).
+
+    Sauvegarde cette grille comme solution.
+
+    Retire un certain nombre de cases (K) pour créer le puzzle.
+
+    Écrit le tout dans puzzles.json avec un id, une difficulty, la grid incomplète et la solution complète.
+
+    Les difficultés sont réparties de façon régulière (facile, moyen, difficile en boucle).
+
+Exemple de constantes de difficulté :
+
+c
+#define FACILE_K    35
+#define MOYEN_K     45
+#define DIFFICILE_K 55
+
+# Interface du jeu
+
+Le fichier sudoku.html :
+
+    charge puzzles.json,
+
+    affiche une grille 9×9,
+
+    empêche la modification des chiffres de départ,
+
+    met en rouge les erreurs (conflits de ligne/colonne/carré),
+
+    détecte quand la grille est correctement remplie et affiche un message de victoire.
+
+Le style (style.css) utilise une palette verte moderne et est responsive (mobile/desktop).
+# Personnalisation
+Nombre de puzzles générés
+
+Dans generator.c, dans main :
+
+c
+int numPuzzles = 9;  // modifier ce nombre
+
+Tu peux aussi garder la possibilité de passer un argument :
+
+bash
+cd Sudoku && ./generator 20
+
+Difficile / Moyen / Facile
+
+Toujours dans generator.c :
+
+c
+#define FACILE_K    35
+#define MOYEN_K     45
+#define DIFFICILE_K 55
+
+Plus K est grand, plus le puzzle est difficile (plus de cases vides).
+# Dépannage
+
+    Erreur de chargement des puzzles dans la page
+    → Regénérer :
+
+    bash
+    make generator
+    make run
+
+    Port déjà utilisé (8000)
+    → Libérer le port :
+
+    bash
+    make kill
+
+    Vérifier la structure
+
+    bash
+    make info

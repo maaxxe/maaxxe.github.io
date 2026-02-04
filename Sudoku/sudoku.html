@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Sudoku Solver</title>
+    <link rel="stylesheet" href="style_sudoku.css">
+    
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="../index.html" class="nav-brand">
+                    <div class="brand-name">PROFIL</div>
+                    <div class="brand-subtitle">Contact</div>
+                </a>
+                <div class="nav-menu">
+                    <a href="../index.html" class="nav-item">Accueil</a>
+                    <a href="../outils/outils.html" class="nav-item">Projets</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <h1>Sudoku</h1>
+    
+    <div class="container">
+        <div class="puzzle-selector">
+            <select id="puzzle-select">
+                <option value="">Chargement...</option>
+            </select>
+            <button onclick="loadSelectedPuzzle()">Charger</button>
+        </div>
+
+        
+
+        <table id="sudoku-grid"></table>
+
+        <div class="number-pad">
+            <button onclick="insertNumber(1)">1</button>
+            <button onclick="insertNumber(2)">2</button>
+            <button onclick="insertNumber(3)">3</button>
+            <button onclick="insertNumber(4)">4</button>
+            <button onclick="insertNumber(5)">5</button>
+            <button onclick="insertNumber(6)">6</button>
+            <button onclick="insertNumber(7)">7</button>
+            <button onclick="insertNumber(8)">8</button>
+            <button onclick="insertNumber(9)">9</button>
+            <button onclick="clearCell()" class="clear-btn">❌</button>
+        </div>
+
+        <div class="action-buttons">
+            <button onclick="resetGrid()" class="reset-btn">🔄 Réinitialiser</button>
+        </div>
+
+        <div id="message" class="message"></div>
+    </div>
+
+    <script src="sudoku.js"></script>
+    <script>
+        let puzzles = [];
+        let currentPuzzleId = 1;
+        let selectedCell = null;
+        let initialCells = new Set();
+        let isCompleted = false;
+
+        function createGrid() {
+            const grid = document.getElementById('sudoku-grid');
+            grid.innerHTML = '';
+            
+            for (let i = 0; i < 9; i++) {
+                const row = grid.insertRow();
+                for (let j = 0; j < 9; j++) {
+                    const cell = row.insertCell();
+                    const input = document.createElement('input');
+                    input.type = 'tel';
+                    input.maxLength = 1;
+                    input.id = `cell-${i}-${j}`;
+                    input.setAttribute('inputmode', 'none');
+                    input.addEventListener('focus', () => selectCell(i, j));
+                    input.addEventListener('input', (e) => {
+                        if (!initialCells.has(`${i}-${j}`)) {
+                            const val = e.target.value.replace(/[^1-9]/g, '');
+                            e.target.value = val ? val[val.length - 1] : '';
+                            if (val) {
+                                e.target.classList.add('filled');
+                            }
+                            validateAndCheckCompletion();
+                        }
+                    });
+                    cell.appendChild(input);
+                }
+            }
+        }
+
+        async function loadPuzzlesData() {
+            try {
+                const response = await fetch('sudoku.json');
+                const data = await response.json();
+                puzzles = data.puzzles;
+                console.log('✓ Puzzles chargés:', puzzles.length);
+                
+                const select = document.getElementById('puzzle-select');
+                select.innerHTML = '';
+                puzzles.forEach(puzzle => {
+                    const option = document.createElement('option');
+                    option.value = puzzle.id;
+                    option.textContent = `Puzzle ${puzzle.id} (${puzzle.difficulty})`;
+                    select.appendChild(option);
+                });
+                
+                select.value = 1;
+                loadPuzzle(1);
+            } catch (error) {
+                console.error('❌ Erreur chargement puzzles:', error);
+                showMessage('Erreur de chargement des puzzles', 'error');
+            }
+        }
+
+        function loadSelectedPuzzle() {
+            const select = document.getElementById('puzzle-select');
+            const puzzleId = parseInt(select.value);
+            if (puzzleId) {
+                loadPuzzle(puzzleId);
+            }
+        }
+
+        function loadPuzzle(puzzleId) {
+            const puzzle = puzzles.find(p => p.id === puzzleId);
+            if (!puzzle) {
+                console.error('Puzzle introuvable:', puzzleId);
+                return;
+            }
+
+            currentPuzzleId = puzzleId;
+            isCompleted = false;
+            console.log('Chargement puzzle', puzzleId, ':', puzzle.difficulty);
+
+            document.getElementById('puzzle-select').value = puzzleId;
+            document.getElementById('sudoku-grid').classList.remove('completed');
+
+            initialCells.clear();
+            
+            for (let i = 0; i < 9; i++) {
+                for (let j = 0; j < 9; j++) {
+                    const input = document.getElementById(`cell-${i}-${j}`);
+                    const value = puzzle.grid[i][j];
+                    
+                    if (value !== 0) {
+                        input.value = value;
+                        input.classList.add('initial');
+                        input.classList.remove('filled', 'error', 'completed');
+                        input.readOnly = true;
+                        initialCells.add(`${i}-${j}`);
+                    } else {
+                        input.value = '';
+                        input.classList.remove('initial', 'filled', 'error', 'completed');
+                        input.readOnly = false;
+                    }
+                }
+            }
+            
+            hideMessage();
+            console.log('✓ Puzzle chargé avec', initialCells.size, 'cellules initiales');
+        }
+
+        function validateAndCheckCompletion() {
+            // Retirer TOUTES les erreurs d'abord
+            document.querySelectorAll('#sudoku-grid input').forEach(input => {
+                input.classList.remove('error');
+            });
+
+            let hasError = false;
+            let emptyCount = 0;
+
+            for (let i = 0; i < 9; i++) {
+                for (let j = 0; j < 9; j++) {
+                    const input = document.getElementById(`cell-${i}-${j}`);
+                    const value = input.value;
+                    
+                    if (value === '') {
+                        emptyCount++;
+                        continue;
+                    }
+
+                    // Vérifier les conflits
+                    if (hasConflictClean(i, j, parseInt(value))) {
+                        input.classList.add('error');
+                        hasError = true;
+                    }
+                }
+            }
+
+            if (emptyCount === 0 && !hasError) {
+                completePuzzle();
+            } else if (hasError) {
+                showMessage('⚠️ Conflit détecté !', 'warning');
+            } else {
+                hideMessage();
+            }
+        }
+
+        function hasConflictClean(row, col, num) {
+            // Vérifier la ligne
+            for (let j = 0; j < 9; j++) {
+                if (j === col) continue;
+                const input = document.getElementById(`cell-${row}-${j}`);
+                if (parseInt(input.value) === num) {
+                    return true;
+                }
+            }
+
+            // Vérifier la colonne
+            for (let i = 0; i < 9; i++) {
+                if (i === row) continue;
+                const input = document.getElementById(`cell-${i}-${col}`);
+                if (parseInt(input.value) === num) {
+                    return true;
+                }
+            }
+
+            // Vérifier le carré 3x3
+            const boxRow = Math.floor(row / 3) * 3;
+            const boxCol = Math.floor(col / 3) * 3;
+            for (let i = boxRow; i < boxRow + 3; i++) {
+                for (let j = boxCol; j < boxCol + 3; j++) {
+                    if (i === row && j === col) continue;
+                    const input = document.getElementById(`cell-${i}-${j}`);
+                    if (parseInt(input.value) === num) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        function completePuzzle() {
+            if (isCompleted) return;
+            
+            isCompleted = true;
+            console.log('🎉 PUZZLE TERMINÉ !');
+
+            document.querySelectorAll('#sudoku-grid input').forEach(input => {
+                if (!input.classList.contains('initial')) {
+                    input.classList.remove('filled', 'error');
+                    input.classList.add('completed');
+                }
+                input.readOnly = true;
+            });
+
+            const grid = document.getElementById('sudoku-grid');
+            grid.classList.add('completed');
+
+            showMessage('🎉 BRAVO ! Puzzle terminé avec succès ! 🎉', 'success');
+            createConfetti();
+        }
+
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'fixed';
+                    confetti.style.left = Math.random() * window.innerWidth + 'px';
+                    confetti.style.top = '-10px';
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animation = 'fall 3s linear';
+                    confetti.style.zIndex = '9999';
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        function selectCell(row, col) {
+            if (isCompleted) return;
+            
+            selectedCell = { row, col };
+            document.querySelectorAll('#sudoku-grid input').forEach(input => {
+                input.style.border = '';
+            });
+            const input = document.getElementById(`cell-${row}-${col}`);
+            input.style.border = '3px solid #2196F3';
+        }
+
+        function insertNumber(num) {
+            if (isCompleted) return;
+            
+            if (!selectedCell) {
+                showMessage('Sélectionnez une cellule', 'error');
+                return;
+            }
+
+            const { row, col } = selectedCell;
+            const key = `${row}-${col}`;
+            
+            if (initialCells.has(key)) {
+                showMessage('Cellule fixe non modifiable', 'error');
+                return;
+            }
+
+            const input = document.getElementById(`cell-${row}-${col}`);
+            input.value = num;
+            input.classList.add('filled');
+            
+            validateAndCheckCompletion();
+        }
+
+        function clearCell() {
+            if (isCompleted) return;
+            
+            if (!selectedCell) {
+                showMessage('Sélectionnez une cellule', 'error');
+                return;
+            }
+
+            const { row, col } = selectedCell;
+            const key = `${row}-${col}`;
+            
+            if (initialCells.has(key)) {
+                showMessage('Cellule fixe non modifiable', 'error');
+                return;
+            }
+
+            const input = document.getElementById(`cell-${row}-${col}`);
+            input.value = '';
+            input.classList.remove('filled', 'error');
+            validateAndCheckCompletion();
+        }
+
+        function resetGrid() {
+            loadPuzzle(currentPuzzleId);
+        }
+
+        function showMessage(text, type) {
+            const msg = document.getElementById('message');
+            msg.textContent = text;
+            msg.className = `message ${type}`;
+        }
+
+        function hideMessage() {
+            document.getElementById('message').className = 'message';
+        }
+
+        if (typeof Module !== 'undefined') {
+            Module.onRuntimeInitialized = function() {
+                console.log('✓✓✓ WebAssembly chargé et prêt');
+                createGrid();
+                loadPuzzlesData();
+            };
+        } else {
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    if (typeof Module !== 'undefined') {
+                        createGrid();
+                        loadPuzzlesData();
+                    }
+                }, 500);
+            });
+        }
+    </script>
+</body>
+</html>
