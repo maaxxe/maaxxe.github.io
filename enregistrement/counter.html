@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compteur de Clics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .counter {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+        .info {
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖱️ Compteur de Clics</h1>
+        <div class="counter" id="counter">0</div>
+        <button onclick="incrementClick()">Cliquez-moi!</button>
+        <div class="info">
+            <p>Total de clics: <strong id="total">0</strong></p>
+            <p>Votre IP: <strong id="ip">Chargement...</strong></p>
+            <p>Localisation: <strong id="location">Chargement...</strong></p>
+        </div>
+        <button onclick="resetCounter()" style="background: #ff4444; margin-top: 10px;">Réinitialiser</button>
+    </div>
+
+    <script>
+        let clickCount = parseInt(localStorage.getItem('clickCount')) || 0;
+        let clickData = JSON.parse(localStorage.getItem('clickData')) || [];
+
+        // Afficher le compteur initial
+        updateDisplay();
+
+        // Obtenir IP et localisation
+        fetch('https://api.ipify.org?format=json')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('ip').textContent = data.ip;
+                return fetch(`https://ipapi.co/${data.ip}/json/`);
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('location').textContent = 
+                    `${data.city}, ${data.region}, ${data.country_name}`;
+            })
+            .catch(() => {
+                document.getElementById('ip').textContent = 'Non disponible';
+                document.getElementById('location').textContent = 'Non disponible';
+            });
+
+        function incrementClick() {
+            clickCount++;
+            
+            // Enregistrer les données
+            const clickInfo = {
+                count: clickCount,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                screen: `${window.screen.width}x${window.screen.height}`
+            };
+            
+            clickData.push(clickInfo);
+            
+            // Sauvegarder dans localStorage
+            localStorage.setItem('clickCount', clickCount);
+            localStorage.setItem('clickData', JSON.stringify(clickData));
+            
+            updateDisplay();
+            
+            // Animation
+            const counter = document.getElementById('counter');
+            counter.style.transform = 'scale(1.2)';
+            setTimeout(() => counter.style.transform = 'scale(1)', 200);
+        }
+
+        function updateDisplay() {
+            document.getElementById('counter').textContent = clickCount;
+            document.getElementById('total').textContent = clickCount;
+        }
+
+        function resetCounter() {
+            if (confirm('Voulez-vous vraiment réinitialiser le compteur?')) {
+                clickCount = 0;
+                clickData = [];
+                localStorage.removeItem('clickCount');
+                localStorage.removeItem('clickData');
+                updateDisplay();
+            }
+        }
+
+        // Télécharger les données
+        function downloadData() {
+            const dataStr = JSON.stringify(clickData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'clicks_data.json';
+            a.click();
+        }
+    </script>
+</body>
+</html>
