@@ -49,7 +49,7 @@
             </div>
 
             <div class="action-buttons">
-                <button onclick="resetGrid()" class="reset-btn">🔄 Réinitialiser</button>
+                <button onclick="resetGrid()" class="reset-btn"> Réinitialiser</button>
             </div>
 
             <div id="message" class="message"></div>
@@ -111,7 +111,7 @@
                 
                 if (puzzles.length === 0) {
                     select.innerHTML = '<option>Aucun puzzle disponible</option>';
-                    showMessage('❌ Aucun puzzle trouvé. Lancez: make run', 'error');
+                    showMessage(' Aucun puzzle trouvé. Lancez: make run', 'error');
                     return;
                 }
                 
@@ -126,8 +126,8 @@
                 loadPuzzle(puzzles[0].id);
                 
             } catch (error) {
-                console.error('❌ Erreur chargement puzzles:', error);
-                showMessage('❌ Fichier puzzles.json introuvable. Lancez: make run', 'error');
+                console.error(' Erreur chargement puzzles:', error);
+                showMessage(' Fichier puzzles.json introuvable. Lancez: make run', 'error');
                 
                 // Afficher plus de détails dans la console
                 console.log('Vérifiez que puzzles.json existe dans le même dossier que sudoku.html');
@@ -210,7 +210,7 @@
             if (emptyCount === 0 && !hasError) {
                 completePuzzle();
             } else if (hasError) {
-                showMessage('⚠️ Conflit détecté !', 'warning');
+                showMessage(' Conflit détecté !', 'warning');
             } else {
                 hideMessage();
             }

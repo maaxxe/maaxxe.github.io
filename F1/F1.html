@@ -129,7 +129,7 @@
             document.documentElement.style.setProperty('--mclaren-orange', theme.primary);
             document.documentElement.style.setProperty('--mclaren-light', theme.light);
             
-            document.querySelector('h1').innerHTML = `🏎️ F1 <span id="displayYear">${document.getElementById('displayYear').textContent}</span> Saison  ${theme.name}`;
+            document.querySelector('h1').innerHTML = ` F1 <span id="displayYear">${document.getElementById('displayYear').textContent}</span> Saison  ${theme.name}`;
         }
 
         function changeYear() {
@@ -160,7 +160,7 @@
                 updateCharts(); 
             } catch (error) {
                 console.error("Erreur de chargement du fichier JSON:", error);
-                document.getElementById('raceList').innerHTML = `<p style="color:red;">❌ Fichier f1_complet_sessions_${year}.json introuvable.</p>`;
+                document.getElementById('raceList').innerHTML = `<p style="color:red;"> Fichier f1_complet_sessions_${year}.json introuvable.</p>`;
             }
         }
 
