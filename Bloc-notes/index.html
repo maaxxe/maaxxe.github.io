@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Markdown Viewer + Deadline</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 2rem auto; padding: 1rem; }
+    #deadline { text-align: center; padding: 1rem; border-radius: 8px; font-weight: bold; font-size: 1.2em; }
+    .vert { background: #d4edda; color: #155724; }
+    .orange { background: #fff3cd; color: #856404; }
+    .rouge { background: #f8d7da; color: #721c24; }
+    #content { border: 1px solid #ccc; padding: 1rem; border-radius: 4px; background: #f9f9f9; min-height: 200px; margin-top: 1rem; }
+    input[type=file] { margin: 1rem 0; }
+  </style>
+</head>
+<body>
+  <h1>📄 Markdown Viewer</h1>
+  
+  <div id="deadline">Chargement deadline...</div>
+  
+  <input type="file" id="fileInput" accept=".md,.txt">
+  <div id="content">Sélectionne un fichier .md...</div>
+
+  <script>
+    // Date de rendu (CHANGE ICI : JJ/MM/AAAA)
+    const DATE_RENDU = new Date('2026-02-20T23:59:59'); // 20 février 2026
+
+    function joursRestants() {
+      const maintenant = new Date();
+      const diff = DATE_RENDU - maintenant;
+      return Math.ceil(diff / (1000 * 60 * 60 * 24));
+    }
+
+    function couleurDeadline(jours) {
+      if (jours <= 0) return 'vert';      // Rendu ✅
+      if (jours <= 4) return 'rouge';     // Urgent 🚨
+      if (jours <= 7) return 'orange';    // Attention ⚠️
+      return 'vert';                      // OK 🟢
+    }
+
+    function updateDeadline() {
+      const jours = joursRestants();
+      const couleur = couleurDeadline(jours);
+      const msg = jours <= 0 ? 
+        `✅ RENDU ! (${Math.abs(jours)} jours)` : 
+        `${jours} jours restants`;
+
+      document.getElementById('deadline').innerHTML = `📅 Rendu : ${msg}`;
+      document.getElementById('deadline').className = couleur;
+    }
+
+    // Met à jour toutes les 24h (pas besoin toutes les minutes)
+    updateDeadline();
+    setInterval(updateDeadline, 24*60*60*1000);
+
+    // Markdown viewer (code précédent)
+    function markdownToHtml(md) {
+      let html = md.replace(/^# (.+)$/gm, '<h1>$1</h1>')
+                   .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+                   .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                   .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                   .replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>');
+      return `<p>${html}</p>`;
+    }
+
+    document.getElementById('fileInput').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        document.getElementById('content').innerHTML = markdownToHtml(ev.target.result);
+      };
+      reader.readAsText(file);
+    });
+  </script>
+</body>
+</html>
