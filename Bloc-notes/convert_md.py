@@ -17,6 +17,8 @@ def color_deadline(full_html):
             return "#ef4444", "#fee2e2", "#dc2626"  # rouge
         elif days_left <= 7:
             return "#f59e0b", "#fef3c7", "#d97706"  # jaune
+        elif is_make:
+            return  "#e90dd7", "#d1fae5", "#CE22CE"  #rose
         else:
             return "#3b82f6", "#dbeafe", "#2563eb"  # bleu
     
@@ -53,16 +55,18 @@ def color_deadline(full_html):
         except:
             continue
         
-        # ✅ DÉTECTION PRÉCISE : UNIQUEMENT [x] ou <del>
+        #  DÉTECTION PRÉCISE : UNIQUEMENT [x] ou <del>
         is_done = re.search(r'\[x\]', li_content, re.IGNORECASE) or '<del>' in li_content
+
+        is_make = re.search(r'\[o\]', li_content, re.IGNORECASE) or '<del>' in li_content
         
         date_color, bg_color, border_color = get_colors(days_left, is_done)
         
-        # 2️⃣ COLORER LA DATE (badge)
+        # 2️ COLORER LA DATE (badge)
         styled_date = f'<span style="color: {date_color}; font-weight: 600; background: rgba(255,255,255,0.9); padding: 4px 8px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">{raw_date}</span>'
         li_content = li_content.replace(raw_date, styled_date)
-        
-        # 3️⃣ COLORER LE BLOC ENTIER
+    
+        # 3️ COLORER LE BLOC ENTIER
         styled_li = f'<li style="background: {bg_color} !important; border-left: 6px solid {border_color} !important; border-radius: 12px !important;">{li_content}</li>'
         
         full_html = full_html.replace(full_li, styled_li)
@@ -108,7 +112,7 @@ with open(md_file, 'r', encoding='utf-8') as f:
 
 html_content = markdown.markdown(md_content, extensions=['extra', 'tables', 'fenced_code'])
 
-# 🎨 APPLIQUE COLORATION
+#  APPLIQUE COLORATION
 colored_html = color_deadline(html_content)
 
 full_html = f'''<!DOCTYPE html>
@@ -134,4 +138,4 @@ full_html = f'''<!DOCTYPE html>
 with open('devoir.html', 'w', encoding='utf-8') as f:
     f.write(full_html)
 
-print("✅ devoir.html généré ! Dates + blocs colorés selon DEADLINE → make serve")
+print(" devoir.html généré ! Dates + blocs colorés selon DEADLINE → make serve")
