@@ -19,6 +19,8 @@ Ce projet est une solution de gestion personnelle automatisée. Il utilise des s
 │   ├── calendrier.html    # Résultat généré (F1)
 │   └── Makefile           # Commandes spécifiques F1
 └── devoir.html           # Résultat généré (Cours)
+```
+
 
 # Présentation des Modules
 ## 1. Calendrier Scolaire (Racine)
@@ -43,19 +45,19 @@ Un outil de suivi complet pour la saison 2026.
 
 Le projet est entièrement automatisé via les Makefiles.
 
-make help
+    make help
 
 ## Astuces de Saisie (.md)
 
-Pour tes devoirs :
+Pour les devoirs :
 
-#important 1
-- [ ] Faire TP1 en science (17/02/2026) // Attention : assez dur, vérifier chapitre 3
+    #important 1
+    - [ ] Faire TP1 en science (17/02/2026) // Attention : assez dur, vérifier chapitre 3
 
 Pour la F1 :
 
-#GP Australie :
-- [ ] Course (15/03/2026) - 05:00
+    #GP Australie :
+    - [ ] Course (15/03/2026) - 05:00
 
 
 
