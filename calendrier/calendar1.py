@@ -52,7 +52,7 @@ def generer_html(evenements):
             #calendar-container {{ background: white; padding: 20px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); width: 95%; max-width: 1100px; }}
             table {{ width: 100%; border-collapse: collapse; table-layout: fixed; }}
             th {{ background: #f8f9fa; padding: 12px; border: 1px solid #eee; color: #666; font-size: 0.85rem; text-transform: uppercase; }}
-            td {{ border: 1px solid #eee; height: 110px; vertical-align: top; padding: 8px; transition: 0.2s; }}
+            td {{ border: 1px solid #ddd; height: 130px; vertical-align: top; padding: 8px; transition: 0.2s; position: relative;}}
             .date-num {{ font-weight: bold; color: #444; margin-bottom: 8px; }}
             .event {{ font-size: 0.75rem; padding: 4px 8px; margin-bottom: 4px; border-radius: 4px; border-left: 4px solid rgba(0,0,0,0.2); font-weight: 500; }}
             .today {{ background: #fffde7 !important; border: 2px solid #ffd600 !important; }}
@@ -153,7 +153,7 @@ def generer_html(evenements):
     </body>
     </html>
     """
-    with open("calendrier.html", "w", encoding="utf-8") as f:
+    with open("devoir.html", "w", encoding="utf-8") as f:
         f.write(html_template)
     print("✨ Calendrier généré avec succès !")
 
