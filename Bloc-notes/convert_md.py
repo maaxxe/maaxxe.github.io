@@ -22,7 +22,7 @@ def color_deadline(full_html):
         else:
             return "#3b82f6", "#dbeafe", "#2563eb"  # bleu
     
-    # 1️⃣ TRAITER CHAQUE <li> individuellement
+    # 1️⃣TRAITER CHAQUE <li> individuellement
     li_pattern = r'<li[^>]*>(.*?)</li>'
     matches = re.finditer(li_pattern, full_html, re.DOTALL)
     
@@ -31,7 +31,7 @@ def color_deadline(full_html):
         full_li = match.group(0)
         
         # Chercher date dans ce <li>
-        date_match = re.search(r'\d{1,2}\s+\w+(?:\.)?\s+\d{4}(?::?\s*\d{1,2}:\d{2})?', li_content)
+        date_match = re.search(r'(?:\d{1,2}\s+)?\w+(?:\.)?\s+\d{4}(?::?\s*\d{1,2}:\d{2})?', li_content)
         if not date_match:
             continue
             
@@ -40,16 +40,26 @@ def color_deadline(full_html):
                   "juil.": 7, "août": 8, "sept.": 9, "oct.": 10, "nov.": 11, "déc.": 12}
         
         parts = raw_date.strip(".").split()
-        if len(parts) < 3:
+        if len(parts) < 2:
             continue
             
         try:
-            day = int(parts[0])
-            month_name = parts[1]
-            year = int(parts[2][:4])
+            if len(parts) == 2:
+                # Format: Mois Année
+                day = 1
+                month_name = parts[0]
+                year_str = parts[1]
+            else:
+                # Format: Jour Mois Année
+                day = int(parts[0])
+                month_name = parts[1]
+                year_str = parts[2]
+            
+            year = int(year_str[:4])
             month = months.get(month_name)
             if not month:
                 continue
+                
             deadline = datetime(year, month, day).date()
             days_left = (deadline - today).days
         except:
@@ -73,15 +83,11 @@ def color_deadline(full_html):
     
     return full_html
 
-try:
-    import markdown
-except ImportError:
-    print("❌ Installez: pip install markdown")
-    sys.exit(1)
+
 
 md_file = 'rendu.md'
 if not os.path.exists(md_file):
-    print(f"❌ {md_file} introuvable. Créez-le avec votre liste de devoirs.")
+    print(f" {md_file} introuvable. Créez-le avec votre liste de devoirs.")
     sys.exit(1)
 
 css = '''
