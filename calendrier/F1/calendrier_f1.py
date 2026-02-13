@@ -2,6 +2,14 @@ import re
 import json
 import os
 
+COULEURS_SESSION = { #TODO a implementer
+    "GP": "#ffcccc", 
+    "EL": "#ffe5b4",
+    "QL": "#d1e9ff", 
+    "QL_SPRINT": "#ffd1dc", 
+    "SPRINT": "#d1ffcf",
+}
+
 def extraire_donnees_f1(nom_fichier):
     evenements = {}
     gp_actuel = "Formule 1"

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>F1 2026 - Live Calendar</title>
+    <style>
+        :root {
+            --f1-red: #e10600;
+            --f1-dark: #15151e;
+            --f1-carbon: #252525;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header {
+            background: var(--f1-dark);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 5px solid var(--f1-red);
+        }
+
+        select,
+        button {
+            padding: 10px;
+            border-radius: 4px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .calendar-grid {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        th {
+            background: var(--f1-carbon);
+            color: white;
+            padding: 15px;
+            border: 1px solid #333;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        td {
+            border: 1px solid #ddd;
+            height: 160px;
+            vertical-align: top;
+            padding: 8px;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        td:hover {
+            background: #f9f9f9;
+        }
+
+        .date-num {
+            font-weight: 900;
+            font-size: 1.1em;
+            color: #bbb;
+            margin-bottom: 5px;
+        }
+
+        .event {
+            font-size: 10px;
+            padding: 5px;
+            margin-top: 4px;
+            border-radius: 4px;
+            background: var(--f1-red);
+            color: white;
+            border-left: 4px solid black;
+            cursor: pointer;
+            transition: transform 0.1s;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .event:hover {
+            transform: scale(1.03);
+            filter: brightness(1.2);
+        }
+
+        #modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 0;
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            width: 350px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: var(--f1-red);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .modal-body {
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 999;
+            backdrop-filter: blur(3px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="overlay" onclick="closeModal()"></div>
+    <div id="modal">
+        <div class="modal-header" id="modalTitle"></div>
+        <div class="modal-body" id="modalBody"></div>
+        <button onclick="closeModal()"
+            style="background: var(--f1-dark); color: white; width: 100%; border-radius: 0; padding: 15px;">QUITTER</button>
+    </div>
+
+    <div class="header">
+        <div>
+            <button onclick="changeMonth(-1)">«</button>
+            <span id="currentDateLabel" style="margin: 0 15px; font-size: 1.4em; font-weight: bold;"></span>
+            <button onclick="changeMonth(1)">»</button>
+        </div>
+        <div>
+            <label>TIMEZONE : </label>
+            <select id="utcSelect" onchange="renderCalendar()">
+                <option value="-5" selected>Montréal (UTC-5)</option>
+                <option value="0">Greenwich (UTC 0)</option>
+                <option value="1">Paris (UTC+1)</option>
+                <option value="8">Singapour (UTC+8)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="calendar-grid">
+        <table>
+            <thead>
+                <tr>
+                    <th>Lun</th>
+                    <th>Mar</th>
+                    <th>Mer</th>
+                    <th>Jeu</th>
+                    <th>Ven</th>
+                    <th>Sam</th>
+                    <th>Dim</th>
+                </tr>
+            </thead>
+            <tbody id="calendarBody"></tbody>
+        </table>
+    </div>
+
+    <script>
+        // Python remplacera ce marqueur par le JSON
+        const data = {"06/02/2026": [{"gp": "Formule 1", "titre": "EL1", "heure": "02:30", "info": " <b>Lieu :</b> Formule 1<br> <b>Session :</b> EL1<br> <b>Date :</b> 06/02/2026"}], "06/03/2026": [{"gp": "Australie", "titre": "EL1", "heure": "02:30", "info": " <b>Lieu :</b> Australie<br> <b>Session :</b> EL1<br> <b>Date :</b> 06/03/2026"}, {"gp": "Australie", "titre": "EL2", "heure": "06:00", "info": " <b>Lieu :</b> Australie<br> <b>Session :</b> EL2<br> <b>Date :</b> 06/03/2026"}], "07/03/2026": [{"gp": "Australie", "titre": "EL3", "heure": "02:30", "info": " <b>Lieu :</b> Australie<br> <b>Session :</b> EL3<br> <b>Date :</b> 07/03/2026"}, {"gp": "Australie", "titre": "Qualifications", "heure": "06:00", "info": " <b>Lieu :</b> Australie<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 07/03/2026"}], "08/03/2026": [{"gp": "Australie", "titre": "Course", "heure": "05:00", "info": " <b>Lieu :</b> Australie<br> <b>Session :</b> Course<br> <b>Date :</b> 08/03/2026"}], "13/03/2026": [{"gp": "Chine (SPRINT)", "titre": "EL1", "heure": "04:30", "info": " <b>Lieu :</b> Chine (SPRINT)<br> <b>Session :</b> EL1<br> <b>Date :</b> 13/03/2026"}, {"gp": "Chine (SPRINT)", "titre": "Qualifs Sprint", "heure": "08:30", "info": " <b>Lieu :</b> Chine (SPRINT)<br> <b>Session :</b> Qualifs Sprint<br> <b>Date :</b> 13/03/2026"}], "14/03/2026": [{"gp": "Chine (SPRINT)", "titre": "Sprint", "heure": "04:00", "info": " <b>Lieu :</b> Chine (SPRINT)<br> <b>Session :</b> Sprint<br> <b>Date :</b> 14/03/2026"}, {"gp": "Chine (SPRINT)", "titre": "Qualifications", "heure": "08:00", "info": " <b>Lieu :</b> Chine (SPRINT)<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 14/03/2026"}], "15/03/2026": [{"gp": "Chine (SPRINT)", "titre": "Course", "heure": "08:00", "info": " <b>Lieu :</b> Chine (SPRINT)<br> <b>Session :</b> Course<br> <b>Date :</b> 15/03/2026"}], "27/03/2026": [{"gp": "Japon", "titre": "EL1", "heure": "03:30", "info": " <b>Lieu :</b> Japon<br> <b>Session :</b> EL1<br> <b>Date :</b> 27/03/2026"}, {"gp": "Japon", "titre": "EL2", "heure": "07:00", "info": " <b>Lieu :</b> Japon<br> <b>Session :</b> EL2<br> <b>Date :</b> 27/03/2026"}], "28/03/2026": [{"gp": "Japon", "titre": "EL3", "heure": "03:30", "info": " <b>Lieu :</b> Japon<br> <b>Session :</b> EL3<br> <b>Date :</b> 28/03/2026"}, {"gp": "Japon", "titre": "Qualifications", "heure": "07:00", "info": " <b>Lieu :</b> Japon<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 28/03/2026"}], "29/03/2026": [{"gp": "Japon", "titre": "Course", "heure": "06:00", "info": " <b>Lieu :</b> Japon<br> <b>Session :</b> Course<br> <b>Date :</b> 29/03/2026"}], "10/04/2026": [{"gp": "Bahreïn", "titre": "EL1", "heure": "11:30", "info": " <b>Lieu :</b> Bahreïn<br> <b>Session :</b> EL1<br> <b>Date :</b> 10/04/2026"}, {"gp": "Bahreïn", "titre": "EL2", "heure": "15:00", "info": " <b>Lieu :</b> Bahreïn<br> <b>Session :</b> EL2<br> <b>Date :</b> 10/04/2026"}], "11/04/2026": [{"gp": "Bahreïn", "titre": "EL3", "heure": "12:30", "info": " <b>Lieu :</b> Bahreïn<br> <b>Session :</b> EL3<br> <b>Date :</b> 11/04/2026"}, {"gp": "Bahreïn", "titre": "Qualifications", "heure": "16:00", "info": " <b>Lieu :</b> Bahreïn<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 11/04/2026"}], "12/04/2026": [{"gp": "Bahreïn", "titre": "Course", "heure": "16:00", "info": " <b>Lieu :</b> Bahreïn<br> <b>Session :</b> Course<br> <b>Date :</b> 12/04/2026"}], "17/04/2026": [{"gp": "Arabie Saoudite", "titre": "EL1", "heure": "14:30", "info": " <b>Lieu :</b> Arabie Saoudite<br> <b>Session :</b> EL1<br> <b>Date :</b> 17/04/2026"}, {"gp": "Arabie Saoudite", "titre": "EL2", "heure": "18:00", "info": " <b>Lieu :</b> Arabie Saoudite<br> <b>Session :</b> EL2<br> <b>Date :</b> 17/04/2026"}], "18/04/2026": [{"gp": "Arabie Saoudite", "titre": "EL3", "heure": "14:30", "info": " <b>Lieu :</b> Arabie Saoudite<br> <b>Session :</b> EL3<br> <b>Date :</b> 18/04/2026"}, {"gp": "Arabie Saoudite", "titre": "Qualifications", "heure": "18:00", "info": " <b>Lieu :</b> Arabie Saoudite<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 18/04/2026"}], "19/04/2026": [{"gp": "Arabie Saoudite", "titre": "Course", "heure": "18:00", "info": " <b>Lieu :</b> Arabie Saoudite<br> <b>Session :</b> Course<br> <b>Date :</b> 19/04/2026"}], "01/05/2026": [{"gp": "Miami (SPRINT)", "titre": "EL1", "heure": "17:30", "info": " <b>Lieu :</b> Miami (SPRINT)<br> <b>Session :</b> EL1<br> <b>Date :</b> 01/05/2026"}, {"gp": "Miami (SPRINT)", "titre": "Qualifs Sprint", "heure": "21:30", "info": " <b>Lieu :</b> Miami (SPRINT)<br> <b>Session :</b> Qualifs Sprint<br> <b>Date :</b> 01/05/2026"}], "02/05/2026": [{"gp": "Miami (SPRINT)", "titre": "Sprint", "heure": "17:00", "info": " <b>Lieu :</b> Miami (SPRINT)<br> <b>Session :</b> Sprint<br> <b>Date :</b> 02/05/2026"}, {"gp": "Miami (SPRINT)", "titre": "Qualifications", "heure": "21:00", "info": " <b>Lieu :</b> Miami (SPRINT)<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 02/05/2026"}], "03/05/2026": [{"gp": "Miami (SPRINT)", "titre": "Course", "heure": "21:00", "info": " <b>Lieu :</b> Miami (SPRINT)<br> <b>Session :</b> Course<br> <b>Date :</b> 03/05/2026"}], "22/05/2026": [{"gp": "Canada (SPRINT)", "titre": "EL1", "heure": "17:30", "info": " <b>Lieu :</b> Canada (SPRINT)<br> <b>Session :</b> EL1<br> <b>Date :</b> 22/05/2026"}, {"gp": "Canada (SPRINT)", "titre": "Qualifs Sprint", "heure": "21:30", "info": " <b>Lieu :</b> Canada (SPRINT)<br> <b>Session :</b> Qualifs Sprint<br> <b>Date :</b> 22/05/2026"}], "23/05/2026": [{"gp": "Canada (SPRINT)", "titre": "Sprint", "heure": "17:00", "info": " <b>Lieu :</b> Canada (SPRINT)<br> <b>Session :</b> Sprint<br> <b>Date :</b> 23/05/2026"}, {"gp": "Canada (SPRINT)", "titre": "Qualifications", "heure": "21:00", "info": " <b>Lieu :</b> Canada (SPRINT)<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 23/05/2026"}], "24/05/2026": [{"gp": "Canada (SPRINT)", "titre": "Course", "heure": "18:00", "info": " <b>Lieu :</b> Canada (SPRINT)<br> <b>Session :</b> Course<br> <b>Date :</b> 24/05/2026"}], "05/06/2026": [{"gp": "Monaco", "titre": "EL1", "heure": "11:30", "info": " <b>Lieu :</b> Monaco<br> <b>Session :</b> EL1<br> <b>Date :</b> 05/06/2026"}, {"gp": "Monaco", "titre": "EL2", "heure": "15:00", "info": " <b>Lieu :</b> Monaco<br> <b>Session :</b> EL2<br> <b>Date :</b> 05/06/2026"}], "06/06/2026": [{"gp": "Monaco", "titre": "EL3", "heure": "10:30", "info": " <b>Lieu :</b> Monaco<br> <b>Session :</b> EL3<br> <b>Date :</b> 06/06/2026"}, {"gp": "Monaco", "titre": "Qualifications", "heure": "14:00", "info": " <b>Lieu :</b> Monaco<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 06/06/2026"}], "07/06/2026": [{"gp": "Monaco", "titre": "Course", "heure": "13:00", "info": " <b>Lieu :</b> Monaco<br> <b>Session :</b> Course<br> <b>Date :</b> 07/06/2026"}], "12/06/2026": [{"gp": "Espagne (Barcelone)", "titre": "EL1", "heure": "11:30", "info": " <b>Lieu :</b> Espagne (Barcelone)<br> <b>Session :</b> EL1<br> <b>Date :</b> 12/06/2026"}, {"gp": "Espagne (Barcelone)", "titre": "EL2", "heure": "15:00", "info": " <b>Lieu :</b> Espagne (Barcelone)<br> <b>Session :</b> EL2<br> <b>Date :</b> 12/06/2026"}], "13/06/2026": [{"gp": "Espagne (Barcelone)", "titre": "EL3", "heure": "10:30", "info": " <b>Lieu :</b> Espagne (Barcelone)<br> <b>Session :</b> EL3<br> <b>Date :</b> 13/06/2026"}, {"gp": "Espagne (Barcelone)", "titre": "Qualifications", "heure": "14:00", "info": " <b>Lieu :</b> Espagne (Barcelone)<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 13/06/2026"}], "14/06/2026": [{"gp": "Espagne (Barcelone)", "titre": "Course", "heure": "13:00", "info": " <b>Lieu :</b> Espagne (Barcelone)<br> <b>Session :</b> Course<br> <b>Date :</b> 14/06/2026"}], "26/06/2026": [{"gp": "Autriche", "titre": "EL1", "heure": "11:30", "info": " <b>Lieu :</b> Autriche<br> <b>Session :</b> EL1<br> <b>Date :</b> 26/06/2026"}, {"gp": "Autriche", "titre": "EL2", "heure": "15:00", "info": " <b>Lieu :</b> Autriche<br> <b>Session :</b> EL2<br> <b>Date :</b> 26/06/2026"}], "27/06/2026": [{"gp": "Autriche", "titre": "EL3", "heure": "10:30", "info": " <b>Lieu :</b> Autriche<br> <b>Session :</b> EL3<br> <b>Date :</b> 27/06/2026"}, {"gp": "Autriche", "titre": "Qualifications", "heure": "14:00", "info": " <b>Lieu :</b> Autriche<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 27/06/2026"}], "28/06/2026": [{"gp": "Autriche", "titre": "Course", "heure": "13:00", "info": " <b>Lieu :</b> Autriche<br> <b>Session :</b> Course<br> <b>Date :</b> 28/06/2026"}], "03/07/2026": [{"gp": "Grande-Bretagne (SPRINT)", "titre": "EL1", "heure": "11:30", "info": " <b>Lieu :</b> Grande-Bretagne (SPRINT)<br> <b>Session :</b> EL1<br> <b>Date :</b> 03/07/2026"}, {"gp": "Grande-Bretagne (SPRINT)", "titre": "Qualifs Sprint", "heure": "15:30", "info": " <b>Lieu :</b> Grande-Bretagne (SPRINT)<br> <b>Session :</b> Qualifs Sprint<br> <b>Date :</b> 03/07/2026"}], "04/07/2026": [{"gp": "Grande-Bretagne (SPRINT)", "titre": "Sprint", "heure": "11:00", "info": " <b>Lieu :</b> Grande-Bretagne (SPRINT)<br> <b>Session :</b> Sprint<br> <b>Date :</b> 04/07/2026"}, {"gp": "Grande-Bretagne (SPRINT)", "titre": "Qualifications", "heure": "15:00", "info": " <b>Lieu :</b> Grande-Bretagne (SPRINT)<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 04/07/2026"}], "05/07/2026": [{"gp": "Grande-Bretagne (SPRINT)", "titre": "Course", "heure": "14:00", "info": " <b>Lieu :</b> Grande-Bretagne (SPRINT)<br> <b>Session :</b> Course<br> <b>Date :</b> 05/07/2026"}], "17/07/2026": [{"gp": "Belgique", "titre": "EL1", "heure": "11:30", "info": " <b>Lieu :</b> Belgique<br> <b>Session :</b> EL1<br> <b>Date :</b> 17/07/2026"}, {"gp": "Belgique", "titre": "EL2", "heure": "15:00", "info": " <b>Lieu :</b> Belgique<br> <b>Session :</b> EL2<br> <b>Date :</b> 17/07/2026"}], "18/07/2026": [{"gp": "Belgique", "titre": "EL3", "heure": "10:30", "info": " <b>Lieu :</b> Belgique<br> <b>Session :</b> EL3<br> <b>Date :</b> 18/07/2026"}, {"gp": "Belgique", "titre": "Qualifications", "heure": "14:00", "info": " <b>Lieu :</b> Belgique<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 18/07/2026"}], "19/07/2026": [{"gp": "Belgique", "titre": "Course", "heure": "13:00", "info": " <b>Lieu :</b> Belgique<br> <b>Session :</b> Course<br> <b>Date :</b> 19/07/2026"}], "24/07/2026": [{"gp": "Hongrie", "titre": "EL1", "heure": "11:30", "info": " <b>Lieu :</b> Hongrie<br> <b>Session :</b> EL1<br> <b>Date :</b> 24/07/2026"}, {"gp": "Hongrie", "titre": "EL2", "heure": "15:00", "info": " <b>Lieu :</b> Hongrie<br> <b>Session :</b> EL2<br> <b>Date :</b> 24/07/2026"}], "25/07/2026": [{"gp": "Hongrie", "titre": "EL3", "heure": "10:30", "info": " <b>Lieu :</b> Hongrie<br> <b>Session :</b> EL3<br> <b>Date :</b> 25/07/2026"}, {"gp": "Hongrie", "titre": "Qualifications", "heure": "14:00", "info": " <b>Lieu :</b> Hongrie<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 25/07/2026"}], "26/07/2026": [{"gp": "Hongrie", "titre": "Course", "heure": "13:00", "info": " <b>Lieu :</b> Hongrie<br> <b>Session :</b> Course<br> <b>Date :</b> 26/07/2026"}], "21/08/2026": [{"gp": "Pays-Bas (SPRINT)", "titre": "EL1", "heure": "10:30", "info": " <b>Lieu :</b> Pays-Bas (SPRINT)<br> <b>Session :</b> EL1<br> <b>Date :</b> 21/08/2026"}, {"gp": "Pays-Bas (SPRINT)", "titre": "Qualifs Sprint", "heure": "14:30", "info": " <b>Lieu :</b> Pays-Bas (SPRINT)<br> <b>Session :</b> Qualifs Sprint<br> <b>Date :</b> 21/08/2026"}], "22/08/2026": [{"gp": "Pays-Bas (SPRINT)", "titre": "Sprint", "heure": "10:00", "info": " <b>Lieu :</b> Pays-Bas (SPRINT)<br> <b>Session :</b> Sprint<br> <b>Date :</b> 22/08/2026"}, {"gp": "Pays-Bas (SPRINT)", "titre": "Qualifications", "heure": "14:00", "info": " <b>Lieu :</b> Pays-Bas (SPRINT)<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 22/08/2026"}], "23/08/2026": [{"gp": "Pays-Bas (SPRINT)", "titre": "Course", "heure": "13:00", "info": " <b>Lieu :</b> Pays-Bas (SPRINT)<br> <b>Session :</b> Course<br> <b>Date :</b> 23/08/2026"}], "04/09/2026": [{"gp": "Italie", "titre": "EL1", "heure": "11:30", "info": " <b>Lieu :</b> Italie<br> <b>Session :</b> EL1<br> <b>Date :</b> 04/09/2026"}, {"gp": "Italie", "titre": "EL2", "heure": "15:00", "info": " <b>Lieu :</b> Italie<br> <b>Session :</b> EL2<br> <b>Date :</b> 04/09/2026"}], "05/09/2026": [{"gp": "Italie", "titre": "EL3", "heure": "10:30", "info": " <b>Lieu :</b> Italie<br> <b>Session :</b> EL3<br> <b>Date :</b> 05/09/2026"}, {"gp": "Italie", "titre": "Qualifications", "heure": "14:00", "info": " <b>Lieu :</b> Italie<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 05/09/2026"}], "06/09/2026": [{"gp": "Italie", "titre": "Course", "heure": "13:00", "info": " <b>Lieu :</b> Italie<br> <b>Session :</b> Course<br> <b>Date :</b> 06/09/2026"}], "11/09/2026": [{"gp": "Espagne (Madrid)", "titre": "EL1", "heure": "11:30", "info": " <b>Lieu :</b> Espagne (Madrid)<br> <b>Session :</b> EL1<br> <b>Date :</b> 11/09/2026"}, {"gp": "Espagne (Madrid)", "titre": "EL2", "heure": "15:00", "info": " <b>Lieu :</b> Espagne (Madrid)<br> <b>Session :</b> EL2<br> <b>Date :</b> 11/09/2026"}], "12/09/2026": [{"gp": "Espagne (Madrid)", "titre": "EL3", "heure": "10:30", "info": " <b>Lieu :</b> Espagne (Madrid)<br> <b>Session :</b> EL3<br> <b>Date :</b> 12/09/2026"}, {"gp": "Espagne (Madrid)", "titre": "Qualifications", "heure": "14:00", "info": " <b>Lieu :</b> Espagne (Madrid)<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 12/09/2026"}], "13/09/2026": [{"gp": "Espagne (Madrid)", "titre": "Course", "heure": "13:00", "info": " <b>Lieu :</b> Espagne (Madrid)<br> <b>Session :</b> Course<br> <b>Date :</b> 13/09/2026"}], "25/09/2026": [{"gp": "Azerbaïdjan", "titre": "EL1", "heure": "09:30", "info": " <b>Lieu :</b> Azerbaïdjan<br> <b>Session :</b> EL1<br> <b>Date :</b> 25/09/2026"}, {"gp": "Azerbaïdjan", "titre": "EL2", "heure": "13:00", "info": " <b>Lieu :</b> Azerbaïdjan<br> <b>Session :</b> EL2<br> <b>Date :</b> 25/09/2026"}], "26/09/2026": [{"gp": "Azerbaïdjan", "titre": "EL3", "heure": "08:30", "info": " <b>Lieu :</b> Azerbaïdjan<br> <b>Session :</b> EL3<br> <b>Date :</b> 26/09/2026"}, {"gp": "Azerbaïdjan", "titre": "Qualifications", "heure": "12:00", "info": " <b>Lieu :</b> Azerbaïdjan<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 26/09/2026"}], "27/09/2026": [{"gp": "Azerbaïdjan", "titre": "Course", "heure": "11:00", "info": " <b>Lieu :</b> Azerbaïdjan<br> <b>Session :</b> Course<br> <b>Date :</b> 27/09/2026"}], "09/10/2026": [{"gp": "Singapour (SPRINT)", "titre": "EL1", "heure": "09:30", "info": " <b>Lieu :</b> Singapour (SPRINT)<br> <b>Session :</b> EL1<br> <b>Date :</b> 09/10/2026"}, {"gp": "Singapour (SPRINT)", "titre": "Qualifs Sprint", "heure": "13:30", "info": " <b>Lieu :</b> Singapour (SPRINT)<br> <b>Session :</b> Qualifs Sprint<br> <b>Date :</b> 09/10/2026"}], "10/10/2026": [{"gp": "Singapour (SPRINT)", "titre": "Sprint", "heure": "09:00", "info": " <b>Lieu :</b> Singapour (SPRINT)<br> <b>Session :</b> Sprint<br> <b>Date :</b> 10/10/2026"}, {"gp": "Singapour (SPRINT)", "titre": "Qualifications", "heure": "13:00", "info": " <b>Lieu :</b> Singapour (SPRINT)<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 10/10/2026"}], "11/10/2026": [{"gp": "Singapour (SPRINT)", "titre": "Course", "heure": "12:00", "info": " <b>Lieu :</b> Singapour (SPRINT)<br> <b>Session :</b> Course<br> <b>Date :</b> 11/10/2026"}], "23/10/2026": [{"gp": "États-Unis (Austin)", "titre": "EL1", "heure": "18:30", "info": " <b>Lieu :</b> États-Unis (Austin)<br> <b>Session :</b> EL1<br> <b>Date :</b> 23/10/2026"}, {"gp": "États-Unis (Austin)", "titre": "EL2", "heure": "22:00", "info": " <b>Lieu :</b> États-Unis (Austin)<br> <b>Session :</b> EL2<br> <b>Date :</b> 23/10/2026"}], "24/10/2026": [{"gp": "États-Unis (Austin)", "titre": "EL3", "heure": "17:30", "info": " <b>Lieu :</b> États-Unis (Austin)<br> <b>Session :</b> EL3<br> <b>Date :</b> 24/10/2026"}, {"gp": "États-Unis (Austin)", "titre": "Qualifications", "heure": "21:00", "info": " <b>Lieu :</b> États-Unis (Austin)<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 24/10/2026"}], "25/10/2026": [{"gp": "États-Unis (Austin)", "titre": "Course", "heure": "20:00", "info": " <b>Lieu :</b> États-Unis (Austin)<br> <b>Session :</b> Course<br> <b>Date :</b> 25/10/2026"}], "30/10/2026": [{"gp": "Mexique", "titre": "EL1", "heure": "19:30", "info": " <b>Lieu :</b> Mexique<br> <b>Session :</b> EL1<br> <b>Date :</b> 30/10/2026"}, {"gp": "Mexique", "titre": "EL2", "heure": "23:00", "info": " <b>Lieu :</b> Mexique<br> <b>Session :</b> EL2<br> <b>Date :</b> 30/10/2026"}], "31/10/2026": [{"gp": "Mexique", "titre": "EL3", "heure": "18:30", "info": " <b>Lieu :</b> Mexique<br> <b>Session :</b> EL3<br> <b>Date :</b> 31/10/2026"}, {"gp": "Mexique", "titre": "Qualifications", "heure": "22:00", "info": " <b>Lieu :</b> Mexique<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 31/10/2026"}], "01/11/2026": [{"gp": "Mexique", "titre": "Course", "heure": "21:00", "info": " <b>Lieu :</b> Mexique<br> <b>Session :</b> Course<br> <b>Date :</b> 01/11/2026"}], "06/11/2026": [{"gp": "Brésil", "titre": "EL1", "heure": "13:30", "info": " <b>Lieu :</b> Brésil<br> <b>Session :</b> EL1<br> <b>Date :</b> 06/11/2026"}, {"gp": "Brésil", "titre": "EL2", "heure": "17:00", "info": " <b>Lieu :</b> Brésil<br> <b>Session :</b> EL2<br> <b>Date :</b> 06/11/2026"}], "07/11/2026": [{"gp": "Brésil", "titre": "EL3", "heure": "13:30", "info": " <b>Lieu :</b> Brésil<br> <b>Session :</b> EL3<br> <b>Date :</b> 07/11/2026"}, {"gp": "Brésil", "titre": "Qualifications", "heure": "17:00", "info": " <b>Lieu :</b> Brésil<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 07/11/2026"}], "08/11/2026": [{"gp": "Brésil", "titre": "Course", "heure": "16:00", "info": " <b>Lieu :</b> Brésil<br> <b>Session :</b> Course<br> <b>Date :</b> 08/11/2026"}], "20/11/2026": [{"gp": "Las Vegas", "titre": "EL1", "heure": "02:30", "info": " <b>Lieu :</b> Las Vegas<br> <b>Session :</b> EL1<br> <b>Date :</b> 20/11/2026"}, {"gp": "Las Vegas", "titre": "EL2", "heure": "06:00", "info": " <b>Lieu :</b> Las Vegas<br> <b>Session :</b> EL2<br> <b>Date :</b> 20/11/2026"}], "21/11/2026": [{"gp": "Las Vegas", "titre": "EL3", "heure": "02:30", "info": " <b>Lieu :</b> Las Vegas<br> <b>Session :</b> EL3<br> <b>Date :</b> 21/11/2026"}, {"gp": "Las Vegas", "titre": "Qualifications", "heure": "06:00", "info": " <b>Lieu :</b> Las Vegas<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 21/11/2026"}], "22/11/2026": [{"gp": "Las Vegas", "titre": "Course", "heure": "04:00", "info": " <b>Lieu :</b> Las Vegas<br> <b>Session :</b> Course<br> <b>Date :</b> 22/11/2026"}], "27/11/2026": [{"gp": "Qatar", "titre": "EL1", "heure": "12:30", "info": " <b>Lieu :</b> Qatar<br> <b>Session :</b> EL1<br> <b>Date :</b> 27/11/2026"}, {"gp": "Qatar", "titre": "EL2", "heure": "16:00", "info": " <b>Lieu :</b> Qatar<br> <b>Session :</b> EL2<br> <b>Date :</b> 27/11/2026"}], "28/11/2026": [{"gp": "Qatar", "titre": "EL3", "heure": "12:30", "info": " <b>Lieu :</b> Qatar<br> <b>Session :</b> EL3<br> <b>Date :</b> 28/11/2026"}, {"gp": "Qatar", "titre": "Qualifications", "heure": "16:00", "info": " <b>Lieu :</b> Qatar<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 28/11/2026"}], "29/11/2026": [{"gp": "Qatar", "titre": "Course", "heure": "15:00", "info": " <b>Lieu :</b> Qatar<br> <b>Session :</b> Course<br> <b>Date :</b> 29/11/2026"}], "04/12/2026": [{"gp": "Abou Dabi", "titre": "EL1", "heure": "09:30", "info": " <b>Lieu :</b> Abou Dabi<br> <b>Session :</b> EL1<br> <b>Date :</b> 04/12/2026"}, {"gp": "Abou Dabi", "titre": "EL2", "heure": "13:00", "info": " <b>Lieu :</b> Abou Dabi<br> <b>Session :</b> EL2<br> <b>Date :</b> 04/12/2026"}], "05/12/2026": [{"gp": "Abou Dabi", "titre": "EL3", "heure": "10:30", "info": " <b>Lieu :</b> Abou Dabi<br> <b>Session :</b> EL3<br> <b>Date :</b> 05/12/2026"}, {"gp": "Abou Dabi", "titre": "Qualifications", "heure": "14:00", "info": " <b>Lieu :</b> Abou Dabi<br> <b>Session :</b> Qualifications<br> <b>Date :</b> 05/12/2026"}], "06/12/2026": [{"gp": "Abou Dabi", "titre": "Course", "heure": "13:00", "info": " <b>Lieu :</b> Abou Dabi<br> <b>Session :</b> Course<br> <b>Date :</b> 06/12/2026"}]};
+
+        let now = new Date();
+        let currentMonth = now.getMonth();
+        let currentYear = 2026;
+
+        function changeMonth(step) {
+            currentMonth += step;
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            renderCalendar();
+        }
+
+        function showInfo(gp, titre, heure, info) {
+            document.getElementById('modalTitle').innerText = titre;
+            document.getElementById('modalBody').innerHTML = "🕒 <b>Heure Locale :</b> " + heure + "<br><br>" + info;
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function renderCalendar() {
+            const utcOffset = parseInt(document.getElementById('utcSelect').value);
+            const body = document.getElementById('calendarBody');
+            const label = document.getElementById('currentDateLabel');
+            const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+
+            label.innerText = months[currentMonth].toUpperCase() + " " + currentYear;
+            body.innerHTML = '';
+
+            let firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            let startingDay = (firstDay === 0) ? 6 : firstDay - 1;
+            let daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            let date = 1;
+            for (let i = 0; i < 6; i++) {
+                let row = document.createElement('tr');
+                let hasCells = false;
+                for (let j = 0; j < 7; j++) {
+                    let cell = document.createElement('td');
+                    if (i === 0 && j < startingDay || date > daysInMonth) {
+                        cell.innerHTML = "";
+                    } else {
+                        hasCells = true;
+                        let dateKey = String(date).padStart(2, '0') + "/" + String(currentMonth + 1).padStart(2, '0') + "/" + currentYear;
+                        cell.innerHTML = `<div class="date-num">${date}</div>`;
+
+                        if (data[dateKey]) {
+                            data[dateKey].forEach(ev => {
+                                let [h, m] = ev.heure.split(':').map(Number);
+                                let localH = (h + utcOffset + 24) % 24;
+                                let timeStr = String(localH).padStart(2, '0') + ":" + String(m).padStart(2, '0');
+
+                                let div = document.createElement('div');
+                                div.className = 'event';
+                                div.innerText = timeStr + " " + ev.gp.split(' ')[0] + " - " + ev.titre;
+                                div.onclick = (e) => {
+                                    e.stopPropagation();
+                                    showInfo(ev.gp, ev.titre, timeStr, ev.info);
+                                };
+                                cell.appendChild(div);
+                            });
+                        }
+                        date++;
+                    }
+                    row.appendChild(cell);
+                }
+                if (hasCells) body.appendChild(row);
+                if (date > daysInMonth) break;
+            }
+        }
+        renderCalendar();
+    </script>
+</body>
+
+</html>
