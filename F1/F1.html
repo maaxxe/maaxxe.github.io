@@ -180,6 +180,8 @@
             const dOpt = document.getElementById('driverOptions');
             const tOpt = document.getElementById('teamOptions');
             dOpt.innerHTML = ''; tOpt.innerHTML = '';
+             // Checkbox "Sélectionner tous les pilotes"
+            dOpt.innerHTML += `<div class="select-option"><input type="checkbox" id="p_all" data-type="pilot-all" onchange="toggleAllPilots(this)"><label for="p_all">TOUS</label></div>`;
             Array.from(pilots).sort().forEach(p => {
                 dOpt.innerHTML += `<div class="select-option"><input type="checkbox" id="p_${p}" value="${p}" data-type="pilot" onchange="updateSelectedCount()"><label for="p_${p}">${p}</label></div>`;
             });
@@ -486,6 +488,14 @@
     html += '</tbody></table>';
     container.innerHTML = html;
 }
+
+        function toggleAllPilots(master) {
+            const pilotCheckboxes = document.querySelectorAll('#driverOptions input[type="checkbox"][data-type="pilot"]');
+            pilotCheckboxes.forEach(cb => {
+                cb.checked = master.checked;
+            });
+            updateSelectedCount();
+        }
 
 
 
