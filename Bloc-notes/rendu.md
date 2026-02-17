@@ -3,9 +3,7 @@
 ## Urgents cette semaine
 -  **Les notes** [Genote](https://www.usherbrooke.ca/genote/application/etudiant/notes.php?)
 - **Les remises** [Turnin](https://turnin.dinf.usherbrooke.ca/)
-- [ ] IFT870 TP2 **(13 fév. 2026)**
-- [ ] IFT714 Proposition **(16 fév. 2026)**
-- [ ] IFT702 Devoir 1 **(17 fév. 2026)**
+
 
 ## ICL200 - Prép. intégration marché du travail au Québec
 - [Moodle](https://moodle.usherbrooke.ca/course/view.php?id=42215)
