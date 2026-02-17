@@ -14,7 +14,7 @@
 ## IFT702 - Planification en intelligence artificielle
 - [Moodle](https://moodle.usherbrooke.ca/course/view.php?id=43359)
 - [ ] Projet - Phase 1 
-- [ ] Devoir 1 **(17 fév. 2026, 23:55)**
+- [x] Devoir 1 **(17 fév. 2026, 23:55)**
 
 ## IFT714 - Traitement automatique des langues naturelles
 - [Moodle](https://moodle.usherbrooke.ca/course/view.php?id=43592)
@@ -33,7 +33,7 @@
 ## IFT870 - Forage de données
 - [SITE](https://cobius.usherbrooke.ca/ift870/)
 - [x] TP1 **(terminé 30 janv. 2026)**
-- [ ] TP2 **(13 fév. 2026, 23:59)**
+- [x] TP2 **(13 fév. 2026, 23:59)**
 
 
 
