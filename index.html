@@ -1,57 +1,58 @@
 <!doctype html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8">
-    <title>Maxime Robin – Ingénieur IA & Systèmes embarqués</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <script>
-// Animation au scroll
-document.addEventListener('DOMContentLoaded', function() {
-  const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
-  
-  const revealOnScroll = () => {
-    const windowHeight = window.innerHeight;
-    const revealPoint = 100;
-    
-    revealElements.forEach(element => {
-      const elementTop = element.getBoundingClientRect().top;
-      
-      if (elementTop < windowHeight - revealPoint) {
-        element.classList.add('active');
-      }
-    });
-  };
-  
-  // Observer moderne (meilleure performance)
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          // Optionnel : arrêter d'observer après animation
-          // observer.unobserve(entry.target);
+
+<head>
+  <meta charset="utf-8">
+  <title>Maxime Robin – Ingénieur IA & Systèmes embarqués</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<script>
+  // Animation au scroll
+  document.addEventListener('DOMContentLoaded', function () {
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+
+    const revealOnScroll = () => {
+      const windowHeight = window.innerHeight;
+      const revealPoint = 100;
+
+      revealElements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+
+        if (elementTop < windowHeight - revealPoint) {
+          element.classList.add('active');
         }
       });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
-    });
-    
-    revealElements.forEach(element => observer.observe(element));
-  } else {
-    // Fallback pour navigateurs anciens
-    window.addEventListener('scroll', revealOnScroll);
-    revealOnScroll(); // Initial check
-  }
-});
+    };
 
-document.getElementById('year').textContent = new Date().getFullYear();
+    // Observer moderne (meilleure performance)
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            // Optionnel : arrêter d'observer après animation
+            // observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+      });
+
+      revealElements.forEach(element => observer.observe(element));
+    } else {
+      // Fallback pour navigateurs anciens
+      window.addEventListener('scroll', revealOnScroll);
+      revealOnScroll(); // Initial check
+    }
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 
-  <body>
-  
+<body>
+
   <!-- Header moderne avec navigation fixe -->
   <header class="site-header">
     <nav class="top-nav">
@@ -61,7 +62,8 @@ document.getElementById('year').textContent = new Date().getFullYear();
           <span class="brand-subtitle">Ingénieur IA & Systèmes Embarqués</span>
         </a>
         <div class="nav-menu">
-          <a href="index_en.html" class="lang-switch"><img src="images/flags/flag_uk.png" alt="Royaume-Uni" class="tiny-logo"> EN</a>        
+          <a href="index_en.html" class="lang-switch"><img src="images/flags/flag_uk.png" alt="Royaume-Uni"
+              class="tiny-logo"> EN</a>
           <a href="#cv-section" class="nav-item">CV</a>
           <a href="#contact-section" class="nav-item">Contact</a>
           <a href="outils/outils.html" class="nav-item nav-cta" target="_blank">Mes Projets</a>
@@ -74,23 +76,23 @@ document.getElementById('year').textContent = new Date().getFullYear();
   <section class="hero-modern">
     <div class="hero-gradient"></div>
     <div class="hero-pattern"></div>
-    
+
     <div class="hero-container">
       <div class="hero-badge">
         <span class="badge-icon"></span>
         <span>Disponible à partir d'avril 2026</span>
       </div>
-      
+
       <h1 class="hero-title">
         Recherche de stage<br>
         <span class="title-highlight">IA & Systèmes embarqués</span>
       </h1>
-      
+
       <p class="hero-lead">
         Étudiant en double diplôme (ESEO × UdeS) cherchant un stage de 6 mois
         en intelligence artificielle, deep learning ou systèmes embarqués.
       </p>
-      
+
       <div class="hero-tags-modern">
         <span class="tag"> Deep Learning</span>
         <span class="tag"> Systèmes embarqués</span>
@@ -99,446 +101,453 @@ document.getElementById('year').textContent = new Date().getFullYear();
         <span class="tag"> TIA Portal</span>
         <span class="tag"> Mobilité internationale</span>
       </div>
-      
+
       <div class="hero-actions">
         <a href="#cv-section" class="btn-hero primary">
           <span>Voir mon CV</span>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M7 10L10 13L13 10M10 3V13M3 17H17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M7 10L10 13L13 10M10 3V13M3 17H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
           </svg>
         </a>
-       
+
       </div>
-      
+
       <div class="hero-social">
-        <a href="https://www.linkedin.com/in/maxime-robin-188462231" target="_blank" class="social-link" aria-label="LinkedIn">
-          <span>in</span>
+        <a href="https://www.linkedin.com/in/maxime-robin-188462231" target="_blank" class="social-link-hero"
+          aria-label="LinkedIn">
+          <span><img src="images/logos/logo_linkedin.webp" alt="LinkedIn" class="tiny-logo"></span>
         </a>
-        <a href="https://github.com/maaxxe" target="_blank" class="social-link" aria-label="GitHub">
-          <span>gh</span>
+        <a href="https://github.com/maaxxe" target="_blank" class="social-link-hero" aria-label="GitHub">
+          <span><img src="images/logos/logo_git.webp" alt="GitHub" class="tiny-logo"></span>
         </a>
-        <a href="mailto:robm8964@usherbrooke.ca" class="social-link" aria-label="Email">
-          <span>@</span>
+        <a href="mailto:robm8964@usherbrooke.ca" class="social-link-hero" aria-label="Email">
+          <span><img src="images/logos/logo_mail.png" alt="outlook" class="tiny-logo"> </span>
         </a>
       </div>
     </div>
-    
+
     <div class="hero-scroll">
       <span>Découvrir</span>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
       </svg>
     </div>
   </section>
 
-    <main class="container">
-      
-      <!-- À propos -->
-        <section id="about-section" class="about-section reveal">
-        <h2>À propos</h2>
-        <div class="about-content">
+  <main class="container">
+
+    <!-- À propos -->
+    <section id="about-section" class="about-section reveal">
+      <h2>À propos</h2>
+      <div class="about-content">
+        <p>
+          En double diplôme entre <strong>ESEO</strong> (génie des systèmes embarqués, France)
+          et l'<strong>Université de Sherbrooke</strong> (maîtrise en informatique, spécialisation IA, Canada),
+
+        </p>
+        <p>
+          J'aime les défis qui mêlent hardware, capteurs, robotique et algorithmes d'apprentissage.
+
+        </p>
+        <p class="about-highlight">
+          <strong>Mobilité :</strong> j'ai étudié et travaillé en France, au Canada, en Slovaquie et en Lettonie.
+          Ces expériences m'ont donné une vision internationale des méthodes d'ingénierie.
+        </p>
+      </div>
+      <div class="about-content">
+
+      </div>
+
+    </section>
+
+    <!-- Projets phares -->
+    <section class="projects-section reveal">
+      <h2>Projets phares</h2>
+      <div class="projects-grid">
+        <article class="project-card reveal-scale reveal-delay-1">
+          <!-- <div class="project-icon"></div> -->
+          <h3>Application Android – Gestion de restaurant</h3>
           <p>
-            En double diplôme entre <strong>ESEO</strong> (génie des systèmes embarqués, France)
-            et l'<strong>Université de Sherbrooke</strong> (maîtrise en informatique, spécialisation IA, Canada),
-            
+            <strong>Java, Android Studio, MVVM</strong><br>
+            Outil pour restaurateurs : gestion des tables, création de commandes, suivi des prix et totaux.
+            Architecture MVVM pour une maintenabilité optimale.
           </p>
+          <a href="https://github.com/maaxxe/Projet_Android" target="_blank" class="project-link">
+            → Voir le projet
+          </a>
+        </article>
+
+        <article class="project-card reveal-scale reveal-delay-2">
+          <h3>Site Web avec Gestion des Droits d'Accès</h3>
           <p>
-            J'aime les défis qui mêlent hardware, capteurs, robotique et algorithmes d'apprentissage.
-          
+            <strong>HTML, CSS, JavaScript, SQL</strong><br>
+            Site web dynamique avec système de gestion des droits d'accès à trois niveaux (Administrateur, Salarié,
+            Visiteur).
+            Authentification sécurisée, attribution de rôles et interface adaptative selon les permissions utilisateur.
           </p>
-          <p class="about-highlight">
-             <strong>Mobilité :</strong> j'ai étudié et travaillé en France, au Canada, en Slovaquie et en Lettonie.
-            Ces expériences m'ont donné une vision internationale des méthodes d'ingénierie.
+          <a href="https://github.com/maaxxe/projet_SQL" target="_blank" class="project-link">
+            → Voir le projet
+          </a>
+        </article>
+
+        <article class="project-card reveal-scale reveal-delay-3">
+          <h3>Contrôle de robot autonome</h3>
+          <p>
+            <strong>C, Pthread, Sockets TCP/IP, Java</strong><br>
+            Application de contrôle de robot en C communicant avec un simulateur Java. Programmation de trajectoires
+            prédéfinies,
+            mode suivi de mur, gestion multitâche et interface utilisateur interactive. Communication réseau via
+            sockets.
           </p>
-        </div>
-        <div class="about-content">
-          
-          </div>
+          <a href="https://github.com/maaxxe/Projet_robot" target="_blank" class="project-link">
+            → Voir le projet
+          </a>
+        </article>
 
-      </section>
+        <article class="project-card reveal-scale reveal-delay-4">
+          <h3>Système de détection d'intrusion (ProSe)</h3>
+          <p>
+            <strong>C, Android, Raspberry Pi</strong><br>
+            Réseau de caméras de surveillance Raspberry Pi + caméras IP + application Android.
+            Intégration complète : capture sécurisée, transmission et monitoring.
+          </p>
+        </article>
 
-      <!-- Projets phares -->
-      <section class="projects-section reveal">
-        <h2>Projets phares</h2>
-        <div class="projects-grid">
-          <article class="project-card reveal-scale reveal-delay-1">
-            <!-- <div class="project-icon"></div> -->
-            <h3>Application Android – Gestion de restaurant</h3>
-            <p>
-              <strong>Java, Android Studio, MVVM</strong><br>
-              Outil pour restaurateurs : gestion des tables, création de commandes, suivi des prix et totaux.
-              Architecture MVVM pour une maintenabilité optimale.
-            </p>
-            <a href="https://github.com/maaxxe/Projet_Android" target="_blank" class="project-link">
-              → Voir le projet
-            </a>
-          </article>
+        <article class="project-card reveal-scale reveal-delay-5">
+          <h3>Réseaux de neurones – IA appliquée</h3>
+          <p>
+            <strong>Python, PyTorch, NumPy, Pandas</strong><br>
+            Projets de cours en deep learning : classification d'images, traitement de données,
+            modèles CNN et analyse statistique.
+          </p>
+        </article>
 
-          <article class="project-card reveal-scale reveal-delay-2">
-            <h3>Site Web avec Gestion des Droits d'Accès</h3>
-            <p>
-              <strong>HTML, CSS, JavaScript, SQL</strong><br>
-              Site web dynamique avec système de gestion des droits d'accès à trois niveaux (Administrateur, Salarié, Visiteur). 
-              Authentification sécurisée, attribution de rôles et interface adaptative selon les permissions utilisateur.
-            </p>
-            <a href="https://github.com/maaxxe/projet_SQL" target="_blank" class="project-link">
-              → Voir le projet
-            </a>
-          </article>
+        <article class="project-card reveal-scale reveal-delay-6">
+          <h3>Automatisation – Lignes de production Stellantis</h3>
+          <p>
+            <strong>TIA Portal, STEP7, Robots &amp; Automates</strong><br>
+            Modernisation des chaînes Citroën C3 &amp; Opel Frontera : commissioning, optimisation des temps de cycle,
+            intégration de capteurs et amélioration continue.
+          </p>
+        </article>
+      </div>
+    </section>
 
-          <article class="project-card reveal-scale reveal-delay-3">
-            <h3>Contrôle de robot autonome</h3>
-            <p>
-              <strong>C, Pthread, Sockets TCP/IP, Java</strong><br>
-              Application de contrôle de robot en C communicant avec un simulateur Java. Programmation de trajectoires prédéfinies, 
-              mode suivi de mur, gestion multitâche et interface utilisateur interactive. Communication réseau via sockets.
-            </p>
-            <a href="https://github.com/maaxxe/Projet_robot" target="_blank" class="project-link">
-              → Voir le projet
-            </a>
-          </article>
-
-          <article class="project-card reveal-scale reveal-delay-4">
-            <h3>Système de détection d'intrusion (ProSe)</h3>
-            <p>
-              <strong>C, Android, Raspberry Pi</strong><br>
-              Réseau de caméras de surveillance Raspberry Pi + caméras IP + application Android.
-              Intégration complète : capture sécurisée, transmission et monitoring.
-            </p>
-          </article>
-
-          <article class="project-card reveal-scale reveal-delay-5">
-            <h3>Réseaux de neurones – IA appliquée</h3>
-            <p>
-              <strong>Python, PyTorch, NumPy, Pandas</strong><br>
-              Projets de cours en deep learning : classification d'images, traitement de données,
-              modèles CNN et analyse statistique.
-            </p>
-          </article>
-
-          <article class="project-card reveal-scale reveal-delay-6">
-            <h3>Automatisation – Lignes de production Stellantis</h3>
-            <p>
-              <strong>TIA Portal, STEP7, Robots &amp; Automates</strong><br>
-              Modernisation des chaînes Citroën C3 &amp; Opel Frontera : commissioning, optimisation des temps de cycle,
-              intégration de capteurs et amélioration continue.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <!-- Formation -->
-      <section class="education-section reveal">
-        <h2>Formation</h2>
-        <div class="education-timeline">
-          <div class="edu-item reveal-left reveal-delay-1">
-            <div class="edu-content">
-              <div class="logo-row">
-                <img src="images/logos/logo_uds.jpeg" alt="Université de Sherbrooke" class="tiny-logo">
-                <h3>Université de Sherbrooke</h3>
-              </div>
-              <p class="edu-meta"><strong>Maîtrise en informatique</strong> – Spécialisation IA (2025–2026)</p>
-              <p>
-                Double diplôme avec l’ESEO. Approfondissement en apprentissage automatique, vision par ordinateur
-                et réseaux de neurones (ex. IFT780).
-              </p>
-              <div class="logo-row">
-                <img src="images/flags/flag_ca.png" alt="Canada" class="tiny-logo">
-                <span class="country-badge">Québec, Canada</span>
-              </div>
+    <!-- Formation -->
+    <section class="education-section reveal">
+      <h2>Formation</h2>
+      <div class="education-timeline">
+        <div class="edu-item reveal-left reveal-delay-1">
+          <div class="edu-content">
+            <div class="logo-row">
+              <img src="images/logos/logo_uds.jpeg" alt="Université de Sherbrooke" class="tiny-logo">
+              <h3>Université de Sherbrooke</h3>
             </div>
-          </div>
-
-          <div class="edu-item reveal-left reveal-delay-4">
-            <div class="edu-content">
-              <div class="logo-row">
-                <img src="images/logos/logo_eseo.png" alt="ESEO" class="tiny-logo">
-                <h3>ESEO (École supérieure d'électronique de l'Ouest)</h3>
-              </div>
-              <p class="edu-meta"><strong>Diplôme d'ingénieur</strong> – Génie des systèmes embarqués (2023–2026)</p>
-              <p>
-                Formation en électronique et informatique. Projet ProSe : système de détection d'intrusion pour Kereval
-                avec Raspberry Pi, caméras IP et application Android.
-              </p>
-              <div class="logo-row">
-                <img src="images/flags/flag_fr.png" alt="France" class="tiny-logo">
-                <span class="country-badge">Angers &amp; Paris, France</span>
-              </div>
+            <p class="edu-meta"><strong>Maîtrise en informatique</strong> – Spécialisation IA (2025–2026)</p>
+            <p>
+              Double diplôme avec l’ESEO. Approfondissement en apprentissage automatique, vision par ordinateur
+              et réseaux de neurones (ex. IFT780).
+            </p>
+            <div class="logo-row">
+              <img src="images/flags/flag_ca.png" alt="Canada" class="tiny-logo">
+              <span class="country-badge">Québec, Canada</span>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- Expériences professionnelles -->
-
-
-      <section class="experience-section reveal">
-        <h2>Expériences professionnelles</h2>
-        <div class="experience-timeline">
-
-                <div class="exp-item reveal-right reveal-delay-1">
-        <div class="exp-content">
-          <div class="logo-row">
-            <img src="images/logos/logo_kereval.jpeg" alt="Kereval" class="tiny-logo">
-            <h3>Projet ProSe – Système de vidéo-surveillance pour Kereval</h3>
-          </div>
-          <p class="exp-meta">
-            Kereval, Rennes (France) · <strong>Février 2025 – Juin 2025</strong>
-          </p>
-          <p>
-            Projet long de fin d’année à l’ESEO réalisé en équipe pour la société Kereval, basée à Rennes :
-            conception d’un système complet de vidéo‑surveillance avec détection d’intrusion.
-          </p>
-          <ul>
-            <li>
-              Développement d’un réseau de caméras (Raspberry&nbsp;Pi et caméras IP) pour surveiller plusieurs zones,
-              avec ajout et configuration dynamique de nouvelles caméras.
-            </li>
-            <li>
-              Mise en place de mécanismes d’alertes en cas d’intrusion (notifications, journalisation des événements).
-            </li>
-            <li>
-              Travail en équipe organisée (chefs de projet, responsables qualité, développeurs) en utilisant
-              <strong>Git</strong> et GitHub pour la gestion de versions, branches, revues de code et intégration des contributions.
-            </li>
-            <li>
-              Implémentation en environnement <strong>systèmes embarqués</strong> à l’ESEO, avec contraintes de ressources,
-              robustesse et déploiement sur plusieurs machines.
-            </li>
-          </ul>
-          <div class="logo-row" style="margin-top:8px;">
-            <img src="images/flags/flag_fr.png" alt="France" class="tiny-logo">
-            <span class="country-badge">Rennes, France</span>
+        <div class="edu-item reveal-left reveal-delay-4">
+          <div class="edu-content">
+            <div class="logo-row">
+              <img src="images/logos/logo_eseo.png" alt="ESEO" class="tiny-logo">
+              <h3>ESEO (École supérieure d'électronique de l'Ouest)</h3>
+            </div>
+            <p class="edu-meta"><strong>Diplôme d'ingénieur</strong> – Génie des systèmes embarqués (2023–2026)</p>
+            <p>
+              Formation en électronique et informatique. Projet ProSe : système de détection d'intrusion pour Kereval
+              avec Raspberry Pi, caméras IP et application Android.
+            </p>
+            <div class="logo-row">
+              <img src="images/flags/flag_fr.png" alt="France" class="tiny-logo">
+              <span class="country-badge">Angers &amp; Paris, France</span>
+            </div>
           </div>
         </div>
       </div>
+    </section>
 
-          <div class="exp-item reveal-right reveal-delay-4">
-            <div class="exp-content">
-              <div class="logo-row">
-                <img src="images/logos/logo_othua.jpeg" alt="OTHUA" class="tiny-logo">
-                <img src="images/logos/logo_stellantis.jpeg" alt="Stellantis" class="tiny-logo">
-                <h3>Automation Engineering Intern – OTHUA (Slovaquie)</h3>
-              </div>
-              <p class="exp-meta"><strong>Juil. 2024 – Déc. 2024</strong></p>
-              <p>
-                <strong>Automatisme (6 mois)</strong> – Modernisation de lignes de production Stellantis :
-                commissioning des chaînes Citroën C3 &amp; Opel Frontera, validation de câblage,
-                optimisation des temps de cycle. Programmation et dépannage de robots, automates (TIA Portal, STEP7)
-                et interfaces HMI.
-              </p>
-              <div class="skills-tags">
-                <span>TIA Portal</span> <span>STEP7</span> <span>Robots</span> <span>Automates</span>
-              </div>
-              <div class="logo-row" style="margin-top:8px;">
-                <img src="images/flags/flag_sk.png" alt="Slovaquie" class="tiny-logo">
-                <span class="country-badge">Slovaquie</span>
-              </div>
+    <!-- Expériences professionnelles -->
+
+
+    <section class="experience-section reveal">
+      <h2>Expériences professionnelles</h2>
+      <div class="experience-timeline">
+
+        <div class="exp-item reveal-right reveal-delay-1">
+          <div class="exp-content">
+            <div class="logo-row">
+              <img src="images/logos/logo_kereval.jpeg" alt="Kereval" class="tiny-logo">
+              <h3>Projet ProSe – Système de vidéo-surveillance pour Kereval</h3>
+            </div>
+            <p class="exp-meta">
+              Kereval, Rennes (France) · <strong>Février 2025 – Juin 2025</strong>
+            </p>
+            <p>
+              Projet long de fin d’année à l’ESEO réalisé en équipe pour la société Kereval, basée à Rennes :
+              conception d’un système complet de vidéo‑surveillance avec détection d’intrusion.
+            </p>
+            <ul>
+              <li>
+                Développement d’un réseau de caméras (Raspberry&nbsp;Pi et caméras IP) pour surveiller plusieurs zones,
+                avec ajout et configuration dynamique de nouvelles caméras.
+              </li>
+              <li>
+                Mise en place de mécanismes d’alertes en cas d’intrusion (notifications, journalisation des événements).
+              </li>
+              <li>
+                Travail en équipe organisée (chefs de projet, responsables qualité, développeurs) en utilisant
+                <strong>Git</strong> et GitHub pour la gestion de versions, branches, revues de code et intégration des
+                contributions.
+              </li>
+              <li>
+                Implémentation en environnement <strong>systèmes embarqués</strong> à l’ESEO, avec contraintes de
+                ressources,
+                robustesse et déploiement sur plusieurs machines.
+              </li>
+            </ul>
+            <div class="logo-row" style="margin-top:8px;">
+              <img src="images/flags/flag_fr.png" alt="France" class="tiny-logo">
+              <span class="country-badge">Rennes, France</span>
             </div>
           </div>
+        </div>
+
+        <div class="exp-item reveal-right reveal-delay-4">
+          <div class="exp-content">
+            <div class="logo-row">
+              <img src="images/logos/logo_othua.jpeg" alt="OTHUA" class="tiny-logo">
+              <img src="images/logos/logo_stellantis.jpeg" alt="Stellantis" class="tiny-logo">
+              <h3>Automation Engineering Intern – OTHUA (Slovaquie)</h3>
+            </div>
+            <p class="exp-meta"><strong>Juil. 2024 – Déc. 2024</strong></p>
+            <p>
+              <strong>Automatisme (6 mois)</strong> – Modernisation de lignes de production Stellantis :
+              commissioning des chaînes Citroën C3 &amp; Opel Frontera, validation de câblage,
+              optimisation des temps de cycle. Programmation et dépannage de robots, automates (TIA Portal, STEP7)
+              et interfaces HMI.
+            </p>
+            <div class="skills-tags">
+              <span>TIA Portal</span> <span>STEP7</span> <span>Robots</span> <span>Automates</span>
+            </div>
+            <div class="logo-row" style="margin-top:8px;">
+              <img src="images/flags/flag_sk.png" alt="Slovaquie" class="tiny-logo">
+              <span class="country-badge">Slovaquie</span>
+            </div>
+          </div>
+        </div>
 
         <div class="exp-item reveal-right reveal-delay-5">
-              <div class="exp-content">
-                <div class="logo-row">
-                  <img src="images/logos/logo_stellantis.jpeg" alt="Stellantis" class="tiny-logo">
-                  <h3>Stage technique – Géométrie et assemblage</h3>
-                </div>
-                <p class="exp-meta">
-                  Stellantis, Trnava, Slovaquie · <strong>Juillet 2023 – Septembre 2023</strong>
-                </p>
-                <ul>
-                  <li>
-                    Participer aux activités de mise au point des ensembles de la caisse ferrée et
-                    analyser les rapports de mesures issus des moyens de contrôle.
-                  </li>
-                  <li>
-                    Préparer les KPI hebdomadaires pour le suivi de la production et la communication
-                    avec les équipes projet.
-                  </li>
-                </ul>
-                <div class="logo-row" style="margin-top:8px;">
-                  <img src="images/flags/flag_sk.png" alt="Slovaquie" class="tiny-logo">
-                  <span class="country-badge">Trnava, Slovaquie</span>
-                </div>
-              </div>
+          <div class="exp-content">
+            <div class="logo-row">
+              <img src="images/logos/logo_stellantis.jpeg" alt="Stellantis" class="tiny-logo">
+              <h3>Stage technique – Géométrie et assemblage</h3>
             </div>
-
-
-
-          <div class="exp-item reveal-right reveal-delay-6">
-            <div class="exp-content">
-              <div class="logo-row">
-                <img src="images/logos/logo_psa.jpeg" alt="Groupe PSA" class="tiny-logo">
-                <img src="images/logos/logo_stellantis.jpeg" alt="Stellantis" class="tiny-logo">
-                <h3>Stagiaire technique – Groupe PSA / Stellantis</h3>
-              </div>
-              <p class="exp-meta"><strong>2018–2023</strong> – Plusieurs missions à Poissy &amp; Vélizy</p>
-              <ul>
-                <li>
-                  <strong>Contrôle qualité (2022, 2 mois)</strong> – Contrôle électrique de DS3 E‑TENSE
-                  et Mokka électrique, validation de charge et vérification des postes moteurs.
-                </li>
-                <li>
-                  <strong>Stage découverte (2018)</strong> – Stage de 3e à l’usine de Poissy : découverte
-                  de la chaîne de fabrication automobile.
-                </li>
-              </ul>
-              <div class="logo-row" style="margin-top:8px;">
-                <img src="images/flags/flag_fr.png" alt="France" class="tiny-logo">
-                <span class="country-badge">Poissy &amp; Vélizy, France</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Voyages et échanges internationaux -->
-      <section class="travel-section reveal">
-        <h2>Expériences internationales</h2>
-        <p class="section-subtitle">Mobilité mondiale et immersion culturelle</p>
-        <div class="travel-grid">
-          <div class="travel-card reveal-scale reveal-delay-1">
-            <div class="travel-icon">
-              <img src="images/flags/flag_ca.png" alt="Canada" class="tiny-logo">
-            </div>
-            <h3>Canada – Université de Sherbrooke</h3>
-            <p>
-              <strong>Août 2025 – Août 2026</strong><br>
-              Double diplôme en IA. Immersion académique et vie étudiante au Québec.
+            <p class="exp-meta">
+              Stellantis, Trnava, Slovaquie · <strong>Juillet 2023 – Septembre 2023</strong>
             </p>
-          </div>
-
-          <div class="travel-card reveal-scale reveal-delay-4">
-            <div class="travel-icon">
+            <ul>
+              <li>
+                Participer aux activités de mise au point des ensembles de la caisse ferrée et
+                analyser les rapports de mesures issus des moyens de contrôle.
+              </li>
+              <li>
+                Préparer les KPI hebdomadaires pour le suivi de la production et la communication
+                avec les équipes projet.
+              </li>
+            </ul>
+            <div class="logo-row" style="margin-top:8px;">
               <img src="images/flags/flag_sk.png" alt="Slovaquie" class="tiny-logo">
+              <span class="country-badge">Trnava, Slovaquie</span>
             </div>
-            <h3>Slovaquie – Stage chez OTHUA</h3>
-            <p>
-              <strong>Juil. 2024 – Déc. 2024</strong><br>
-              Stage d'automatisation pour Stellantis dans un environnement multinational.
-            </p>
           </div>
+        </div>
 
-          <div class="travel-card reveal-scale reveal-delay-5">
-            <div class="travel-icon">
-              <img src="images/flags/flag_lv.html" alt="Lettonie" class="tiny-logo">
+
+
+        <div class="exp-item reveal-right reveal-delay-6">
+          <div class="exp-content">
+            <div class="logo-row">
+              <img src="images/logos/logo_psa.jpeg" alt="Groupe PSA" class="tiny-logo">
+              <img src="images/logos/logo_stellantis.jpeg" alt="Stellantis" class="tiny-logo">
+              <h3>Stagiaire technique – Groupe PSA / Stellantis</h3>
             </div>
-            <h3>Lettonie – Échange universitaire</h3>
-            <p>
-              <strong>Fév. 2023 – Août 2023</strong><br>
-              Semestre d’échange en Lettonie : cours en anglais, découverte d’un nouveau système universitaire
-              et d’une culture différente.
-            </p>
-          </div>
-
-          <div class="travel-card reveal-scale reveal-delay-6">
-            <div class="travel-icon">
+            <p class="exp-meta"><strong>2018–2023</strong> – Plusieurs missions à Poissy &amp; Vélizy</p>
+            <ul>
+              <li>
+                <strong>Contrôle qualité (2022, 2 mois)</strong> – Contrôle électrique de DS3 E‑TENSE
+                et Mokka électrique, validation de charge et vérification des postes moteurs.
+              </li>
+              <li>
+                <strong>Stage découverte (2018)</strong> – Stage de 3e à l’usine de Poissy : découverte
+                de la chaîne de fabrication automobile.
+              </li>
+            </ul>
+            <div class="logo-row" style="margin-top:8px;">
               <img src="images/flags/flag_fr.png" alt="France" class="tiny-logo">
+              <span class="country-badge">Poissy &amp; Vélizy, France</span>
             </div>
-            <h3>France – ESEO (Angers &amp; Paris)</h3>
-            <p>
-              <strong>2021 – 2026</strong><br>
-              Parcours ingénieur en systèmes embarqués, projets techniques et vie associative.
-            </p>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Compétences -->
-      <section class="skills-section reveal">
-        <h2>Compétences</h2>
-        <div class="skills-container">
-          <div class="skill-block reveal-scale reveal-delay-1">
-            <h3> IA &amp; Machine Learning</h3>
-            <ul>
-              <li>Python, PyTorch, NumPy, Pandas</li>
-              <li>Deep learning : CNN, RNN, architectures modernes</li>
-              <li>Vision par ordinateur et traitement d'image</li>
-              <li>Scikit-learn, Jupyter, visualisation de données</li>
-            </ul>
+    <!-- Voyages et échanges internationaux -->
+    <section class="travel-section reveal">
+      <h2>Expériences internationales</h2>
+      <p class="section-subtitle">Mobilité mondiale et immersion culturelle</p>
+      <div class="travel-grid">
+        <div class="travel-card reveal-scale reveal-delay-1">
+          <div class="travel-icon">
+            <img src="images/flags/flag_ca.png" alt="Canada" class="tiny-logo">
           </div>
-
-          <div class="skill-block reveal-scale reveal-delay-4">
-            <h3> Développement &amp; Web</h3>
-            <ul>
-              <li>Java (Android Studio, MVVM)</li>
-              <li>C, HTML, CSS, JavaScript</li>
-              <li>Git &amp; GitHub, intégration continue basique</li>
-              <li>Linux, ligne de commande, bash</li>
-            </ul>
-          </div>
-
-          <div class="skill-block reveal-scale reveal-delay-5">
-            <h3> Systèmes embarqués &amp; Industrie 4.0</h3>
-            <ul>
-              <li>TIA Portal, STEP7, automates programmables</li>
-              <li>Raspberry Pi, microcontrôleurs, IoT</li>
-              <li>Robotique et automatisation industrielle</li>
-              <li>Optimisation de processus de production</li>
-            </ul>
-          </div>
-
-          <div class="skill-block reveal-scale reveal-delay-6">
-            <h3> Transversal</h3>
-            <ul>
-              <li>Anglais (TOEIC 2025)</li>
-              <li>Gestion de projet, méthodologies agiles</li>
-              <li>Communication technique et documentation</li>
-              <li>Travail en équipe multidisciplinaire</li>
-            </ul>
-          </div>
+          <h3>Canada – Université de Sherbrooke</h3>
+          <p>
+            <strong>Août 2025 – Août 2026</strong><br>
+            Double diplôme en IA. Immersion académique et vie étudiante au Québec.
+          </p>
         </div>
-      </section>
 
-      <!-- Certifications -->
-      <section class="certifications-section reveal">
-        <h2>Licences &amp; certifications</h2>
-        <ul class="cert-list">
-          <li>
-            <div class="logo-row">
-              <img src="images/logos/logo_toeic.jpeg" alt="TOEIC" class="tiny-logo">
-              <div>
-                <strong>TOEIC – Test of English for International Communication</strong><br>
-                Score : <em>825 / 990</em> · Délivré en mai 2025 · Valable jusqu’en mai 2027.<br>
-                <a href="https://www.etsglobal.org/fr/en/digital-score-report/73E35303C45BE8C7C6C16CE0068C55F40403A97E8CC66C3E72D3CEC3FD95B2AANThOeTdBQm5FVEFkdTNROU11VWxDdTdhMytadkx5UXpNckk2REJzSEs4dFV5OVVM" target="_blank">
-                  → Voir l’attestation
-                </a>
-              </div>
-            </div>
-          </li>
-
-          <li>
-            <div class="logo-row">
-              <img src="images/logos/logo_mooc_gp.jpeg" alt="MOOC Gestion de Projet" class="tiny-logo">
-              <div>
-                <strong>MOOC Gestion de Projet</strong><br>
-                Certification en gestion de projet (MOOC) : organisation, planification, risques, communication.
-              </div>
-            </div>
-          </li>
-
-          <li>
-            <div class="logo-row">
-              <img src="images/logos/logo_voltaire.jpeg" alt="Certification Voltaire" class="tiny-logo">
-              <div>
-                <strong>Certification Voltaire</strong><br>
-                Score : <em>618/1000,</em> – Niveau avancé en orthographe et expression écrite en français.
-              </div>
-            </div>
-          </li>
-        </ul>
-      </section>
-
-      <!-- CV section -->
-      <section id="cv-section" class="cv-section reveal-scale">
-        <h2>Mon CV complet</h2>
-        <p>consulte mon CV détaillé :</p>
-        <div class="cv-download">
-          <a class="btn primary large" href="CV/CV_ROBIN_Maxime.pdf"    target="_blank" download> consulter mon CV (PDF)</a>
+        <div class="travel-card reveal-scale reveal-delay-4">
+          <div class="travel-icon">
+            <img src="images/flags/flag_sk.png" alt="Slovaquie" class="tiny-logo">
+          </div>
+          <h3>Slovaquie – Stage chez OTHUA</h3>
+          <p>
+            <strong>Juil. 2024 – Déc. 2024</strong><br>
+            Stage d'automatisation pour Stellantis dans un environnement multinational.
+          </p>
         </div>
-      </section>
 
-     <!-- Contact -->
+        <div class="travel-card reveal-scale reveal-delay-5">
+          <div class="travel-icon">
+            <img src="images/flags/flag_lv.png" alt="Lettonie" class="tiny-logo">
+          </div>
+          <h3>Lettonie – Échange universitaire</h3>
+          <p>
+            <strong>Fév. 2023 – Août 2023</strong><br>
+            Semestre d’échange en Lettonie : cours en anglais, découverte d’un nouveau système universitaire
+            et d’une culture différente.
+          </p>
+        </div>
+
+        <div class="travel-card reveal-scale reveal-delay-6">
+          <div class="travel-icon">
+            <img src="images/flags/flag_fr.png" alt="France" class="tiny-logo">
+          </div>
+          <h3>France – ESEO (Angers &amp; Paris)</h3>
+          <p>
+            <strong>2021 – 2026</strong><br>
+            Parcours ingénieur en systèmes embarqués, projets techniques et vie associative.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Compétences -->
+    <section class="skills-section reveal">
+      <h2>Compétences</h2>
+      <div class="skills-container">
+        <div class="skill-block reveal-scale reveal-delay-1">
+          <h3> IA &amp; Machine Learning</h3>
+          <ul>
+            <li>Python, PyTorch, NumPy, Pandas</li>
+            <li>Deep learning : CNN, RNN, architectures modernes</li>
+            <li>Vision par ordinateur et traitement d'image</li>
+            <li>Scikit-learn, Jupyter, visualisation de données</li>
+          </ul>
+        </div>
+
+        <div class="skill-block reveal-scale reveal-delay-4">
+          <h3> Développement &amp; Web</h3>
+          <ul>
+            <li>Java (Android Studio, MVVM)</li>
+            <li>C, HTML, CSS, JavaScript</li>
+            <li>Git &amp; GitHub, intégration continue basique</li>
+            <li>Linux, ligne de commande, bash</li>
+          </ul>
+        </div>
+
+        <div class="skill-block reveal-scale reveal-delay-5">
+          <h3> Systèmes embarqués &amp; Industrie 4.0</h3>
+          <ul>
+            <li>TIA Portal, STEP7, automates programmables</li>
+            <li>Raspberry Pi, microcontrôleurs, IoT</li>
+            <li>Robotique et automatisation industrielle</li>
+            <li>Optimisation de processus de production</li>
+          </ul>
+        </div>
+
+        <div class="skill-block reveal-scale reveal-delay-6">
+          <h3> Transversal</h3>
+          <ul>
+            <li>Anglais (TOEIC 2025)</li>
+            <li>Gestion de projet, méthodologies agiles</li>
+            <li>Communication technique et documentation</li>
+            <li>Travail en équipe multidisciplinaire</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="certifications-section reveal">
+      <h2>Licences &amp; certifications</h2>
+      <ul class="cert-list">
+        <li>
+          <div class="logo-row">
+            <img src="images/logos/logo_toeic.jpeg" alt="TOEIC" class="tiny-logo">
+            <div>
+              <strong>TOEIC – Test of English for International Communication</strong><br>
+              Score : <em>825 / 990</em> · Délivré en mai 2025 · Valable jusqu’en mai 2027.<br>
+              <a href="https://www.etsglobal.org/fr/en/digital-score-report/73E35303C45BE8C7C6C16CE0068C55F40403A97E8CC66C3E72D3CEC3FD95B2AANThOeTdBQm5FVEFkdTNROU11VWxDdTdhMytadkx5UXpNckk2REJzSEs4dFV5OVVM"
+                target="_blank">
+                → Voir l’attestation
+              </a>
+            </div>
+          </div>
+        </li>
+
+        <li>
+          <div class="logo-row">
+            <img src="images/logos/logo_mooc_gp.jpeg" alt="MOOC Gestion de Projet" class="tiny-logo">
+            <div>
+              <strong>MOOC Gestion de Projet</strong><br>
+              Certification en gestion de projet (MOOC) : organisation, planification, risques, communication.
+            </div>
+          </div>
+        </li>
+
+        <li>
+          <div class="logo-row">
+            <img src="images/logos/logo_voltaire.jpeg" alt="Certification Voltaire" class="tiny-logo">
+            <div>
+              <strong>Certification Voltaire</strong><br>
+              Score : <em>618/1000,</em> – Niveau avancé en orthographe et expression écrite en français.
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- CV section -->
+    <section id="cv-section" class="cv-section reveal-scale">
+      <h2>Mon CV complet</h2>
+      <p>consulte mon CV détaillé :</p>
+      <div class="cv-download">
+        <a class="btn primary large" href="CV/CV_ROBIN_Maxime.pdf" target="_blank" download> consulter mon CV (PDF)</a>
+      </div>
+    </section>
+
+    <!-- Contact -->
     <section id="contact-section" class="contact-section reveal">
       <h2>Contact &amp; Réseaux</h2>
       <p>N'hésite pas à me joindre pour discuter de projets, stages ou opportunités !</p>
@@ -557,9 +566,9 @@ document.getElementById('year').textContent = new Date().getFullYear();
         </a>
       </div>
     </section>
-    </main>
+  </main>
 
-    <footer class="footer">
+  <footer class="footer">
     <div class="container">
       <p>&copy; <span id="year"></span> Maxime Robin</p>
     </div>
@@ -567,4 +576,5 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
+
 </html>
