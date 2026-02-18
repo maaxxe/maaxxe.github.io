@@ -7,50 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
-<script>
-  // Scroll animation
-  document.addEventListener('DOMContentLoaded', function () {
-    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
 
-    const revealOnScroll = () => {
-      const windowHeight = window.innerHeight;
-      const revealPoint = 100;
-
-      revealElements.forEach(element => {
-        const elementTop = element.getBoundingClientRect().top;
-
-        if (elementTop < windowHeight - revealPoint) {
-          element.classList.add('active');
-        }
-      });
-    };
-
-    // Modern observer (better performance)
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-            // Optional: stop observing after animation
-            // observer.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
-      });
-
-      revealElements.forEach(element => observer.observe(element));
-    } else {
-      // Fallback for older browsers
-      window.addEventListener('scroll', revealOnScroll);
-      revealOnScroll(); // Initial check
-    }
-  });
-
-
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
 
 
 <body>
@@ -613,6 +570,7 @@
 
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="/js/scripts.js"></script>
 </body>
 
 </html>
