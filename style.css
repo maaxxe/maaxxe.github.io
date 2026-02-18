@@ -85,14 +85,14 @@ a {
 }
 
 .brand-name {
-  font-size: 1.25rem;
+  font-size: 2.5rem;
   font-weight: 700;
   color: var(--primary);
   letter-spacing: -0.5px;
 }
 
 .brand-subtitle {
-  font-size: 0.75rem;
+  font-size: 1.5rem;
   color: var(--text-muted);
   font-weight: 500;
 }
@@ -383,6 +383,19 @@ a {
   opacity: 0.8;
   animation: bounce 2s ease infinite;
 }
+
+/* ==================== copier ==================== */
+
+.copy-code {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.copy-code:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
 
 @keyframes fadeInUp {
   from {
@@ -1687,15 +1700,23 @@ section h2::after {
   }
 }
 
+/* ==================== LANGUAGE SWITCH ==================== */
 .lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(121, 5, 5, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeInUp 0.8s ease;
+  position: relative;
   top: 20px;
   right: 20px;
-  padding: 10px 20px;
-  background: #0e08ad;
-  color: white;
-  border-radius: 5px;
-  text-decoration: none;
-  z-index: 1000;
 }
 
 .lang-switch:hover {

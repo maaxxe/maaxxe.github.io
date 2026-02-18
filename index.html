@@ -49,7 +49,26 @@
   });
 
   document.getElementById('year').textContent = new Date().getFullYear();
+
+
+  function copyToClipboard(text, event) {
+    event.preventDefault(); // Empêche le comportement par défaut du lien
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        // Optionnel : afficher une confirmation visuelle
+        const originalText = event.target.innerHTML;
+        event.target.innerHTML = "✓ Copié !";
+        setTimeout(() => {
+          event.target.innerHTML = originalText;
+        }, 2000);
+      })
+      .catch(err => {
+        console.error("Échec de la copie : ", err);
+      });
+  }
 </script>
+
+
 
 <body>
 
@@ -531,7 +550,15 @@
             <img src="images/logos/logo_voltaire.jpeg" alt="Certification Voltaire" class="tiny-logo">
             <div>
               <strong>Certification Voltaire</strong><br>
-              Score : <em>618/1000,</em> – Niveau avancé en orthographe et expression écrite en français.
+              Score : <em>618/1000,</em> – Niveau avancé en orthographe et expression écrite en français.<br>
+              <a href="https://mon.certificat-voltaire.fr/verification-certificat/" target="_blank">
+                → Voir certification:
+                <a href="#" onclick="copyToClipboard('DANWX7P', event)" class="copy-code"
+                  style="text-decoration: none; color: inherit;">
+                  <span id="certification-code">DANWX7P</span>
+                  (cliquer pour copier)
+                </a>
+              </a>
             </div>
           </div>
         </li>
