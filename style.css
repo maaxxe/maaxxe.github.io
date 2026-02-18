@@ -1722,3 +1722,23 @@ section h2::after {
 .lang-switch:hover {
   background: #34495e;
 }
+
+/* =============certification mooc ============= */
+.certification-button {
+  background: var(--accent-light);
+  color: var(--primary);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 8px;
+  transition: all 0.2s;
+}
+
+.certification-button:hover {
+  background: var(--accent);
+  color: white;
+  transform: translateY(-1px);
+}
