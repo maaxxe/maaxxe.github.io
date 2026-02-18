@@ -1,6 +1,6 @@
 # Mes Devoirs - Février 2026
 
-## Urgents cette semaine
+## Outils
 -  **Les notes** [Genote](https://www.usherbrooke.ca/genote/application/etudiant/notes.php?)
 - **Les remises** [Turnin](https://turnin.dinf.usherbrooke.ca/)
 
@@ -12,8 +12,9 @@
 ## IFT702 - Planification en intelligence artificielle
 - [Moodle](https://moodle.usherbrooke.ca/course/view.php?id=43359)
 - [x] Projet - Phase 1 
-- [] Projet - Rendre le DIAPO **(17 fév. 2026, 23:55)**
+- [x] Projet - Rendre le DIAPO **(17 fév. 2026, 23:55)**
 - [x] Devoir 1 **(17 fév. 2026, 23:55)**
+- [ ] Projet - Phase 2
 
 ## IFT714 - Traitement automatique des langues naturelles
 - [Moodle](https://moodle.usherbrooke.ca/course/view.php?id=43592)
