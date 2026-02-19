@@ -18,7 +18,7 @@
 
 ## IFT714 - Traitement automatique des langues naturelles
 - [Moodle](https://moodle.usherbrooke.ca/course/view.php?id=43592)
-- [ ] Devoir 3 **(19 fév. 2026, 23:59)**
+- [x] Devoir 3 **(19 fév. 2026, 23:59)**
 - [x] Proposition du projet **(16 fév. 2026, 23:59)**
 
 ## IFT780 - Réseaux neuronaux
