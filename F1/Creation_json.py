@@ -4,10 +4,7 @@ from pathlib import Path
 from collections import defaultdict
 
 BASE_URL = "https://api.jolpi.ca/ergast/f1"
-# dossier = Path("../Json_results_f1")
-# dossier.mkdir(exist_ok=True)
-
-year = 2024
+year = 2026
 
 # Schedule
 url_schedule = f"{BASE_URL}/{year}.json?limit=500"
@@ -34,54 +31,59 @@ for race in races:
         "pitstops": {}
     }
     
-    # RACE + MEILLEUR TOUR
+    # --- RACE + MEILLEUR TOUR ---
     race_resp = requests.get(f"{BASE_URL}/{year}/{round_num}/results.json")
     if race_resp.status_code == 200:
-        race_data = race_resp.json()["MRData"]["RaceTable"]["Races"][0]
-        for r in race_data["Results"]:
-            fastest = r.get("FastestLap", {})
-            course_data["sessions"]["race"].append({
-                "position": int(r["position"]),
-                "driver": f'{r["Driver"]["givenName"]} {r["Driver"]["familyName"]}',
-                "code": r["Driver"]["code"],
-                "team": r["Constructor"]["name"],
-                "points": float(r.get("points", 0)),
-                "fastest_lap_time": fastest.get("Time", {}).get("time"),
-                "fastest_lap_rank": fastest.get("rank")
-            })
+        races_list = race_resp.json()["MRData"]["RaceTable"]["Races"]
+        if races_list:  # Vérifie si la liste n'est pas vide
+            for r in races_list[0].get("Results", []):
+                fastest = r.get("FastestLap", {})
+                course_data["sessions"]["race"].append({
+                    "position": int(r["position"]),
+                    "driver": f'{r["Driver"]["givenName"]} {r["Driver"]["familyName"]}',
+                    "code": r["Driver"]["code"],
+                    "team": r["Constructor"]["name"],
+                    "points": float(r.get("points", 0)),
+                    "fastest_lap_time": fastest.get("Time", {}).get("time"),
+                    "fastest_lap_rank": fastest.get("rank")
+                })
     
-    # QUALIFS
+    # --- QUALIFS ---
     quali_resp = requests.get(f"{BASE_URL}/{year}/{round_num}/qualifying.json")
     if quali_resp.status_code == 200:
-        quali_data = quali_resp.json()["MRData"]["RaceTable"]["Races"][0]["QualifyingResults"]
-        for r in quali_data:
-            course_data["sessions"]["qualifying"].append({
-                "position": int(r["position"]),
-                "driver": f'{r["Driver"]["givenName"]} {r["Driver"]["familyName"]}',
-                "q1": r.get("Q1"), "q2": r.get("Q2"), "q3": r.get("Q3")
-            })
+        quali_list = quali_resp.json()["MRData"]["RaceTable"]["Races"]
+        if quali_list:
+            for r in quali_list[0].get("QualifyingResults", []):
+                course_data["sessions"]["qualifying"].append({
+                    "position": int(r["position"]),
+                    "driver": f'{r["Driver"]["givenName"]} {r["Driver"]["familyName"]}',
+                    "q1": r.get("Q1"), "q2": r.get("Q2"), "q3": r.get("Q3")
+                })
     
-    # PITSTOPS (FIX : driverId direct)
+    # --- PITSTOPS ---
     pits_resp = requests.get(f"{BASE_URL}/{year}/{round_num}/pitstops.json")
     if pits_resp.status_code == 200:
-        pits = pits_resp.json()["MRData"]["RaceTable"]["Races"][0]["PitStops"]
-        pitstops_by_driver = defaultdict(list)
-        for p in pits:
-            # FIX : driverId direct, pas nested Driver
-            driver_id = p["driverId"]
-            pitstops_by_driver[driver_id].append({
-                "lap": int(p["lap"]),
-                "stop": int(p["stop"]),
-                "duration": p.get("duration"),
-                "milliseconds": int(p.get("milliseconds", 0))
-            })
-        course_data["pitstops"] = dict(pitstops_by_driver)
-        print("  ✅ Pits OK")
+        pits_list = pits_resp.json()["MRData"]["RaceTable"]["Races"]
+        if pits_list:
+            pits = pits_list[0].get("PitStops", [])
+            pitstops_by_driver = defaultdict(list)
+            for p in pits:
+                driver_id = p["driverId"]
+                pitstops_by_driver[driver_id].append({
+                    "lap": int(p["lap"]),
+                    "stop": int(p["stop"]),
+                    "duration": p.get("duration"),
+                    "milliseconds": int(p.get("milliseconds", 0))
+                })
+            course_data["pitstops"] = dict(pitstops_by_driver)
+            print("  ✅ Pits OK")
+        else:
+            print("  ℹ️ Pas encore de données de pits")
     
     json_complet["courses"][round_num] = course_data
 
-fichier =f"f1_complet_sessions_{year}.json"
+fichier = f"f1_complet_sessions_{year}.json"
 with open(fichier, "w", encoding="utf-8") as f:
     json.dump(json_complet, f, indent=2, ensure_ascii=False)
 
-print(f"✅ {fichier} créé !")
+print(f"\n✅ {fichier} créé !")

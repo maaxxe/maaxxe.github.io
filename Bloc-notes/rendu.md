@@ -28,12 +28,12 @@
 - [ ] TP3 **(20 mars 2026)**
 - [ ] TP4 **(17 avril 2026)**
 - [ ] Présentation orale **(3 avril 2026)**
-- [ ] Sujet présentation **(20 fév. 2026)**
+- [x] Sujet présentation **(20 fév. 2026)**
 
 ## IFT870 - Forage de données
 - [SITE](https://cobius.usherbrooke.ca/ift870/)
 - [x] TP1 **(terminé 30 janv. 2026)**
 - [x] TP2 **(13 fév. 2026, 23:59)**
-
+- [ ] Examen **(3 mars 2026)** jusqu'au jeudi
 
 
