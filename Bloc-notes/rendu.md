@@ -14,18 +14,20 @@
 - [x] Projet - Phase 1 
 - [x] Projet - Rendre le DIAPO **(17 fév. 2026, 23:55)**
 - [x] Devoir 1 **(17 fév. 2026, 23:55)**
-- [ ] Projet - Phase 2
+- [ ] Devoir 2 **(6 avril 2026, 23:55)**
+- [ ] Projet - Phase 2 **(17 avril 2026, 23:55)**
 
 ## IFT714 - Traitement automatique des langues naturelles
 - [Moodle](https://moodle.usherbrooke.ca/course/view.php?id=43592)
 - [x] Devoir 3 **(19 fév. 2026, 23:59)**
-- [x] Proposition du projet **(16 fév. 2026, 23:59)**
+- [x] Proposition du projet **(16 fév. 2026, 23:59)** [Moodle](https://moodle.usherbrooke.ca/mod/assign/view.php?id=3543833)
+- [x] rapportr avancement du projet **(23 mars 2026, 23:59)**
 
 ## IFT780 - Réseaux neuronaux
 - [SITE](https://jodoin.github.io/cours/ift780/index.html)
 - [x] TP1 **(terminé 6 fév. 2026)**
-- [ ] TP2 **(6 mars 2026)**
-- [ ] TP3 **(20 mars 2026)**
+- [x] TP2 **(6 mars 2026)**
+- [x] TP3 **(20 mars 2026)**
 - [ ] TP4 **(17 avril 2026)**
 - [ ] Présentation orale **(3 avril 2026)**
 - [x] Sujet présentation **(20 fév. 2026)**
@@ -34,6 +36,6 @@
 - [SITE](https://cobius.usherbrooke.ca/ift870/)
 - [x] TP1 **(terminé 30 janv. 2026)**
 - [x] TP2 **(13 fév. 2026, 23:59)**
-- [ ] Examen **(3 mars 2026)** jusqu'au jeudi
+- [x] Examen **(3 mars 2026)** jusqu'au jeudi
 
 
