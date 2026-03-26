@@ -22,6 +22,7 @@
 - [x] Devoir 3 **(19 fév. 2026, 23:59)**
 - [x] Proposition du projet **(16 fév. 2026, 23:59)** [Moodle](https://moodle.usherbrooke.ca/mod/assign/view.php?id=3543833)
 - [x] rapportr avancement du projet **(23 mars 2026, 23:59)**
+- [] Devoir 4 **(31 mars 2026, 23:59)**
 
 ## IFT780 - Réseaux neuronaux
 - [SITE](https://jodoin.github.io/cours/ift780/index.html)
@@ -37,5 +38,6 @@
 - [x] TP1 **(terminé 30 janv. 2026)**
 - [x] TP2 **(13 fév. 2026, 23:59)**
 - [x] Examen **(3 mars 2026)** jusqu'au jeudi
+- [] TP3 **(6 avril 2026, 23:59)**
 
 
