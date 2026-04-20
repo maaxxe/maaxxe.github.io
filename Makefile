@@ -26,27 +26,27 @@ help:
 
 # Compilation de tous les projets
 all:
-	@echo "$(YELLOW)🚀 Compilation globale en cours...$(NC)"
+	@echo "$(YELLOW)Compilation globale en cours...$(NC)"
 	@echo "$(GREEN)[1/3] Bloc-notes...$(NC)"
 	@make -C Bloc-notes convert
 	@echo "$(GREEN)[2/3] Calendrier (Scolaire & F1)...$(NC)"
 	@make -C calendrier all
 	@echo "$(GREEN)[3/3] Labyrinthe (WebAssembly)...$(NC)"
-	@make -C labyrinthe all || echo "$(RED)⚠️ Erreur compilation Labyrinthe (Vérifiez Emscripten)$(NC)"
-	@echo "$(YELLOW)✅ Tout est prêt !$(NC)"
+	@make -C labyrinthe all || echo "$(RED)Erreur compilation Labyrinthe (Vérifiez Emscripten)$(NC)"
+	@echo "$(YELLOW)Tout est prêt !$(NC)"
 
 # Nettoyage de tous les projets
 clean:
-	@echo "$(RED)🧹 Nettoyage global...$(NC)"
+	@echo "$(RED)Nettoyage global...$(NC)"
 	@make -C Bloc-notes clean
 	@make -C calendrier cleanall
 	@make -C labyrinthe clean
 	@fuser -k 8000/tcp 2>/dev/null || true
-	@echo "$(YELLOW)✨ Système propre.$(NC)"
+	@echo "$(YELLOW)Système propre.$(NC)"
 
 # Lancement du serveur racine pour tester tout le site
 serve:
-	@echo "$(YELLOW)🌐 Lancement du serveur global sur http://localhost:8000$(NC)"
+	@echo "$(YELLOW)Lancement du serveur global sur http://localhost:8000$(NC)"
 	@python3 -m http.server 8000
 
 # --- PROJETS INDIVIDUELS ---

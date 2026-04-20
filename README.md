@@ -1,80 +1,99 @@
-# 🚀 Maxime Robin – Portfolio & Outils Techniques
+# 🚀 Maxime Robin – Portfolio & Écosystème Technique
 
-Bienvenue sur le dépôt de mon portfolio personnel et de mes outils de gestion. Ce projet centralise mes réalisations en **Intelligence Artificielle**, **Systèmes Embarqués** et **Développement Web**.
+[![Lien du site](https://img.shields.io/badge/Site-maaxxe.github.io-blue?style=for-the-badge&logo=github)](https://maaxxe.github.io)
+[![Langue](https://img.shields.io/badge/Langage-Python%20%7C%20C%20%7C%20WASM-orange?style=for-the-badge)](https://maaxxe.github.io)
 
-🌐 **Lien du site :** [maaxxe.github.io](https://maaxxe.github.io)
+Bienvenue dans mon espace de travail technique. Ce dépôt n'est pas seulement un portfolio, mais un véritable écosystème regroupant des outils d'automatisation, des projets de systèmes embarqués et des expérimentations en Intelligence Artificielle.
 
 ---
 
-## 📂 Architecture du Projet
+##  Architecture Technique
+
+Ce projet repose sur trois piliers technologiques :
+
+1.  **Le Web Performance** : Utilisation de **WebAssembly (WASM)** pour porter des moteurs de calcul écrits en **C** directement dans le navigateur (ex: Labyrinthe).
+2.  **L'Automatisation** : Scripts **Python** personnalisés pour la transformation de flux de données Markdown vers des interfaces HTML interactives.
+3.  **L'Intégration Continue** : Workflows **GitHub Actions** pour la synchronisation et la génération automatique de contenus (CV, déploiement).
+
+---
+
+## 📂 Organisation du Dépôt
 
 ```text
 .
-├── 📄 index.html             # Page d'accueil principale (FR)
-├── 📄 index_en.html          # Page d'accueil (EN)
-├── 📁 Bloc-notes             # Gestion des devoirs (Markdown ➔ HTML)
-├── 📁 calendrier             # Générateur de calendriers scolaires & F1
-├── 📁 CV                     # Versions PDF de mon curriculum vitæ
-├── 📁 F1                     # Tracker et données de la saison de Formule 1
-├── 📁 labyrinthe             # Résolveur de labyrinthe (C + WebAssembly)
-├── 📁 Sudoku                 # Générateur de Sudoku (C + HTML/JS)
-├── 📁 outils                 # Dashboard centralisant tous les outils web
-├── 📁 projet_detection       # Scripts de détection (Caméra / IA)
-├── 📁 conversion_cv          # Outils de mise en forme CSS pour CV
-└── 📁 Workflows              # Automation GitHub Actions (Génération PDF)
+├──  Racine
+│   ├── index.html             # Landing page multilingue
+│   ├── style.css              # Design system global (Glassmorphism)
+│   └── Makefile               # Orchestrateur global
+│
+├──  Outils & Automatisation
+│   ├──  Bloc-notes          # Suivi des deadlines (Python ➔ HTML)
+│   ├──  calendrier           # Générateur scolaire & Formule 1
+│   └──  conversion_cv       # Pipeline de stylisation pour CV
+│
+├──  Expériences Interactives
+│   ├──  labyrinthe          # Algorithmes de résolution (C/WASM)
+│   └──  Sudoku              # Générateur par backtracking (C/JS)
+│
+└──  Systèmes & IA
+    ├──  projet_detection    # Acquisition vidéo (OpenCV/Python)
+    └──  Workflows           # CI/CD (GitHub Actions)
 ```
 
 ---
 
-## 🛠️ Description des Modules
+##  Installation & Prérequis
 
-### 1. Portfolio Web (`index.html`, `js/`, `style.css`)
-Site vitrine moderne présentant mon parcours académique (ESEO, Université de Sherbrooke), mes expériences chez Stellantis et Kereval, ainsi que mes compétences techniques.
+Pour exploiter pleinement cet environnement en local, vous aurez besoin des outils suivants :
 
-### 2. Gestion et Automatisation
-- **Calendrier Scolaire & F1 (`/calendrier`)** : Script Python qui transforme des notes au format Markdown en un calendrier interactif HTML. Gère les deadlines, les niveaux d'importance et les décalages horaires (UTC) pour la F1.
-- **Bloc-notes (`/Bloc-notes`)** : Outil similaire au calendrier, spécialisé pour le suivi rapide des devoirs et projets.
+###  Python (Automatisation)
+Utilisé pour les calendriers et le bloc-notes.
+```bash
+pip install markdown
+```
 
-### 3. Jeux & Expériences Interactive
-- **Labyrinthe (`/labyrinthe`)** : Un moteur écrit en **C**, compilé en **WebAssembly (WASM)** pour une exécution fluide dans le navigateur.
-- **Sudoku (`/Sudoku`)** : Générateur de grilles utilisant un moteur de résolution performant en C, intégré à une interface web responsive.
-
-### 4. Projets Techniques
-- **F1 Tracker (`/F1`)** : Centralise les sessions de Grands Prix avec injection dynamique de données via JSON.
-- **Détection IA (`/projet_detection`)** : Base de travail pour les projets de vision par ordinateur et détection d'intrusion.
-
----
-
-## 💻 Technologies utilisées
-
-- **Frontend** : HTML5, CSS3, JavaScript (Vanilla)
-- **Backend & Scripts** : Python, C
-- **Compilation** : WebAssembly (Emscripten), Makefiles
-- **Automation** : GitHub Actions, YAML
-- **Data** : JSON, Markdown
+###  Compilation C & WASM
+Nécessaire pour les jeux et les générateurs.
+- **GCC** (Linux/macOS) pour le Sudoku.
+- **Emscripten (emcc)** pour le Labyrinthe.
+```bash
+# Installation sur Ubuntu
+sudo apt install gcc python3 emscripten
+```
 
 ---
 
-## 📖 Utilisation
+##  Utilisation (Makefile)
 
-Le projet utilise un **Makefile** à la racine pour simplifier la gestion des différents modules.
+Le projet utilise un système de Makefiles chaînés. Vous pouvez tout piloter depuis la racine.
 
 ### Commandes Globales
-- `make all` : Compile tous les sous-projets (WASM, Calendriers, etc.).
-- `make clean` : Nettoie les fichiers générés et arrête les serveurs.
-- `make serve` : Lance le serveur global sur [http://localhost:8000](http://localhost:8000).
+| Commande | Action |
+| :--- | :--- |
+| `make all` | **Tout compiler** (WASM, Sudoku, Calendriers) |
+| `make serve` | Lancer le **serveur global** (Port 8000) |
+| `make clean` | **Nettoyer** tous les fichiers générés |
 
-### Lancer un projet spécifiquement
-- `make notes` : Lance le **Bloc-notes** (Port 8000).
-- `make cal` : Lance le **Calendrier Scolaire** (Port 8000).
-- `make f1` : Lance le **Calendrier F1** (Port 8001).
-- `make lab` : Lance le jeu du **Labyrinthe** (Port 8000).
+### Gestion par Projet
+- `make notes` : Lance le service de gestion des devoirs.
+- `make cal` : Lance le calendrier scolaire.
+- `make f1` : Lance le tracker F1 (Port 8001).
+- `make lab` : Lance le simulateur de labyrinthe.
+
+---
+
+##  CI/CD & Automatisation
+
+Le dossier `.github/workflows` (référencé par `Workflows/`) contient les automates qui :
+- Génèrent vos CV PDF à partir de sources HTML/CSS dès qu'une modification est détectée.
+- S'assurent que le déploiement sur GitHub Pages est optimal.
 
 ---
 
-### Notes Techniques
-Les notes concernant l'hébergement local avancé et les commandes pour la caméra ont été déplacées vers le fichier :
-👉 **[notes_techniques.md](./notes_techniques.md)**
+## Notes Supplémentaires
+
+Pour les détails sur la configuration des caméras ou les commandes serveurs brutes :
+ Consultez **[notes_techniques.md](./notes_techniques.md)**
 
 ---
-*Dépôt maintenu par [Maxime Robin](https://github.com/maaxxe)*
+*Dépôt de [Maxime Robin](https://github.com/maaxxe) – Étudiant Ingénieur IA & Systèmes Embarqués.*

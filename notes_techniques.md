@@ -1,81 +1,105 @@
-# maaxxe.github.io
+# Notes techniques et Administration
 
+Ce document regroupe les procédures techniques pour la maintenance du portfolio, la gestion du serveur local et l'utilisation des périphériques d'acquisition vidéo.
 
-# lancer serveur 
+---
 
+## 1. Gestion du Serveur Web Local
+
+Pour tester le site en local sans passer par GitHub Pages, utilisez un serveur HTTP simple.
+
+### Lancement du serveur
+```bash
+# Lance un serveur sur le port 8000 (accessible via http://localhost:8000)
 python3 -m http.server 8000
+```
 
-# Kill serveur 
-
+### Arrêt du serveur (Libération du port)
+Si le port est déjà utilisé ou si vous souhaitez arrêter le serveur proprement :
+```bash
+# Identifie et tue le processus utilisant le port 8000
 fuser -k 8000/tcp
+```
 
+---
 
-# faire fonctionner la camera 
+## 2. Configuration des Périphériques Vidéo (V4L2)
 
-1) chercher la camera 
+L'acquisition vidéo sous Linux s'appuie sur l'interface **Video4Linux2 (V4L2)**.
+
+### Identification des caméras
+```bash
+# Liste tous les périphériques vidéo connectés
 ls /dev/video*
+```
 
+### Exploration des capacités
+Pour connaître les formats (MJPG, YUYV) et les résolutions supportés par une caméra spécifique (ex: `/dev/video4`) :
+```bash
+# Commande pour lister les formats et résolutions
+v4l2-ctl -d /dev/video4 --list-formats-ext
+```
 
+---
 
+## 3. Capture d'Images (fswebcam)
 
-sudo apt install ffmpeg
-ffplay /dev/video0
+`fswebcam` est un outil léger pour capturer des clichés via la ligne de commande.
 
+### Capture standard
+```bash
+fswebcam -d /dev/video4 photo.jpg
+```
 
-# prendre photo 
-
-fswebcam -D 1 -d /dev/video4 photo.jpg
-//
--D 1 : Active le mode débogage (niveau 1). Cela affiche des informations détaillées sur la capture dans le terminal (par exemple, les paramètres de la caméra, les erreurs éventuelles, etc.).
--d /dev/video4 : Spécifie le périphérique vidéo à utiliser.
-photo.jpg : Nom du fichier de sortie.
-Résolution par défaut : fswebcam utilise une résolution basse par défaut (souvent 320x240 ou 640x480).
-
-//
+### Capture optimisée (HD & Sans bannière)
+```bash
 fswebcam -d /dev/video4 --no-banner -r 1280x720 photo.jpg
-//
--d /dev/video4 : Spécifie le périphérique vidéo à utiliser.
---no-banner : Supprime la bannière avec la date et l'heure qui est ajoutée par défaut en bas de l'image.
--r 1280x720 : Définit la résolution de la photo à 1280x720 (HD). Cela améliore la qualité de l'image.
-photo.jpg : Nom du fichier de sortie.
+```
 
-//
+**Détails des options :**
+- `-d /dev/videoX` : Définit le périphérique source.
+- `--no-banner` : Supprime le bandeau de texte (date/heure) en bas de l'image.
+- `-r 1280x720` : Force une résolution spécifique (HD).
+- `-D 1` : Active le mode **Debug** pour voir les détails de l'initialisation du capteur.
 
-formats possible :v4l2-ctl -d /dev/video4 --list-formats-ext
-//
-[0]: 'MJPG' (Motion-JPEG, compressed)
-		Size: Discrete 1280x720
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 960x540
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 640x480
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 640x360
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 320x240
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 320x180
-			Interval: Discrete 0.033s (30.000 fps)
-	[1]: 'YUYV' (YUYV 4:2:2)
-		Size: Discrete 1280x720
-			Interval: Discrete 0.100s (10.000 fps)
-		Size: Discrete 960x540
-			Interval: Discrete 0.050s (20.000 fps)
-		Size: Discrete 640x480
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 640x360
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 320x240
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 320x180
-			Interval: Discrete 0.033s (30.000 fps)
-//
+---
 
-# voir photo
+## 4. Flux Vidéo en Direct (ffplay)
 
-xdg-open photo.jpg
+Pour visualiser le flux d'une caméra en temps réel, utilisez `ffplay` (inclus dans la suite `ffmpeg`).
 
-# video en direct 
+### Installation (si nécessaire)
+```bash
+sudo apt update && sudo apt install ffmpeg
+```
 
+### Lancement du flux
+```bash
+# Affiche le flux de la caméra 4
 ffplay -f v4l2 -i /dev/video4
+```
 
+---
+
+## 5. Dépannage (Troubleshooting)
+
+### Problème de permissions
+Si vous ne pouvez pas accéder à `/dev/video*`, ajoutez votre utilisateur au groupe `video` :
+```bash
+sudo usermod -aG video $USER
+# Redémarrez votre session pour appliquer les changements
+```
+
+### Port 8000 déjà utilisé
+Si `python3 -m http.server` échoue :
+1. Vérifiez s'il reste un résidu de serveur avec `ps aux | grep http.server`.
+2. Libérez le port avec `fuser -k 8000/tcp`.
+
+### Visualisation des photos
+Pour ouvrir rapidement la photo capturée sous Linux :
+```bash
+xdg-open photo.jpg
+```
+
+---
+*Dernière mise à jour : Avril 2026*
