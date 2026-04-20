@@ -15,6 +15,7 @@
 - [x] Projet - Rendre le DIAPO **(17 fév. 2026, 23:55)**
 - [x] Devoir 1 **(17 fév. 2026, 23:55)**
 - [x] Devoir 2 **(6 avril 2026, 23:55)**
+- [ ] Projet - Phase 2 rapport **(15 avril 2026, 23:55)**
 - [ ] Projet - Phase 2 **(17 avril 2026, 23:55)**
 - [ ] Projet + 3jours  - Phase 2 **(20 avril 2026, 23:55)**
 - [ ] Devoir 3 **(20 avril 2026, 23:55)**
@@ -26,6 +27,9 @@
 - [x] rapportr avancement du projet **(23 mars 2026, 23:59)**
 - [X] Devoir 4 **(31 mars 2026, 23:59)** 
 - [] Devoir 5 **(17 avril  2026, 23:59)**
+- [x] presentation oral **(14 avril 2026, 10:50)** 
+- [] rendu final **(20 avril  2026, 23:59)**
+
 ## IFT780 - Réseaux neuronaux
 - [SITE](https://jodoin.github.io/cours/ift780/index.html)
 - [x] TP1 **(terminé 6 fév. 2026)**
@@ -34,7 +38,8 @@
 - [ ] TP4 **(17 avril 2026)**
 - [x] Présentation orale **(3 avril 2026)**
 - [x] Sujet présentation **(20 fév. 2026)**
-- [ ] Passage à l'oral **(14 avril 2026)**
+- [x] Passage à l'oral **(14 avril 2026)**
+- [x] Exam **(29 avril 2026)**
 ## IFT870 - Forage de données
 - [SITE](https://cobius.usherbrooke.ca/ift870/)
 - [x] TP1 **(terminé 30 janv. 2026)**
@@ -42,5 +47,6 @@
 - [x] Examen **(3 mars 2026)** jusqu'au jeudi
 - [x] TP3 **(6 avril 2026, 23:59)**
 - [ ] TP4 **(17 avril 2026)**
+- [ ] Examen **(16 avril 2026)**
 
 

@@ -1,81 +1,80 @@
-# maaxxe.github.io
+# 🚀 Maxime Robin – Portfolio & Outils Techniques
 
+Bienvenue sur le dépôt de mon portfolio personnel et de mes outils de gestion. Ce projet centralise mes réalisations en **Intelligence Artificielle**, **Systèmes Embarqués** et **Développement Web**.
 
-# lancer serveur 
+🌐 **Lien du site :** [maaxxe.github.io](https://maaxxe.github.io)
 
-python3 -m http.server 8000
+---
 
-# Kill serveur 
+## 📂 Architecture du Projet
 
-fuser -k 8000/tcp
+```text
+.
+├── 📄 index.html             # Page d'accueil principale (FR)
+├── 📄 index_en.html          # Page d'accueil (EN)
+├── 📁 Bloc-notes             # Gestion des devoirs (Markdown ➔ HTML)
+├── 📁 calendrier             # Générateur de calendriers scolaires & F1
+├── 📁 CV                     # Versions PDF de mon curriculum vitæ
+├── 📁 F1                     # Tracker et données de la saison de Formule 1
+├── 📁 labyrinthe             # Résolveur de labyrinthe (C + WebAssembly)
+├── 📁 Sudoku                 # Générateur de Sudoku (C + HTML/JS)
+├── 📁 outils                 # Dashboard centralisant tous les outils web
+├── 📁 projet_detection       # Scripts de détection (Caméra / IA)
+├── 📁 conversion_cv          # Outils de mise en forme CSS pour CV
+└── 📁 Workflows              # Automation GitHub Actions (Génération PDF)
+```
 
+---
 
-# faire fonctionner la camera 
+## 🛠️ Description des Modules
 
-1) chercher la camera 
-ls /dev/video*
+### 1. Portfolio Web (`index.html`, `js/`, `style.css`)
+Site vitrine moderne présentant mon parcours académique (ESEO, Université de Sherbrooke), mes expériences chez Stellantis et Kereval, ainsi que mes compétences techniques.
 
+### 2. Gestion et Automatisation
+- **Calendrier Scolaire & F1 (`/calendrier`)** : Script Python qui transforme des notes au format Markdown en un calendrier interactif HTML. Gère les deadlines, les niveaux d'importance et les décalages horaires (UTC) pour la F1.
+- **Bloc-notes (`/Bloc-notes`)** : Outil similaire au calendrier, spécialisé pour le suivi rapide des devoirs et projets.
 
+### 3. Jeux & Expériences Interactive
+- **Labyrinthe (`/labyrinthe`)** : Un moteur écrit en **C**, compilé en **WebAssembly (WASM)** pour une exécution fluide dans le navigateur.
+- **Sudoku (`/Sudoku`)** : Générateur de grilles utilisant un moteur de résolution performant en C, intégré à une interface web responsive.
 
+### 4. Projets Techniques
+- **F1 Tracker (`/F1`)** : Centralise les sessions de Grands Prix avec injection dynamique de données via JSON.
+- **Détection IA (`/projet_detection`)** : Base de travail pour les projets de vision par ordinateur et détection d'intrusion.
 
-sudo apt install ffmpeg
-ffplay /dev/video0
+---
 
+## 💻 Technologies utilisées
 
-# prendre photo 
+- **Frontend** : HTML5, CSS3, JavaScript (Vanilla)
+- **Backend & Scripts** : Python, C
+- **Compilation** : WebAssembly (Emscripten), Makefiles
+- **Automation** : GitHub Actions, YAML
+- **Data** : JSON, Markdown
 
-fswebcam -D 1 -d /dev/video4 photo.jpg
-//
--D 1 : Active le mode débogage (niveau 1). Cela affiche des informations détaillées sur la capture dans le terminal (par exemple, les paramètres de la caméra, les erreurs éventuelles, etc.).
--d /dev/video4 : Spécifie le périphérique vidéo à utiliser.
-photo.jpg : Nom du fichier de sortie.
-Résolution par défaut : fswebcam utilise une résolution basse par défaut (souvent 320x240 ou 640x480).
+---
 
-//
-fswebcam -d /dev/video4 --no-banner -r 1280x720 photo.jpg
-//
--d /dev/video4 : Spécifie le périphérique vidéo à utiliser.
---no-banner : Supprime la bannière avec la date et l'heure qui est ajoutée par défaut en bas de l'image.
--r 1280x720 : Définit la résolution de la photo à 1280x720 (HD). Cela améliore la qualité de l'image.
-photo.jpg : Nom du fichier de sortie.
+## 📖 Utilisation
 
-//
+Le projet utilise un **Makefile** à la racine pour simplifier la gestion des différents modules.
 
-formats possible :v4l2-ctl -d /dev/video4 --list-formats-ext
-//
-[0]: 'MJPG' (Motion-JPEG, compressed)
-		Size: Discrete 1280x720
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 960x540
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 640x480
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 640x360
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 320x240
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 320x180
-			Interval: Discrete 0.033s (30.000 fps)
-	[1]: 'YUYV' (YUYV 4:2:2)
-		Size: Discrete 1280x720
-			Interval: Discrete 0.100s (10.000 fps)
-		Size: Discrete 960x540
-			Interval: Discrete 0.050s (20.000 fps)
-		Size: Discrete 640x480
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 640x360
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 320x240
-			Interval: Discrete 0.033s (30.000 fps)
-		Size: Discrete 320x180
-			Interval: Discrete 0.033s (30.000 fps)
-//
+### Commandes Globales
+- `make all` : Compile tous les sous-projets (WASM, Calendriers, etc.).
+- `make clean` : Nettoie les fichiers générés et arrête les serveurs.
+- `make serve` : Lance le serveur global sur [http://localhost:8000](http://localhost:8000).
 
-# voir photo
+### Lancer un projet spécifiquement
+- `make notes` : Lance le **Bloc-notes** (Port 8000).
+- `make cal` : Lance le **Calendrier Scolaire** (Port 8000).
+- `make f1` : Lance le **Calendrier F1** (Port 8001).
+- `make lab` : Lance le jeu du **Labyrinthe** (Port 8000).
 
-xdg-open photo.jpg
+---
 
-# video en direct 
+### Notes Techniques
+Les notes concernant l'hébergement local avancé et les commandes pour la caméra ont été déplacées vers le fichier :
+👉 **[notes_techniques.md](./notes_techniques.md)**
 
-ffplay -f v4l2 -i /dev/video4
-
+---
+*Dépôt maintenu par [Maxime Robin](https://github.com/maaxxe)*
