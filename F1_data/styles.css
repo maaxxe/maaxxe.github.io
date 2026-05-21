@@ -1,0 +1,208 @@
+:root {
+  --bg:#0d0d1a; --card:#12121e; --card2:#1a1a2e; --border:#2e2e45;
+  --text:#e8e8f0; --muted:#6b6b8a; --red:#e10600; --green:#00d060;
+  --yellow:#ffd700; --orange:#ff8700; --blue:#0067ff; --purple:#9b59b6;
+  --font: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html { scroll-behavior:smooth }
+body { background:var(--bg); color:var(--text); font-family:var(--font); font-size:14px; min-height:100vh }
+
+/* HEADER */
+header { display:flex; align-items:center; justify-content:space-between; padding:10px 20px;
+  background:linear-gradient(90deg,#0a0a12,#12121e); border-bottom:2px solid var(--red);
+  position:sticky; top:0; z-index:100 }
+.logo { display:flex; align-items:center; gap:10px }
+.logo-icon { width:36px; height:36px; flex-shrink:0 }
+.logo h1 { font-size:1rem; font-weight:900; letter-spacing:.1em; color:#fff }
+.live-badge { background:var(--red); color:#fff; font-size:.65rem; font-weight:800;
+  padding:2px 8px; border-radius:3px; letter-spacing:.08em; animation:pulse 1.4s infinite }
+.live-badge.inactive { background:var(--border); animation:none; color:var(--muted) }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.header-right { display:flex; align-items:center; gap:10px; font-size:.75rem; color:var(--muted) }
+#live-indicator { display:flex; align-items:center; gap:6px; opacity:.4; transition:.3s }
+#live-indicator.active { opacity:1; color:var(--green) }
+.live-dot { width:8px; height:8px; border-radius:50%; background:var(--green); animation:pulse 1s infinite }
+#clock { font-size:.9rem; font-weight:700; color:var(--text); font-variant-numeric:tabular-nums }
+
+/* SESSION BAR */
+.session-bar { display:flex; align-items:center; gap:8px; padding:8px 20px;
+  background:var(--card); border-bottom:1px solid var(--border); flex-wrap:wrap }
+.session-bar select { background:var(--card2); border:1px solid var(--border);
+  padding:4px 8px; border-radius:4px; color:var(--text); font-size:.78rem }
+.session-bar label { font-size:.78rem; color:var(--muted) }
+.session-bar button { padding:5px 14px; border-radius:4px; border:none; cursor:pointer;
+  font-size:.78rem; font-weight:700; background:var(--red); color:#fff; transition:.2s }
+.session-bar button:hover { filter:brightness(1.15) }
+.btn-live { background:linear-gradient(90deg,var(--red),#ff6600) !important }
+#session-info { font-size:.78rem; color:var(--yellow); font-weight:600; margin-left:auto }
+
+/* TABS */
+.tabs { display:flex; gap:2px; padding:8px 16px 0; background:var(--card);
+  border-bottom:1px solid var(--border); overflow-x:auto; scrollbar-width:none }
+.tabs::-webkit-scrollbar { display:none }
+.tabs button { padding:7px 14px; border-radius:6px 6px 0 0; border:none; cursor:pointer;
+  background:transparent; color:var(--muted); font-size:.75rem; font-weight:600;
+  white-space:nowrap; transition:.15s; border-bottom:2px solid transparent }
+.tabs button:hover { color:var(--text); background:var(--card2) }
+.tabs button.active { color:#fff; background:var(--card2); border-bottom:2px solid var(--red) }
+
+/* MAIN */
+main { padding:16px 20px 80px; max-width:1600px; margin:0 auto }
+.tab-panel { display:none }
+.tab-panel.active { display:block }
+
+/* CARDS */
+.card { background:var(--card); border:1px solid var(--border); border-radius:8px;
+  padding:16px; margin-bottom:12px }
+.card-title { font-size:.72rem; font-weight:800; letter-spacing:.1em; color:var(--muted);
+  text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:6px }
+.dot { width:6px; height:6px; border-radius:50%; background:var(--red); flex-shrink:0 }
+
+/* GRIDS */
+.grid-2 { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:12px }
+.grid-4 { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:12px }
+.stat-tile { background:var(--card); border:1px solid var(--border); border-radius:8px;
+  padding:16px; text-align:center }
+.stat-tile .val { font-size:1.8rem; font-weight:900; color:var(--text); font-variant-numeric:tabular-nums }
+.stat-tile .lbl { font-size:.68rem; color:var(--muted); text-transform:uppercase;
+  letter-spacing:.08em; margin-top:4px }
+
+/* TABLES */
+.table-wrap { overflow-x:auto }
+table { width:100%; border-collapse:collapse; font-size:.78rem }
+th { padding:8px 10px; text-align:left; font-size:.68rem; font-weight:800; letter-spacing:.08em;
+  color:var(--muted); border-bottom:1px solid var(--border); white-space:nowrap }
+td { padding:8px 10px; border-bottom:1px solid rgba(46,46,69,.5); white-space:nowrap }
+tr:hover td { background:var(--card2) }
+.pos { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px;
+  border-radius:4px; font-weight:800; font-size:.8rem; background:var(--card2); color:var(--text) }
+.p1 { background:#ffd700; color:#000 }
+.p2 { background:#c0c0c0; color:#000 }
+.p3 { background:#cd7f32; color:#000 }
+
+/* STATES */
+.loading { color:var(--muted); font-size:.8rem; padding:20px; text-align:center }
+.err { color:var(--muted); font-size:.8rem; padding:16px; text-align:center; opacity:.6 }
+
+/* WEATHER */
+.weather-big { font-size:2.5rem; font-weight:900; color:var(--yellow) }
+.weather-row { display:flex; flex-wrap:wrap; gap:12px; margin-top:12px }
+.weather-item { text-align:center; min-width:60px }
+.wval { font-weight:700; font-size:.9rem; color:var(--text) }
+.wlbl { font-size:.65rem; color:var(--muted); text-transform:uppercase; margin-top:2px }
+
+/* DRIVERS GRID */
+.driver-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px }
+.dcard { background:var(--card2); border:1px solid var(--border); border-left:3px solid var(--red);
+  border-radius:6px; padding:12px }
+.dcard .num { font-size:1.4rem; font-weight:900 }
+.dcard .name { font-weight:600; font-size:.85rem; margin:2px 0 }
+.dcard .team { font-size:.72rem; font-weight:600; margin:2px 0 }
+.dcard .tyre { font-size:.75rem; margin-top:6px; font-weight:700 }
+.tyre-soft { color:#e10600 }
+.tyre-medium { color:#ffd700 }
+.tyre-hard { color:#c8c8c8 }
+.tyre-intermediate { color:#39b54a }
+.tyre-wet { color:#0067ff }
+.tyre-unknown { color:var(--muted) }
+
+/* TELEMETRY */
+.telem-btn { padding:6px 12px; border-radius:6px; border:2px solid var(--border);
+  background:var(--card2); color:var(--text); cursor:pointer; font-size:.78rem; transition:.15s }
+.telem-btn:hover, .telem-btn.active { background:var(--border); border-color:var(--red) }
+.telem-row { display:flex; align-items:center; gap:10px; margin-bottom:8px }
+.telem-label { font-size:.72rem; color:var(--muted); width:90px; flex-shrink:0 }
+.bar-bg { flex:1; height:14px; background:var(--card2); border-radius:3px; overflow:hidden }
+.bar-fill { height:100%; border-radius:3px; transition:width .3s }
+.bar-val { font-size:.72rem; font-weight:700; width:70px; text-align:right; font-variant-numeric:tabular-nums }
+.gear-display { font-size:3rem; font-weight:900; line-height:1 }
+.gear-label { font-size:.68rem; color:var(--muted); text-transform:uppercase; margin-top:4px }
+
+/* STINTS */
+.stint-row { display:flex; align-items:center; margin-bottom:4px; gap:8px }
+.stint-drv { width:60px; font-size:.72rem; font-weight:700; flex-shrink:0; text-align:right }
+.stint-bars { flex:1; display:flex; height:22px; border-radius:3px; overflow:hidden; gap:1px }
+.stint-seg { display:flex; align-items:center; padding:0 4px; font-size:.65rem; font-weight:800;
+  border-radius:2px; min-width:20px; white-space:nowrap; overflow:hidden; cursor:pointer }
+.compound-SOFT         { background:#e10600; color:#fff }
+.compound-MEDIUM       { background:#ffd700; color:#000 }
+.compound-HARD         { background:#e8e8e8; color:#000 }
+.compound-INTERMEDIATE { background:#39b54a; color:#fff }
+.compound-WET          { background:#0067ff; color:#fff }
+.compound-UNKNOWN      { background:var(--border); color:var(--muted) }
+
+/* POSITIONS CHART */
+.lap-chart-wrap { overflow-x:auto }
+.pos-legend { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px }
+.pos-legend-item { display:flex; align-items:center; gap:4px; font-size:.7rem; color:var(--muted) }
+.pos-legend-dot { width:10px; height:10px; border-radius:50% }
+
+/* INTERVALS */
+.gap-bar { height:8px; background:var(--red); border-radius:2px; min-width:2px;
+  transition:width .3s; opacity:.7 }
+
+/* PIT STOPS */
+.pit-badge { background:rgba(255,135,0,.2); color:var(--orange); padding:2px 8px;
+  border-radius:3px; font-size:.7rem; font-weight:700; letter-spacing:.05em }
+
+/* RACE CONTROL */
+.rc-item { display:flex; gap:12px; padding:10px; border-bottom:1px solid var(--border); align-items:flex-start }
+.rc-flag { font-size:1.3rem; flex-shrink:0; line-height:1 }
+.rc-msg { font-size:.8rem; font-weight:500; line-height:1.4 }
+.rc-time { font-size:.68rem; color:var(--muted); margin-top:3px }
+.flag-RED .rc-msg { color:var(--red) }
+.flag-YELLOW .rc-msg, .flag-SC .rc-msg, .flag-VSC .rc-msg { color:var(--yellow) }
+.flag-GREEN .rc-msg { color:var(--green) }
+.flag-CHEQUERED .rc-msg { color:#fff; font-weight:800 }
+
+/* RADIO */
+.radio-item { display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:12px; border-bottom:1px solid var(--border); border-left:3px solid var(--purple) }
+.rdrv { font-weight:700; font-size:.85rem }
+.rtime { font-size:.7rem; color:var(--muted); margin-top:3px }
+audio { height:32px; width:200px; opacity:.9 }
+
+/* CHAMPIONSHIP */
+.champ-bar-wrap { margin-bottom:10px }
+.champ-name { display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:4px; font-size:.8rem }
+.champ-bar { height:8px; background:var(--card2); border-radius:2px; overflow:hidden }
+.champ-fill { height:100%; background:var(--red); border-radius:2px; transition:width .4s }
+
+/* CAMERAS */
+.cam-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:8px }
+.cam-card { background:var(--card2); border:1px solid var(--border); border-radius:6px;
+  padding:10px; cursor:pointer; transition:.2s; text-align:center }
+.cam-card:hover, .cam-selected { background:var(--border); border-color:var(--red) }
+.cam-num { font-size:1.4rem; font-weight:900 }
+.cam-name { font-size:.72rem; font-weight:600; margin:2px 0 }
+.cam-team { font-size:.65rem; margin-bottom:4px }
+.cam-telem { font-size:.65rem; color:var(--muted); margin-top:4px }
+.cam-speed { color:var(--yellow); font-weight:800; font-variant-numeric:tabular-nums }
+
+/* REFRESH BAR */
+.refresh-bar { position:fixed; bottom:0; left:0; right:0; background:var(--card);
+  border-top:1px solid var(--border); padding:6px 20px; display:flex; align-items:center;
+  gap:10px; font-size:.72rem; color:var(--muted); z-index:100 }
+#refresh-interval { background:var(--card2); color:var(--text); border:1px solid var(--border);
+  padding:2px 6px; border-radius:3px; font-size:.7rem }
+.refresh-btn { padding:4px 12px; border-radius:4px; border:1px solid var(--border);
+  background:var(--card2); color:var(--text); cursor:pointer; font-size:.72rem; font-weight:700; transition:.15s }
+.refresh-btn:hover { border-color:var(--red); color:var(--red) }
+#last-update { color:var(--muted); font-size:.7rem }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width:6px; height:6px }
+::-webkit-scrollbar-track { background:var(--card) }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px }
+::-webkit-scrollbar-thumb:hover { background:var(--muted) }
+
+/* RESPONSIVE */
+@media(max-width:600px) {
+  header { padding:8px 12px }
+  main { padding:10px 10px 80px }
+  .session-bar { padding:6px 10px }
+  .grid-4 { grid-template-columns:repeat(2,1fr) }
+  .tabs button { padding:6px 10px; font-size:.68rem }
+}

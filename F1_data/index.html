@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F1 Live Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <div class="logo">
+    <svg class="logo-icon" viewBox="0 0 36 36" fill="none">
+      <rect width="36" height="36" rx="4" fill="#e10600"/>
+      <text x="5" y="26" font-size="18" font-weight="900" fill="white" font-family="Arial,sans-serif">F1</text>
+    </svg>
+    <h1>DASHBOARD</h1>
+    <span class="live-badge inactive" id="live-badge">LIVE</span>
+  </div>
+  <div class="header-right">
+    <div id="live-indicator"><div class="live-dot"></div>SESSION EN COURS</div>
+    <span id="clock">--:--:--</span><span>UTC</span>
+  </div>
+</header>
+
+<div class="session-bar">
+  <label>GP :</label>
+  <select id="sel-meeting" onchange="onMeetingChange()"><option value="">Chargement...</option></select>
+  <label>Session :</label>
+  <select id="sel-session"><option value="">Choisir GP</option></select>
+  <button onclick="loadAll()">&#9654; CHARGER</button>
+  <button class="btn-live" onclick="loadLiveOrLatest()">&#9889; SESSION LIVE</button>
+  <span id="session-info">Aucune session chargée</span>
+</div>
+
+<nav class="tabs">
+  <button class="active" onclick="showTab('overview',this)">&#127937; Aperçu</button>
+  <button onclick="showTab('drivers',this)">&#128100; Pilotes</button>
+  <button onclick="showTab('timing',this)">&#9201; Chronos</button>
+  <button onclick="showTab('telemetry',this)">&#128225; Télémétrie</button>
+  <button onclick="showTab('positions',this)">&#128200; Positions</button>
+  <button onclick="showTab('stints',this)">&#127950; Stratégie</button>
+  <button onclick="showTab('intervals',this)">&#8596; Écarts</button>
+  <button onclick="showTab('pitstops',this)">&#128295; Pit Stops</button>
+  <button onclick="showTab('weather',this)">&#127780; Météo</button>
+  <button onclick="showTab('racecontrol',this)">&#128678; Direction</button>
+  <button onclick="showTab('radio',this)">&#128251; Radio</button>
+  <button onclick="showTab('championship',this)">&#127942; Championnat</button>
+  <button onclick="showTab('cameras',this)">&#128247; Tél. Live</button>
+</nav>
+
+<main>
+  <!-- OVERVIEW -->
+  <div id="tab-overview" class="tab-panel active">
+    <div class="grid-4" style="margin-bottom:16px">
+      <div class="stat-tile"><div class="val" id="ov-laps">--</div><div class="lbl">Tours</div></div>
+      <div class="stat-tile"><div class="val" id="ov-drivers">--</div><div class="lbl">Pilotes</div></div>
+      <div class="stat-tile"><div class="val" id="ov-weather">--°</div><div class="lbl">Piste</div></div>
+      <div class="stat-tile"><div class="val" id="ov-sc">--</div><div class="lbl">SC/VSC</div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card"><div class="card-title"><span class="dot"></span>TOP 3</div><div id="ov-top3"><div class="loading">Charger une session</div></div></div>
+      <div class="card"><div class="card-title"><span class="dot"></span>MÉTÉO ACTUELLE</div><div id="ov-weather-widget"><div class="loading">Charger une session</div></div></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <div class="card-title"><span class="dot"></span>DERNIERS MESSAGES — DIRECTION DE COURSE</div>
+      <div id="ov-rc"><div class="loading">Charger une session</div></div>
+    </div>
+  </div>
+
+  <!-- DRIVERS -->
+  <div id="tab-drivers" class="tab-panel">
+    <div class="card"><div class="card-title"><span class="dot"></span>PILOTES ENGAGÉS</div>
+    <div id="drivers-content"><div class="loading">Charger une session</div></div></div>
+  </div>
+
+  <!-- TIMING -->
+  <div id="tab-timing" class="tab-panel">
+    <div class="card"><div class="card-title"><span class="dot"></span>CLASSEMENT — MEILLEURS TOURS</div>
+    <div class="table-wrap"><div id="timing-content"><div class="loading">Charger une session</div></div></div></div>
+  </div>
+
+  <!-- TELEMETRY -->
+  <div id="tab-telemetry" class="tab-panel">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>SÉLECTIONNER UN PILOTE</div>
+      <div id="telem-driver-select" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+    </div>
+    <div id="telem-content"><div class="loading">Choisir un pilote</div></div>
+  </div>
+
+  <!-- POSITIONS -->
+  <div id="tab-positions" class="tab-panel">
+    <div class="card"><div class="card-title"><span class="dot"></span>ÉVOLUTION DES POSITIONS</div>
+    <div id="pos-content"><div class="loading">Charger une session</div></div></div>
+  </div>
+
+  <!-- STINTS -->
+  <div id="tab-stints" class="tab-panel">
+    <div class="card"><div class="card-title"><span class="dot"></span>STRATÉGIE PNEUMATIQUES</div>
+    <div id="stints-content"><div class="loading">Charger une session</div></div></div>
+  </div>
+
+  <!-- INTERVALS -->
+  <div id="tab-intervals" class="tab-panel">
+    <div class="card"><div class="card-title"><span class="dot"></span>ÉCARTS EN TEMPS RÉEL</div>
+    <div class="table-wrap"><div id="intervals-content"><div class="loading">Charger une session</div></div></div></div>
+  </div>
+
+  <!-- PIT STOPS -->
+  <div id="tab-pitstops" class="tab-panel">
+    <div class="card"><div class="card-title"><span class="dot"></span>ARRÊTS AUX STANDS</div>
+    <div class="table-wrap"><div id="pits-content"><div class="loading">Charger une session</div></div></div></div>
+  </div>
+
+  <!-- WEATHER -->
+  <div id="tab-weather" class="tab-panel">
+    <div class="card"><div class="card-title"><span class="dot"></span>CONDITIONS MÉTÉO — HISTORIQUE</div>
+    <div class="table-wrap"><div id="weather-content"><div class="loading">Charger une session</div></div></div></div>
+  </div>
+
+  <!-- RACE CONTROL -->
+  <div id="tab-racecontrol" class="tab-panel">
+    <div class="card"><div class="card-title"><span class="dot"></span>MESSAGES DIRECTION DE COURSE</div>
+    <div id="rc-content"><div class="loading">Charger une session</div></div></div>
+  </div>
+
+  <!-- RADIO -->
+  <div id="tab-radio" class="tab-panel">
+    <div class="card"><div class="card-title"><span class="dot"></span>RADIO ÉQUIPES</div>
+    <div id="radio-content"><div class="loading">Charger une session</div></div></div>
+  </div>
+
+  <!-- CHAMPIONSHIP -->
+  <div id="tab-championship" class="tab-panel">
+    <div class="grid-2">
+      <div class="card"><div class="card-title"><span class="dot"></span>CLASSEMENT PILOTES</div>
+      <div id="champ-drivers"><div class="loading">Charger une session course</div></div></div>
+      <div class="card"><div class="card-title"><span class="dot"></span>CLASSEMENT CONSTRUCTEURS</div>
+      <div id="champ-teams"><div class="loading">Charger une session course</div></div></div>
+    </div>
+  </div>
+
+  <!-- CAMERAS / TELEM LIVE -->
+  <div id="tab-cameras" class="tab-panel">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>TÉLÉMÉTRIE LIVE PAR PILOTE</div>
+      <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Cliquez sur un pilote (mise à jour auto toutes les 10s)</p>
+      <div id="cam-grid" class="cam-grid"></div>
+    </div>
+    <div id="cam-detail"></div>
+  </div>
+</main>
+
+<div class="refresh-bar">
+  <input type="checkbox" id="auto-refresh-toggle" onchange="toggleAutoRefresh(this)">
+  <label for="auto-refresh-toggle" style="cursor:pointer">Auto-refresh</label>
+  <select id="refresh-interval">
+    <option value="10000">10s</option>
+    <option value="15000" selected>15s</option>
+    <option value="30000">30s</option>
+    <option value="60000">60s</option>
+  </select>
+  <button class="refresh-btn" onclick="loadAll()">&#8635; Rafraîchir</button>
+  <span id="last-update" style="margin-left:auto">Jamais mis à jour</span>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
