@@ -316,11 +316,13 @@
               try {
                 const payload = JSON.parse(line.slice(5).trim());
                 if (Array.isArray(payload) && payload[0]) {
-                  // Nettoie les métadonnées RAG (sources, chunks)
+                  // Nettoie toutes les métadonnées RAG résiduelles
                   const raw = payload[0];
                   const clean = raw
-                    .replace(/\n\n---\n\*\*📎 Sources.*$/s, "")  // bloc sources
-                    .replace(/\[Chunk \d+\].*?Texte :\n/gs, "")   // headers chunks
+                    .replace(/\n\n---\n\*\*📎 Sources[\s\S]*$/g, "")
+                    .replace(/\[Chunk \d+\][\s\S]*?(?=\n\n|$)/g, "")
+                    .replace(/^(Selon le contexte[^,]*,\s*|D'après[^,]*,\s*)/gi, "")
+                    .replace(/📎 Sources[\s\S]*$/g, "")
                     .trim();
                   answer = clean;
                   typing.textContent = answer;
