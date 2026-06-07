@@ -584,6 +584,133 @@
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script src="/js/scripts.js"></script>
+
+  <!-- ══ CHATBOT BULLE FLOTTANTE ══ -->
+<div id="chat-popup" role="dialog" aria-modal="true" aria-label="Assistant IA">
+  <div id="chat-header">
+    <span class="chat-title"><span class="dot"></span> Assistant IA</span>
+    <button id="btn-close" aria-label="Fermer">✕</button>
+  </div>
+  <div id="messages">
+    <div class="msg bot">👋 Hello! Ask me your questions about my background and my projects.</div>
+  </div>
+  <div id="input-area">
+    <textarea id="user-input" placeholder="Your question..." rows="1"></textarea>
+    <button id="send-btn" aria-label="Send">➤</button>
+  </div>
+</div>
+
+<button id="chat-bubble" aria-label="Ouvrir le chat" aria-expanded="false">💬</button>
+
+<script>
+  const API_BASE = "https://maaxxe-rag-cv-pdf.hf.space";
+
+  const popup    = document.getElementById("chat-popup");
+  const bubble   = document.getElementById("chat-bubble");
+  const btnClose = document.getElementById("btn-close");
+  const messages = document.getElementById("messages");
+  const input    = document.getElementById("user-input");
+  const sendBtn  = document.getElementById("send-btn");
+
+  let open = false;
+  let history = [];
+
+  function toggleChat() {
+    open = !open;
+    popup.classList.toggle("open", open);
+    bubble.setAttribute("aria-expanded", open);
+    bubble.textContent = open ? "✕" : "💬";
+    if (open) input.focus();
+  }
+
+  bubble.addEventListener("click", toggleChat);
+  btnClose.addEventListener("click", toggleChat);
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && open) toggleChat(); });
+
+  function addMsg(text, role) {
+    const div = document.createElement("div");
+    div.className = `msg ${role}`;
+    div.textContent = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+    return div;
+  }
+
+  async function send() {
+    const q = input.value.trim();
+    if (!q || sendBtn.disabled) return;
+
+    addMsg(q, "user");
+    input.value = "";
+    input.style.height = "40px";
+    sendBtn.disabled = true;
+
+    const typing = addMsg("...", "bot typing");
+
+    try {
+      const res = await fetch(`${API_BASE}/gradio_api/call/respond`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data: [ q, history, "", 8, 0.85, false ]
+        })
+      });
+
+      const { event_id } = await res.json();
+      const stream = await fetch(`${API_BASE}/gradio_api/call/respond/${event_id}`);
+      const reader  = stream.body.getReader();
+      const decoder = new TextDecoder();
+      let answer = "";
+      typing.classList.remove("typing");
+      typing.textContent = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const lines = decoder.decode(value).split("\n");
+        for (const line of lines) {
+          if (line.startsWith("data:")) {
+            try {
+              const payload = JSON.parse(line.slice(5).trim());
+              if (Array.isArray(payload) && payload[0]) {
+                const raw = payload[0];
+                const clean = raw
+                  .replace(/\n\n---\n\*\*📎 Sources[\s\S]*$/g, "")
+                  .replace(/\[Chunk \d+\][\s\S]*?(?=\n\n|$)/g, "")
+                  .replace(/^(Selon le contexte[^,]*,\s*|D'après[^,]*,\s*)/gi, "")
+                  .replace(/📎 Sources[\s\S]*$/g, "")
+                  .trim();
+                answer = clean;
+                typing.textContent = answer;
+                messages.scrollTop = messages.scrollHeight;
+              }
+            } catch { /* ligne partielle ignorée */ }
+          }
+        }
+      }
+
+      history.push([q, answer]);
+      if (history.length > 6) history.shift();
+
+    } catch (err) {
+      typing.textContent = "❌ Error connecting. Please try again.";
+      console.error(err);
+    } finally {
+      sendBtn.disabled = false;
+      input.focus();
+    }
+  }
+
+  sendBtn.addEventListener("click", send);
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
+  });
+  input.addEventListener("input", () => {
+    input.style.height = "40px";
+    input.style.height = Math.min(input.scrollHeight, 120) + "px";
+  });
+</script>
+<!-- ══ FIN CHATBOT ══ -->
 </body>
 
 </html>
