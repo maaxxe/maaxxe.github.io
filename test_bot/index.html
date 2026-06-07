@@ -73,7 +73,6 @@
       padding: .2rem .6rem; border-radius: 6px;
     }
 
-    /* ══ BULLE FLOTTANTE ══════════════════════════════ */
     #chat-bubble {
       position: fixed; bottom: 28px; right: 28px;
       width: 60px; height: 60px; border-radius: 50%;
@@ -116,7 +115,6 @@
     #btn-close { background:none; border:none; color:white; font-size:1.1rem; cursor:pointer; padding:.3rem; border-radius:6px; }
     #btn-close:hover { background: rgba(255,255,255,.2); }
 
-    /* Zone messages */
     #messages {
       flex: 1; overflow-y: auto; padding: 1rem;
       display: flex; flex-direction: column; gap: .75rem;
@@ -130,13 +128,13 @@
       max-width: 85%; padding: .65rem 1rem;
       border-radius: 16px; font-size: .875rem; line-height: 1.5;
       animation: fadeIn .2s ease;
+      white-space: pre-line;
     }
     @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
     .msg.user { align-self: flex-end; background: #3b82f6; color: white; border-bottom-right-radius: 4px; }
     .msg.bot  { align-self: flex-start; background: #0f172a; color: #e2e8f0; border-bottom-left-radius: 4px; }
     .msg.bot.typing { color: #64748b; font-style: italic; }
 
-    /* Zone saisie */
     #input-area {
       display: flex; gap: .5rem; padding: .85rem 1rem;
       border-top: 1px solid #334155;
@@ -211,18 +209,18 @@
     </div>
   </section>
 
-  <!-- ══ CHATBOT ══════════════════════════════════════ -->
-
-  <div id="chat-popup" role="dialog" aria-modal="true" aria-label="Assistant IA">
+  <div id="chat-popup" role="dialog" aria-modal="true" aria-label="Assistant médicaments">
     <div id="chat-header">
-      <span class="chat-title"><span class="dot"></span> Assistant IA</span>
+      <span class="chat-title"><span class="dot"></span> Assistant Médicaments</span>
       <button id="btn-close" aria-label="Fermer">✕</button>
     </div>
     <div id="messages">
-      <div class="msg bot">👋 Bonjour ! Posez-moi vos questions sur les documents. / Hello! Ask me anything about the documents.</div>
+      <div class="msg bot">👋 Bonjour ! Décrivez où vous avez mal et je peux suggérer un type de médicament à utiliser selon la douleur.
+
+⚠️ Attention : ces réponses peuvent être fausses, incomplètes ou inadaptées. Ce chatbot ne remplace pas un médecin, un pharmacien ou un avis médical professionnel.</div>
     </div>
     <div id="input-area">
-      <textarea id="user-input" placeholder="Votre question... / Your question..." rows="1"></textarea>
+      <textarea id="user-input" placeholder="Ex : j'ai mal à la tête, au ventre ou à la gorge..." rows="1"></textarea>
       <button id="send-btn" aria-label="Envoyer">➤</button>
     </div>
   </div>
@@ -230,11 +228,8 @@
   <button id="chat-bubble" aria-label="Ouvrir le chat" aria-expanded="false">💬</button>
 
   <script>
-    // ── Config ────────────────────────────────────────
-    // Remplace par ton URL HF Spaces
     const API_BASE = "https://maaxxe-rag-cv-pdf.hf.space";
 
-    // ── État ──────────────────────────────────────────
     const popup    = document.getElementById("chat-popup");
     const bubble   = document.getElementById("chat-bubble");
     const btnClose = document.getElementById("btn-close");
@@ -243,9 +238,8 @@
     const sendBtn  = document.getElementById("send-btn");
 
     let open = false;
-    let history = [];   // [{role:"user",content:""}, {role:"assistant",content:""}]
+    let history = [];
 
-    // ── Bulle ─────────────────────────────────────────
     function toggleChat() {
       open = !open;
       popup.classList.toggle("open", open);
@@ -257,7 +251,6 @@
     btnClose.addEventListener("click", toggleChat);
     document.addEventListener("keydown", e => { if (e.key === "Escape" && open) toggleChat(); });
 
-    // ── Affichage messages ────────────────────────────
     function addMsg(text, role) {
       const div = document.createElement("div");
       div.className = `msg ${role}`;
@@ -267,7 +260,6 @@
       return div;
     }
 
-    // ── Envoi via Gradio API ──────────────────────────
     async function send() {
       const q = input.value.trim();
       if (!q || sendBtn.disabled) return;
@@ -277,22 +269,34 @@
       input.style.height = "40px";
       sendBtn.disabled = true;
 
-      const typing = addMsg("...", "bot typing");
+      const typing = addMsg("Analyse de votre douleur...", "bot typing");
 
       try {
-        // Gradio API : /gradio_api/call/respond (predict)
-        // On passe les paramètres fixes côté frontend
+        const enhancedQuestion = `
+Tu es un chatbot informatif sur les médicaments.
+L'utilisateur va décrire une douleur ou une zone du corps.
+Réponds en français simple.
+
+Ta mission :
+- dire quel médicament ou quel type de médicament pourrait être utilisé selon l'endroit où la personne a mal
+- donner une réponse courte, claire et pratique
+- ajouter à la fin un avertissement disant que la réponse peut être fausse et qu'il faut demander à un médecin ou pharmacien
+- ne jamais affirmer que c'est un diagnostic certain
+
+Question utilisateur : ${q}
+        `.trim();
+
         const res = await fetch(`${API_BASE}/gradio_api/call/respond`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             data: [
-              q,          // message
-              history,    // history (format tuples)
-              "",         // source_filter : vide
-              8,          // top_k
-              0.85,       // max_distance
-              false,      // use_rewrite
+              enhancedQuestion,
+              history,
+              "",
+              8,
+              0.85,
+              false,
               2
             ]
           })
@@ -300,7 +304,6 @@
 
         const { event_id } = await res.json();
 
-        // SSE pour récupérer la réponse streamée
         const stream = await fetch(`${API_BASE}/gradio_api/call/respond/${event_id}`);
         const reader  = stream.body.getReader();
         const decoder = new TextDecoder();
@@ -317,7 +320,6 @@
               try {
                 const payload = JSON.parse(line.slice(5).trim());
                 if (Array.isArray(payload) && payload[0]) {
-                  // Nettoie toutes les métadonnées RAG résiduelles
                   const raw = payload[0];
                   const clean = raw
                     .replace(/\n\n---\n\*\*📎 Sources[\s\S]*$/g, "")
@@ -325,21 +327,28 @@
                     .replace(/^(Selon le contexte[^,]*,\s*|D'après[^,]*,\s*)/gi, "")
                     .replace(/📎 Sources[\s\S]*$/g, "")
                     .trim();
+
                   answer = clean;
+
+                  if (
+                    !/peut être faux|médecin|pharmacien|avis médical/i.test(answer)
+                  ) {
+                    answer += "\n\n⚠️ Cette réponse peut être fausse ou incomplète. Demandez conseil à un médecin ou à un pharmacien avant de prendre un médicament.";
+                  }
+
                   typing.textContent = answer;
                   messages.scrollTop = messages.scrollHeight;
                 }
-              } catch { /* ligne partielle, on ignore */ }
+              } catch {}
             }
           }
         }
 
-        // Met à jour l'historique pour le contexte multi-tours
         history.push([q, answer]);
-        if (history.length > 6) history.shift(); // garde 6 tours max
+        if (history.length > 6) history.shift();
 
       } catch (err) {
-        typing.textContent = "❌ Erreur de connexion. Réessayez.";
+        typing.textContent = "❌ Erreur de connexion. Impossible d'obtenir une réponse pour le moment.";
         console.error(err);
       } finally {
         sendBtn.disabled = false;
@@ -352,7 +361,6 @@
       if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
     });
 
-    // Auto-resize textarea
     input.addEventListener("input", () => {
       input.style.height = "40px";
       input.style.height = Math.min(input.scrollHeight, 120) + "px";
