@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maxime Robin — Portfolio</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(15,23,42,.85);
+      backdrop-filter: blur(12px);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+      z-index: 100;
+    }
+    nav .logo { font-weight: 700; font-size: 1.1rem; color: #60a5fa; }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav a { color: #94a3b8; text-decoration: none; font-size: .9rem; transition: color .2s; }
+    nav a:hover { color: #e2e8f0; }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 860px;
+      margin: 6rem auto 4rem;
+      padding: 0 2rem;
+      text-align: center;
+    }
+    .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; }
+    .hero h1 span { color: #60a5fa; }
+    .hero p { color: #94a3b8; font-size: 1.1rem; max-width: 540px; margin: 0 auto 2rem; }
+    .badge {
+      display: inline-block;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #60a5fa;
+      padding: .3rem .8rem;
+      border-radius: 999px;
+      font-size: .8rem;
+      margin: .25rem;
+    }
+
+    /* ── Section ── */
+    .section {
+      max-width: 860px;
+      margin: 0 auto 5rem;
+      padding: 0 2rem;
+    }
+    .section h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      padding-bottom: .5rem;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    /* ── Cards projets ── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; }
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .card:hover { border-color: #60a5fa; transform: translateY(-3px); }
+    .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: .5rem; }
+    .card p { color: #94a3b8; font-size: .875rem; }
+    .card .tag {
+      display: inline-block;
+      margin-top: .75rem;
+      font-size: .75rem;
+      color: #60a5fa;
+      background: rgba(96,165,250,.1);
+      padding: .2rem .6rem;
+      border-radius: 6px;
+    }
+
+    /* ════════════════════════════
+       BULLE FLOTTANTE CHATBOT
+    ════════════════════════════ */
+    #chat-bubble {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 4px 24px rgba(99,102,241,.5);
+      z-index: 9998;
+      transition: transform .2s, box-shadow .2s;
+    }
+    #chat-bubble:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 32px rgba(99,102,241,.7);
+    }
+    #chat-badge {
+      position: absolute;
+      top: -2px; right: -2px;
+      width: 18px; height: 18px;
+      background: #ef4444;
+      border: 2px solid #0f172a;
+      border-radius: 50%;
+      font-size: .65rem;
+      font-weight: 700;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #chat-popup {
+      position: fixed;
+      bottom: 104px; right: 28px;
+      width: 420px;
+      height: 600px;
+      max-width: calc(100vw - 40px);
+      max-height: calc(100vh - 120px);
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 48px rgba(0,0,0,.5);
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(20px) scale(.95);
+      pointer-events: none;
+      transition: opacity .25s, transform .25s;
+    }
+    #chat-popup.open {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: all;
+    }
+
+    #chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .85rem 1.1rem;
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      flex-shrink: 0;
+    }
+    #chat-header .title {
+      font-weight: 600;
+      font-size: .9rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    #btn-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: .3rem;
+      border-radius: 6px;
+      transition: background .15s;
+    }
+    #btn-close:hover { background: rgba(255,255,255,.2); }
+
+    #chat-frame { flex: 1; border: none; width: 100%; }
+
+    @media (max-width: 480px) {
+      #chat-popup { bottom:0; right:0; width:100vw; height:92dvh; border-radius:20px 20px 0 0; }
+      #chat-bubble { bottom:20px; right:20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="logo">maaxxe</span>
+    <ul>
+      <li><a href="#projets">Projets</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Maxime <span>Robin</span></h1>
+    <p>Étudiant en informatique & IA — Université de Sherbrooke</p>
+    <div>
+      <span class="badge">🤖 Machine Learning</span>
+      <span class="badge">🔍 RAG</span>
+      <span class="badge">🐍 Python</span>
+      <span class="badge">⚡ PyTorch</span>
+    </div>
+  </section>
+
+  <!-- PROJETS -->
+  <section class="section" id="projets">
+    <h2>Projets</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>📚 RAG Chat PDF</h3>
+        <p>Chatbot RAG sur documents PDF avec ChromaDB, sentence-transformers et Llama 3.2.</p>
+        <span class="tag">ChromaDB · Gradio · HF Spaces</span>
+      </div>
+      <div class="card">
+        <h3>🔲 Détection de coins</h3>
+        <p>Pipeline PyTorch de détection de coins de planches avec ResNet-18 et Wing Loss.</p>
+        <span class="tag">PyTorch · ResNet · Wing Loss</span>
+      </div>
+      <div class="card">
+        <h3>💬 NLP — Émotions</h3>
+        <p>Reconnaissance d'émotions sur MELD avec RoBERTa et contexte dialogue.</p>
+        <span class="tag">RoBERTa · HuggingFace · NLP</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ BULLE CHATBOT ══════════════════════════════ -->
+
+  <div id="chat-popup" role="dialog" aria-label="Assistant RAG" aria-modal="true">
+    <div id="chat-header">
+      <span class="title">
+        <span class="dot"></span>
+        Assistant RAG — Cours PDF
+      </span>
+      <button id="btn-close" aria-label="Fermer">✕</button>
+    </div>
+    <div id="frame-container" style="flex:1;display:flex;"></div>
+  </div>
+
+  <button id="chat-bubble" aria-label="Ouvrir le chatbot" aria-expanded="false">
+    💬
+    <span id="chat-badge">1</span>
+  </button>
+
+  <script>
+    const HF_URL = "https://maaxxe-rag-cv-pdf.hf.space/?__theme=dark";
+
+    const popup     = document.getElementById("chat-popup");
+    const bubble    = document.getElementById("chat-bubble");
+    const btnClose  = document.getElementById("btn-close");
+    const container = document.getElementById("frame-container");
+    const badge     = document.getElementById("chat-badge");
+
+    let loaded = false, open = false;
+
+    function openChat() {
+      if (!loaded) {
+        const iframe = document.createElement("iframe");
+        iframe.src   = HF_URL;
+        iframe.title = "RAG Chatbot";
+        iframe.style.cssText = "flex:1;width:100%;border:none;height:100%;";
+        container.appendChild(iframe);
+        loaded = true;
+      }
+      open = true;
+      popup.classList.add("open");
+      bubble.setAttribute("aria-expanded", "true");
+      bubble.innerHTML = '✕';
+      if (badge) badge.style.display = "none";
+    }
+
+    function closeChat() {
+      open = false;
+      popup.classList.remove("open");
+      bubble.setAttribute("aria-expanded", "false");
+      bubble.innerHTML = '💬';
+    }
+
+    bubble.addEventListener("click", () => open ? closeChat() : openChat());
+    btnClose.addEventListener("click", closeChat);
+    document.addEventListener("keydown", e => { if (e.key === "Escape" && open) closeChat(); });
+  </script>
+
+</body>
+</html>
