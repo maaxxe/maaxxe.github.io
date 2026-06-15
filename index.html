@@ -559,26 +559,31 @@
 <button id="chat-bubble" aria-label="Ouvrir le chat" aria-expanded="false">💬</button>
 
 <script>
-<!-- ... requêtes hf ... -->
-  window.addEventListener('load', () => {
-    fetch("https://maaxxe-rag-cv-pdf.hf.space", {
-      method: "GET",
-      mode: "no-cors"
-    }).catch(err => console.log("Réveil lancé, ignore les erreurs CORS potentielles."));
-  });
-  
   const API_BASE = "https://maaxxe-rag-cv-pdf.hf.space";
-
+  
   const popup    = document.getElementById("chat-popup");
   const bubble   = document.getElementById("chat-bubble");
   const btnClose = document.getElementById("btn-close");
   const messages = document.getElementById("messages");
   const input    = document.getElementById("user-input");
   const sendBtn  = document.getElementById("send-btn");
+  const dot      = document.querySelector('.dot'); // Sélectionne la led
 
   let open = false;
   let history = [];
 
+  // 1. Réveil du serveur au chargement
+  window.addEventListener('load', () => {
+    fetch(API_BASE, { method: "GET", mode: "no-cors" })
+      .then(() => {
+        dot.classList.add('online'); // Active l'animation de la led
+      })
+      .catch(() => {
+        console.warn("Le serveur est en cours de réveil ou injoignable.");
+      });
+  });
+
+  // 2. Gestion de l'interface
   function toggleChat() {
     open = !open;
     popup.classList.toggle("open", open);
@@ -591,6 +596,7 @@
   btnClose.addEventListener("click", toggleChat);
   document.addEventListener("keydown", e => { if (e.key === "Escape" && open) toggleChat(); });
 
+  // 3. Logique du Chat
   function addMsg(text, role) {
     const div = document.createElement("div");
     div.className = `msg ${role}`;
