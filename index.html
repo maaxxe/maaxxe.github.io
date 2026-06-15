@@ -548,7 +548,7 @@
     <button id="btn-close" aria-label="Fermer">✕</button>
   </div>
   <div id="messages">
-    <div class="msg bot">👋 Bonjour ! Posez-moi vos questions sur mon parcours et mes projets (attendez quelques minutes si ça ne répond pas tout de suite ).</div>
+    <div class="msg bot">👋 Bonjour !! Posez-moi vos questions sur mon parcours et mes projets (attendez quelques minutes si ça ne répond pas tout de suite ).</div>
   </div>
   <div id="input-area">
     <textarea id="user-input" placeholder="Votre question..." rows="1"></textarea>
@@ -572,7 +572,6 @@
   let open = false;
   let history = [];
 
-  // 1. Réveil du serveur au chargement
   window.addEventListener('load', () => {
     fetch(API_BASE, { method: "GET", mode: "no-cors" })
       .then(() => {
@@ -583,7 +582,6 @@
       });
   });
 
-  // 2. Gestion de l'interface
   function toggleChat() {
     open = !open;
     popup.classList.toggle("open", open);
@@ -596,7 +594,6 @@
   btnClose.addEventListener("click", toggleChat);
   document.addEventListener("keydown", e => { if (e.key === "Escape" && open) toggleChat(); });
 
-  // 3. Logique du Chat
   function addMsg(text, role) {
     const div = document.createElement("div");
     div.className = `msg ${role}`;
