@@ -1816,17 +1816,24 @@ section h2::after {
   gap: 0.5rem;
 }
 
+/* État par défaut : Gris et fixe */
 .dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
+  background: #999; 
+  transition: background 0.3s ease;
+}
+
+/* État actif : Ta couleur d'accent et l'animation */
+.dot.online {
   background: var(--accent);
   animation: blink 2s infinite;
 }
 
 @keyframes blink {
   0%, 100% { opacity: 1; }
-  50%       { opacity: 0.3; }
+  50%      { opacity: 0.3; }
 }
 
 #btn-close {
