@@ -1953,6 +1953,6 @@ section h2::after {
     height: 92dvh;
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
-  #chat-bubble { bottom: 20px; right: 20px; }
+  #chat-bubble { bottom: 30px; right: 30px; }
 }
 /* ==================== FIN CHATBOT ==================== */
