@@ -8,11 +8,8 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-
-
 <body>
 
-  <!-- Header moderne avec navigation fixe -->
   <header class="site-header">
     <nav class="top-nav">
       <div class="nav-container">
@@ -32,7 +29,6 @@
     </nav>
   </header>
 
-  <!-- Hero moderne avec gradient animé -->
   <section class="hero-modern">
     <div class="hero-gradient"></div>
     <div class="hero-pattern"></div>
@@ -40,17 +36,16 @@
     <div class="hero-container">
       <div class="hero-badge">
         <span class="badge-icon"></span>
-        <span>Disponible à partir de mai 2026</span>
+        <span>En stage chez Isybot depuis mai 2026</span>
       </div>
 
       <h1 class="hero-title">
-        Recherche de stage<br>
+        Ingénieur<br>
         <span class="title-highlight">IA & Systèmes embarqués</span>
       </h1>
 
       <p class="hero-lead">
-        Étudiant en double diplôme (ESEO × UdeS) cherchant un stage de 6 mois
-        en intelligence artificielle, deep learning ou systèmes embarqués.
+        Titulaire du double diplôme (ESEO × UdeS) spécialisé en intelligence artificielle, deep learning et systèmes embarqués.
       </p>
 
       <div class="hero-tags-modern">
@@ -96,116 +91,127 @@
 
   <main class="container">
 
-    <!-- À propos -->
     <section id="about-section" class="about-section reveal">
       <h2>À propos</h2>
       <div class="about-content">
         <p>
-          En double diplôme entre <strong>ESEO</strong> (génie des systèmes embarqués, France)
-          et l'<strong>Université de Sherbrooke</strong> (maîtrise en informatique, spécialisation IA, Canada),
-
+          Récemment diplômé d'un double cursus entre <strong>l'ESEO</strong> (diplôme d'ingénieur en génie des systèmes embarqués, France)
+          et l'<strong>Université de Sherbrooke</strong> (maîtrise en informatique, spécialisation IA, Canada).
         </p>
         <p>
-          J'aime les défis qui mêlent hardware, capteurs, robotique et algorithmes d'apprentissage.
-
+          J'aime les défis qui mêlent hardware, capteurs, robotique et algorithmes d'apprentissage profond.
         </p>
         <p class="about-highlight">
           <strong>Mobilité :</strong> j'ai étudié et travaillé en France, au Canada, en Slovaquie et en Lettonie.
           Ces expériences m'ont donné une vision internationale des méthodes d'ingénierie.
         </p>
       </div>
-      <div class="about-content">
-
-      </div>
-
     </section>
 
-    <!-- Projets phares -->
     <section class="projects-section reveal">
       <h2>Projets phares</h2>
       <div class="projects-grid">
+        
         <article class="project-card reveal-scale reveal-delay-1">
-          <!-- <div class="project-icon"></div> -->
+          <h3>PlankEye v1 – Vision par Ordinateur</h3>
+          <p>
+            <strong>Python, FPN, CUDA, OpenCV</strong><br>
+            Développement d'un modèle de vision pour la détection de coins sur des planches de bois. Utilisation de réseaux de caractéristiques pyramidales (FPN) avec accélération GPU (CUDA).
+          </p>
+        </article>
+
+        <article class="project-card reveal-scale reveal-delay-2">
+          <h3>Agent IA – Ms. Pac-Man</h3>
+          <p>
+            <strong>Python, Deep Reinforcement Learning, DQN</strong><br>
+            Développement et optimisation d'un agent intelligent capable de jouer à Ms. Pac-Man de manière autonome en utilisant l'apprentissage par renforcement profond (Deep Q-Network).
+          </p>
+        </article>
+
+        <article class="project-card reveal-scale reveal-delay-3">
+          <h3>Chatbot RAG – Analyse de CV</h3>
+          <p>
+            <strong>Python, ChromaDB, Hugging Face, Gradio</strong><br>
+            Architecture RAG (Retrieval-Augmented Generation) couplée à un LLM pour interroger le contenu de mon CV PDF. Module déployé sur un espace Hugging Face Spaces.
+          </p>
+        </article>
+
+        <article class="project-card reveal-scale reveal-delay-4">
+          <h3>Génération d'Images Industrielles (GAN)</h3>
+          <p>
+            <strong>Python, PyTorch, DCGAN, ResNet</strong><br>
+            Configuration et entraînement de réseaux antagonistes génératifs (GANs) sur un dataset de pièces industrielles afin d'améliorer la diversité et la stabilité des données de test.
+          </p>
+        </article>
+
+        <article class="project-card reveal-scale reveal-delay-5">
           <h3>Application Android – Gestion de restaurant</h3>
           <p>
             <strong>Java, Android Studio, MVVM</strong><br>
-            Outil pour restaurateurs : gestion des tables, création de commandes, suivi des prix et totaux.
-            Architecture MVVM pour une maintenabilité optimale.
+            Outil pour restaurateurs : gestion des tables, création de commandes, suivi des prix et totaux. Architecture MVVM pour une maintenabilité optimale.
           </p>
           <a href="https://github.com/maaxxe/Projet_Android" target="_blank" class="project-link">
             → Voir le projet
           </a>
         </article>
 
-        <article class="project-card reveal-scale reveal-delay-2">
+        <article class="project-card reveal-scale reveal-delay-6">
           <h3>Site Web avec Gestion des Droits d'Accès</h3>
           <p>
             <strong>HTML, CSS, JavaScript, SQL</strong><br>
-            Site web dynamique avec système de gestion des droits d'accès à trois niveaux (Administrateur, Salarié,
-            Visiteur).
-            Authentification sécurisée, attribution de rôles et interface adaptative selon les permissions utilisateur.
+            Site web dynamique avec système de gestion des droits d'accès à trois niveaux (Administrateur, Salarié, Visiteur). Authentification sécurisée, attribution de rôles et interface adaptative selon les permissions utilisateur.
           </p>
           <a href="https://github.com/maaxxe/projet_SQL" target="_blank" class="project-link">
             → Voir le projet
           </a>
         </article>
 
-        <article class="project-card reveal-scale reveal-delay-3">
+        <article class="project-card reveal-scale reveal-delay-7">
           <h3>Contrôle de robot autonome</h3>
           <p>
             <strong>C, Pthread, Sockets TCP/IP, Java</strong><br>
-            Application de contrôle de robot en C communicant avec un simulateur Java. Programmation de trajectoires
-            prédéfinies,
-            mode suivi de mur, gestion multitâche et interface utilisateur interactive. Communication réseau via
-            sockets.
+            Application de contrôle de robot en C communicant avec un simulateur Java. Programmation de trajectoires prédéfinies, mode suivi de mur, gestion multitâche et interface utilisateur interactive. Communication réseau via sockets.
           </p>
           <a href="https://github.com/maaxxe/Projet_robot" target="_blank" class="project-link">
             → Voir le projet
           </a>
         </article>
 
-        <article class="project-card reveal-scale reveal-delay-4">
+        <article class="project-card reveal-scale reveal-delay-1">
           <h3>Système de détection d'intrusion (ProSe)</h3>
           <p>
             <strong>C, Android, Raspberry Pi</strong><br>
-            Réseau de caméras de surveillance Raspberry Pi + caméras IP + application Android.
-            Intégration complète : capture sécurisée, transmission et monitoring.
+            Réseau de caméras de surveillance Raspberry Pi + caméras IP + application Android. Intégration complète : capture sécurisée, transmission et monitoring.
           </p>
         </article>
 
-        <article class="project-card reveal-scale reveal-delay-5">
+        <article class="project-card reveal-scale reveal-delay-2">
           <h3>Réseaux de neurones – IA appliquée</h3>
           <p>
             <strong>Python, PyTorch, NumPy, Pandas</strong><br>
-            Projets de cours en deep learning : classification d'images, traitement de données,
-            modèles CNN et analyse statistique.
+            Projets de cours en deep learning : classification d'images, traitement de données, modèles CNN et analyse statistique.
           </p>
         </article>
 
-        <article class="project-card reveal-scale reveal-delay-6">
+        <article class="project-card reveal-scale reveal-delay-3">
           <h3>Automatisation – Lignes de production Stellantis</h3>
           <p>
             <strong>TIA Portal, STEP7, Robots &amp; Automates</strong><br>
-            Modernisation des chaînes Citroën C3 &amp; Opel Frontera : commissioning, optimisation des temps de cycle,
-            intégration de capteurs et amélioration continue.
+            Modernisation des chaînes Citroën C3 &amp; Opel Frontera : commissioning, optimisation des temps de cycle, intégration de capteurs et amélioration continue.
           </p>
         </article>
 
-        <article class="project-card reveal-scale reveal-delay-7">
+        <article class="project-card reveal-scale reveal-delay-4">
           <h3>Simulation d'Attaque et Analyse (Pentesting)</h3>
           <p>
             <strong>Kali Linux, Metasploit, Nmap, Bash</strong><br>
-            Exploitation d'une vulnérabilité via un port ouvert pour obtenir une session distante (Reverse Shell). 
-            Élévation de privilèges et mise en place d'un système de logging (Keylogger/Spyware) pour l'analyse comportementale de la cible dans un cadre académique.
+            Exploitation d'une vulnérabilité via un port ouvert pour obtenir une session distante (Reverse Shell). Élévation de privilèges et mise en place d'un système de logging (Keylogger/Spyware) pour l'analyse comportementale de la cible dans un cadre académique.
           </p>
         </article>
         
       </div>
     </section>
 
-
-
-    <!-- Formation -->
     <section class="education-section reveal">
       <h2>Formation</h2>
       <div class="education-timeline">
@@ -215,10 +221,9 @@
               <img src="images/logos/logo_uds.jpeg" alt="Université de Sherbrooke" class="tiny-logo">
               <h3>Université de Sherbrooke</h3>
             </div>
-            <p class="edu-meta"><strong>Maîtrise en informatique</strong> – Spécialisation IA (2025–2026)</p>
+            <p class="edu-meta"><strong>Diplômé - Maîtrise en informatique</strong> – Spécialisation IA (2025–2026)</p>
             <p>
-              Double diplôme avec l’ESEO. Approfondissement en apprentissage automatique, vision par ordinateur
-              et réseaux de neurones (ex. IFT780).
+              Double diplôme avec l’ESEO. Approfondissement en apprentissage automatique, vision par ordinateur et réseaux de neurones.
             </p>
             <div class="logo-row">
               <img src="images/flags/flag_ca.png" alt="Canada" class="tiny-logo">
@@ -235,8 +240,7 @@
             </div>
             <p class="edu-meta"><strong>Diplôme d'ingénieur</strong> – Génie des systèmes embarqués (2023–2026)</p>
             <p>
-              Formation en électronique et informatique. Projet ProSe : système de détection d'intrusion pour Kereval
-              avec Raspberry Pi, caméras IP et application Android.
+              Formation en électronique et informatique. Projet ProSe : système de détection d'intrusion pour Kereval avec Raspberry Pi, caméras IP et application Android.
             </p>
             <div class="logo-row">
               <img src="images/flags/flag_fr.png" alt="France" class="tiny-logo">
@@ -247,14 +251,28 @@
       </div>
     </section>
 
-    <!-- Expériences professionnelles -->
-
-
     <section class="experience-section reveal">
       <h2>Expériences professionnelles</h2>
       <div class="experience-timeline">
 
         <div class="exp-item reveal-right reveal-delay-1">
+          <div class="exp-content">
+            <div class="logo-row">
+              <h3>Stage Ingénieur IA – Isybot</h3>
+            </div>
+            <p class="exp-meta">
+              <strong>Mai 2026 – Octobre 2026</strong>
+            </p>
+            <p>
+              <strong>Intelligence Artificielle (6 mois)</strong> – Utilisation de l'intelligence artificielle pour la détermination et l'optimisation de paramètres de process industriels.
+            </p>
+            <div class="skills-tags" style="margin-top:8px;">
+              <span>IA</span> <span>Processus Industriels</span> <span>Optimisation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-item reveal-right reveal-delay-2">
           <div class="exp-content">
             <div class="logo-row">
               <img src="images/logos/logo_kereval.jpeg" alt="Kereval" class="tiny-logo">
@@ -264,27 +282,13 @@
               Kereval, Rennes (France) · <strong>Février 2025 – Juin 2025</strong>
             </p>
             <p>
-              Projet long de fin d’année à l’ESEO réalisé en équipe pour la société Kereval, basée à Rennes :
-              conception d’un système complet de vidéo‑surveillance avec détection d’intrusion.
+              Projet long de fin d’année à l’ESEO réalisé en équipe pour la société Kereval, basée à Rennes : conception d’un système complet de vidéo‑surveillance avec détection d’intrusion.
             </p>
             <ul>
-              <li>
-                Développement d’un réseau de caméras (Raspberry&nbsp;Pi et caméras IP) pour surveiller plusieurs zones,
-                avec ajout et configuration dynamique de nouvelles caméras.
-              </li>
-              <li>
-                Mise en place de mécanismes d’alertes en cas d’intrusion (notifications, journalisation des événements).
-              </li>
-              <li>
-                Travail en équipe organisée (chefs de projet, responsables qualité, développeurs) en utilisant
-                <strong>Git</strong> et GitHub pour la gestion de versions, branches, revues de code et intégration des
-                contributions.
-              </li>
-              <li>
-                Implémentation en environnement <strong>systèmes embarqués</strong> à l’ESEO, avec contraintes de
-                ressources,
-                robustesse et déploiement sur plusieurs machines.
-              </li>
+              <li>Développement d’un réseau de caméras (Raspberry Pi et caméras IP) pour surveiller plusieurs zones.</li>
+              <li>Mise en place de mécanismes d’alertes en cas d’intrusion.</li>
+              <li>Travail en équipe organisée en utilisant <strong>Git</strong> et GitHub pour la gestion de versions.</li>
+              <li>Implémentation en environnement <strong>systèmes embarqués</strong> à l’ESEO.</li>
             </ul>
             <div class="logo-row" style="margin-top:8px;">
               <img src="images/flags/flag_fr.png" alt="France" class="tiny-logo">
@@ -293,7 +297,7 @@
           </div>
         </div>
 
-        <div class="exp-item reveal-right reveal-delay-4">
+        <div class="exp-item reveal-right reveal-delay-3">
           <div class="exp-content">
             <div class="logo-row">
               <img src="images/logos/logo_othua.jpeg" alt="OTHUA" class="tiny-logo">
@@ -302,10 +306,7 @@
             </div>
             <p class="exp-meta"><strong>Juil. 2024 – Déc. 2024</strong></p>
             <p>
-              <strong>Automatisme (6 mois)</strong> – Modernisation de lignes de production Stellantis :
-              commissioning des chaînes Citroën C3 &amp; Opel Frontera, validation de câblage,
-              optimisation des temps de cycle. Programmation et dépannage de robots, automates (TIA Portal, STEP7)
-              et interfaces HMI.
+              <strong>Automatisme (6 mois)</strong> – Modernisation de lignes de production Stellantis : commissioning des chaînes Citroën C3 &amp; Opel Frontera, validation de câblage, optimisation des temps de cycle. Programmation et dépannage de robots, automates (TIA Portal, STEP7) et interfaces HMI.
             </p>
             <div class="skills-tags">
               <span>TIA Portal</span> <span>STEP7</span> <span>Robots</span> <span>Automates</span>
@@ -317,7 +318,7 @@
           </div>
         </div>
 
-        <div class="exp-item reveal-right reveal-delay-5">
+        <div class="exp-item reveal-right reveal-delay-4">
           <div class="exp-content">
             <div class="logo-row">
               <img src="images/logos/logo_stellantis.jpeg" alt="Stellantis" class="tiny-logo">
@@ -327,14 +328,8 @@
               Stellantis, Trnava, Slovaquie · <strong>Juillet 2023 – Septembre 2023</strong>
             </p>
             <ul>
-              <li>
-                Participer aux activités de mise au point des ensembles de la caisse ferrée et
-                analyser les rapports de mesures issus des moyens de contrôle.
-              </li>
-              <li>
-                Préparer les KPI hebdomadaires pour le suivi de la production et la communication
-                avec les équipes projet.
-              </li>
+              <li>Participer aux activités de mise au point des ensembles de la caisse ferrée et analyser les rapports de mesures.</li>
+              <li>Préparer les KPI hebdomadaires pour le suivi de la production et la communication avec les équipes projet.</li>
             </ul>
             <div class="logo-row" style="margin-top:8px;">
               <img src="images/flags/flag_sk.png" alt="Slovaquie" class="tiny-logo">
@@ -343,9 +338,7 @@
           </div>
         </div>
 
-
-
-        <div class="exp-item reveal-right reveal-delay-6">
+        <div class="exp-item reveal-right reveal-delay-5">
           <div class="exp-content">
             <div class="logo-row">
               <img src="images/logos/logo_psa.jpeg" alt="Groupe PSA" class="tiny-logo">
@@ -354,14 +347,8 @@
             </div>
             <p class="exp-meta"><strong>2018–2023</strong> – Plusieurs missions à Poissy &amp; Vélizy</p>
             <ul>
-              <li>
-                <strong>Contrôle qualité (2022, 2 mois)</strong> – Contrôle électrique de DS3 E‑TENSE
-                et Mokka électrique, validation de charge et vérification des postes moteurs.
-              </li>
-              <li>
-                <strong>Stage découverte (2018)</strong> – Stage de 3e à l’usine de Poissy : découverte
-                de la chaîne de fabrication automobile.
-              </li>
+              <li><strong>Contrôle qualité (2022, 2 mois)</strong> – Contrôle électrique de DS3 E‑TENSE et Mokka électrique.</li>
+              <li><strong>Stage découverte (2018)</strong> – Stage de 3e à l’usine de Poissy : découverte de la chaîne de fabrication automobile.</li>
             </ul>
             <div class="logo-row" style="margin-top:8px;">
               <img src="images/flags/flag_fr.png" alt="France" class="tiny-logo">
@@ -372,7 +359,6 @@
       </div>
     </section>
 
-    <!-- Voyages et échanges internationaux -->
     <section class="travel-section reveal">
       <h2>Expériences internationales</h2>
       <p class="section-subtitle">Mobilité mondiale et immersion culturelle</p>
@@ -406,8 +392,7 @@
           <h3>Lettonie – Échange universitaire</h3>
           <p>
             <strong>Fév. 2023 – Août 2023</strong><br>
-            Semestre d’échange en Lettonie : cours en anglais, découverte d’un nouveau système universitaire
-            et d’une culture différente.
+            Semestre d’échange en Lettonie : cours en anglais, découverte d’un nouveau système universitaire et d’une culture différente.
           </p>
         </div>
 
@@ -424,7 +409,6 @@
       </div>
     </section>
 
-    <!-- Compétences -->
     <section class="skills-section reveal">
       <h2>Compétences</h2>
       <div class="skills-container">
@@ -432,8 +416,8 @@
           <h3> IA &amp; Machine Learning</h3>
           <ul>
             <li>Python, PyTorch, NumPy, Pandas</li>
-            <li>Deep learning : CNN, RNN, architectures modernes</li>
-            <li>Vision par ordinateur et traitement d'image</li>
+            <li>Deep learning : CNN, RNN, GANs, DQN, architectures modernes</li>
+            <li>Vision par ordinateur (OpenCV, YOLO, architectures FPN) et RAG</li>
             <li>Scikit-learn, Jupyter, visualisation de données</li>
           </ul>
         </div>
@@ -444,7 +428,7 @@
             <li>Java (Android Studio, MVVM)</li>
             <li>C, HTML, CSS, JavaScript</li>
             <li>Git &amp; GitHub, intégration continue basique</li>
-            <li>Linux, ligne de commande, bash</li>
+            <li>Linux (Arch), ligne de commande, bash</li>
           </ul>
         </div>
 
@@ -452,7 +436,7 @@
           <h3> Systèmes embarqués &amp; Industrie 4.0</h3>
           <ul>
             <li>TIA Portal, STEP7, automates programmables</li>
-            <li>Raspberry Pi, microcontrôleurs, IoT</li>
+            <li>Raspberry Pi, microcontrôleurs, IoT, CUDA</li>
             <li>Robotique et automatisation industrielle</li>
             <li>Optimisation de processus de production</li>
           </ul>
@@ -470,7 +454,6 @@
       </div>
     </section>
 
-    <!-- Certifications -->
     <section class="certifications-section reveal">
       <h2>Licences &amp; certifications</h2>
       <ul class="cert-list">
@@ -493,14 +476,12 @@
             <img src="images/logos/logo_mooc_gp.jpeg" alt="MOOC Gestion de Projet" class="tiny-logo">
             <div>
               <strong>MOOC Gestion de Projet</strong><br>
-
               <a href="#" onclick="window.open('/images/Certification/MOOC.pdf', '_blank')"
                 class="certification-button">
                 → Voir certification:
               </a>
             </div>
           </div>
-
         </li>
 
         <li>
@@ -524,7 +505,6 @@
       </ul>
     </section>
 
-    <!-- CV section -->
     <section id="cv-section" class="cv-section reveal-scale">
       <h2>Mon CV complet</h2>
       <p>consulte mon CV détaillé :</p>
@@ -533,7 +513,6 @@
       </div>
     </section>
 
-    <!-- Contact -->
     <section id="contact-section" class="contact-section reveal">
       <h2>Contact &amp; Réseaux</h2>
       <p>N'hésite pas à me joindre pour discuter de projets, stages ou opportunités !</p>
@@ -563,7 +542,6 @@
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script src="/js/scripts.js"></script>
 
-<!-- ══ CHATBOT BULLE FLOTTANTE ══ -->
 <div id="chat-popup" role="dialog" aria-modal="true" aria-label="Assistant IA">
   <div id="chat-header">
     <span class="chat-title"><span class="dot"></span> Assistant IA</span>
@@ -688,7 +666,6 @@
     input.style.height = Math.min(input.scrollHeight, 120) + "px";
   });
 </script>
-<!-- ══ FIN CHATBOT ══ -->
 </body>
 
 </html>
