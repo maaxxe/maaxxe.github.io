@@ -559,6 +559,14 @@
 <button id="chat-bubble" aria-label="Ouvrir le chat" aria-expanded="false">💬</button>
 
 <script>
+<!-- ... requêtes hf ... -->
+  window.addEventListener('load', () => {
+    fetch("https://maaxxe-rag-cv-pdf.hf.space", {
+      method: "GET",
+      mode: "no-cors"
+    }).catch(err => console.log("Réveil lancé, ignore les erreurs CORS potentielles."));
+  });
+  
   const API_BASE = "https://maaxxe-rag-cv-pdf.hf.space";
 
   const popup    = document.getElementById("chat-popup");
