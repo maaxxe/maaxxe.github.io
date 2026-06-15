@@ -1750,8 +1750,8 @@ section h2::after {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 80px;         /* Augmentez cette valeur (ex: 70px, 80px) */
-  height: 70px;        /* Gardez la même valeur que width pour un cercle parfait */
+  width: 100px;         /* Augmentez cette valeur (ex: 70px, 80px) */
+  height: 100px;        /* Gardez la même valeur que width pour un cercle parfait */
   border-radius: 50%;
   background: var(--primary); /* Ou votre couleur désirée */
   color: white;
