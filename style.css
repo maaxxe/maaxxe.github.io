@@ -1774,8 +1774,8 @@ section h2::after {
   position: fixed;
   bottom: 104px;
   right: 28px;
-  width: 400px;
-  height: 580px;
+  width: 600px;
+  height: 780px;
   max-width: calc(100vw - 40px);
   max-height: calc(100vh - 120px);
   background: var(--card-bg);
