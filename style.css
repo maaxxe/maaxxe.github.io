@@ -1778,7 +1778,7 @@ section h2::after {
   height: 780px;
   max-width: calc(100vw - 40px);
   max-height: calc(100vh - 120px);
-  background: var(--card-bg);
+  background: red;
   border: 2px solid var(--border);
   border-radius: var(--radius-lg);
   overflow: hidden;
