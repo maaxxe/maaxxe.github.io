@@ -1753,7 +1753,7 @@ section h2::after {
   width: 100px;         /* Augmentez cette valeur (ex: 70px, 80px) */
   height: 100px;        /* Gardez la même valeur que width pour un cercle parfait */
   border-radius: 50%;
-  background: red ; /* Ou votre couleur désirée */
+  background: #4CE0D7 ; /* Ou votre couleur désirée */
   color: white;
   font-size: 28px;     /* Augmentez la taille de l'émoji/texte */
   border: none;
@@ -1778,7 +1778,7 @@ section h2::after {
   height: 780px;
   max-width: calc(100vw - 40px);
   max-height: calc(100vh - 120px);
-  background: red;
+  background: var(--primary); 
   border: 2px solid var(--border);
   border-radius: var(--radius-lg);
   overflow: hidden;
