@@ -1745,96 +1745,175 @@ section h2::after {
 
 
 /* ==================== CHATBOT BULLE FLOTTANTE ==================== */
+ #chat-bubble {
 
-#chat-bubble {
   position: fixed;
+
   bottom: 20px;
+
   right: 20px;
+
   width: 100px;         /* Augmentez cette valeur (ex: 70px, 80px) */
+
   height: 100px;        /* Gardez la même valeur que width pour un cercle parfait */
+
   border-radius: 50%;
-  background: #4CE0D7 ; /* Ou votre couleur désirée */
+
+  background: var(--primary); /* Ou votre couleur désirée */
+
   color: white;
+
   font-size: 28px;     /* Augmentez la taille de l'émoji/texte */
+
   border: none;
+
   cursor: pointer;
+
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
   z-index: 10000;      /* Doit être supérieur à la popup */
+
   transition: transform 0.2s, background 0.2s;
+
 }
+
 
 #chat-bubble:hover {
+
   transform: scale(1.1); /* Petit effet de zoom au survol */
+
 }
+
 
 #chat-popup {
+
   position: fixed;
+
   bottom: 104px;
+
   right: 28px;
+
   width: 600px;
+
   height: 780px;
+
   max-width: calc(100vw - 40px);
+
   max-height: calc(100vh - 120px);
-  background: var(--primary); 
+
+  background: var(--card-bg);
+
   border: 2px solid var(--border);
+
   border-radius: var(--radius-lg);
+
   overflow: hidden;
+
   display: flex;
+
   flex-direction: column;
+
   box-shadow: var(--shadow-lg);
+
   z-index: 9999;
+
   opacity: 0;
+
   transform: translateY(20px) scale(0.95);
+
   pointer-events: none;
+
   transition: opacity 0.25s, transform 0.25s;
+
 }
+
 
 #chat-popup.open {
+
   opacity: 1;
+
   transform: translateY(0) scale(1);
+
   pointer-events: all;
+
 }
+
 
 #chat-header {
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
   padding: 0.85rem 1.1rem;
+
   background: linear-gradient(135deg, var(--primary), var(--primary-light));
+
   flex-shrink: 0;
+
 }
+
 
 .chat-title {
+
   font-weight: 600;
+
   font-size: 0.9rem;
+
   color: white;
+
   display: flex;
+
   align-items: center;
+
   gap: 0.5rem;
+
 }
+
 
 /* État par défaut : Gris et fixe */
+
 .dot {
+
   width: 8px;
+
   height: 8px;
+
   border-radius: 50%;
+
   background: #999; 
+
   transition: background 0.3s ease;
+
 }
+
 
 /* État actif : Ta couleur d'accent et l'animation */
+
 .dot.online {
+
   background: var(--accent);
+
   animation: blink 2s infinite;
+
 }
 
+
 @keyframes blink {
+
   0%, 100% { opacity: 1; }
+
   50%      { opacity: 0.3; }
-}
+
+} 
 
 
 
