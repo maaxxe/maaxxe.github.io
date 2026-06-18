@@ -549,15 +549,16 @@
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script src="/js/scripts.js"></script>
-
 <div id="chat-popup" role="dialog" aria-modal="true" aria-label="Assistant IA">
   <div id="chat-header">
     <span class="chat-title"><span class="dot"></span> Assistant IA</span>
     <button id="btn-close" aria-label="Fermer">✕</button>
   </div>
+
   <div id="messages">
     <div class="msg bot">👋 Bonjour !! Posez-moi vos questions sur mon parcours et mes projets</div>
   </div>
+
   <div id="input-area">
     <textarea id="user-input" placeholder="Votre question..." rows="1"></textarea>
     <button id="send-btn" aria-label="Envoyer">➤</button>
@@ -567,123 +568,177 @@
 <button id="chat-bubble" aria-label="Ouvrir le chat" aria-expanded="false">💬</button>
 
 <script>
-  const API_BASE = "https://maaxxe-rag-cv-pdf.hf.space";
-  
-  const popup    = document.getElementById("chat-popup");
-  const bubble   = document.getElementById("chat-bubble");
-  const btnClose = document.getElementById("btn-close");
-  const messages = document.getElementById("messages");
-  const input    = document.getElementById("user-input");
-  const sendBtn  = document.getElementById("send-btn");
-  const dot      = document.querySelector('.dot'); // Sélectionne la led
+  (() => {
+    const API_BASE = "https://maaxxe-rag-cv-pdf.hf.space";
+    const BOT_ID = 1;
+    const SYSTEM_PROMPT_OVERRIDE = "";
 
-  let open = false;
-  let history = [];
+    const popup = document.getElementById("chat-popup");
+    const bubble = document.getElementById("chat-bubble");
+    const btnClose = document.getElementById("btn-close");
+    const messages = document.getElementById("messages");
+    const input = document.getElementById("user-input");
+    const sendBtn = document.getElementById("send-btn");
+    const dot = document.querySelector(".dot");
 
-  window.addEventListener('load', () => {
-    fetch(API_BASE, { method: "GET", mode: "no-cors" })
-      .then(() => {
-        dot.classList.add('online'); // Active l'animation de la led
-      })
-      .catch(() => {
+    let open = false;
+
+    // Format attendu par ton backend Gradio type="messages"
+    let history = [];
+
+    window.addEventListener("load", async () => {
+      try {
+        await fetch(API_BASE, { method: "GET", mode: "no-cors" });
+        if (dot) dot.classList.add("online");
+      } catch {
         console.warn("Le serveur est en cours de réveil ou injoignable.");
-      });
-  });
+      }
+    });
 
-  function toggleChat() {
-    open = !open;
-    popup.classList.toggle("open", open);
-    bubble.setAttribute("aria-expanded", open);
-    bubble.textContent = open ? "✕" : "💬";
-    if (open) input.focus();
-  }
+    function toggleChat() {
+      open = !open;
+      popup.classList.toggle("open", open);
+      bubble.setAttribute("aria-expanded", String(open));
+      bubble.textContent = open ? "✕" : "💬";
+      if (open) input.focus();
+    }
 
-  bubble.addEventListener("click", toggleChat);
-  btnClose.addEventListener("click", toggleChat);
-  document.addEventListener("keydown", e => { if (e.key === "Escape" && open) toggleChat(); });
+    if (bubble) bubble.addEventListener("click", toggleChat);
+    if (btnClose) btnClose.addEventListener("click", toggleChat);
 
-  function addMsg(text, role) {
-    const div = document.createElement("div");
-    div.className = `msg ${role}`;
-    div.textContent = text;
-    messages.appendChild(div);
-    messages.scrollTop = messages.scrollHeight;
-    return div;
-  }
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && open) toggleChat();
+    });
 
-  async function send() {
-    const q = input.value.trim();
-    if (!q || sendBtn.disabled) return;
+    function addMsg(text, role, extraClass = "") {
+      const div = document.createElement("div");
+      div.className = `msg ${role} ${extraClass}`.trim();
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+      return div;
+    }
 
-    addMsg(q, "user");
-    input.value = "";
-    input.style.height = "40px";
-    sendBtn.disabled = true;
+    function cleanAnswer(raw) {
+      return raw
+        .replace(/\n\n---\n\*\*📎 Sources[\s\S]*$/g, "")
+        .replace(/\[Chunk \d+\][\s\S]*?(?=\n\n|$)/g, "")
+        .replace(/^(Selon le contexte[^,]*,\s*|D'après[^,]*,\s*)/gi, "")
+        .replace(/📎 Sources[\s\S]*$/g, "")
+        .trim();
+    }
 
-    const typing = addMsg("...", "bot typing");
+    async function send() {
+      const q = input.value.trim();
+      if (!q || sendBtn.disabled) return;
 
-    try {
-      const res = await fetch(`${API_BASE}/gradio_api/call/respond`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          data: [ q, history, "", 8, 0.85, false, 1 ]
-        })
-      });
+      addMsg(q, "user");
+      input.value = "";
+      input.style.height = "40px";
+      sendBtn.disabled = true;
 
-      const { event_id } = await res.json();
-      const stream = await fetch(`${API_BASE}/gradio_api/call/respond/${event_id}`);
-      const reader  = stream.body.getReader();
-      const decoder = new TextDecoder();
-      let answer = "";
-      typing.classList.remove("typing");
-      typing.textContent = "";
+      const typing = addMsg("...", "bot", "typing");
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const lines = decoder.decode(value).split("\n");
-        for (const line of lines) {
-          if (line.startsWith("data:")) {
+      try {
+        const res = await fetch(`${API_BASE}/gradio_api/call/respond`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            data: [
+              q,
+              history,
+              "",
+              8,
+              0.85,
+              false,
+              BOT_ID,
+              SYSTEM_PROMPT_OVERRIDE
+            ]
+          })
+        });
+
+        if (!res.ok) {
+          throw new Error(`POST ${res.status}`);
+        }
+
+        const json = await res.json();
+        if (!json.event_id) {
+          throw new Error("event_id manquant");
+        }
+
+        const stream = await fetch(`${API_BASE}/gradio_api/call/respond/${json.event_id}`);
+        if (!stream.ok || !stream.body) {
+          throw new Error(`STREAM ${stream.status}`);
+        }
+
+        const reader = stream.body.getReader();
+        const decoder = new TextDecoder();
+        let answer = "";
+
+        typing.classList.remove("typing");
+        typing.textContent = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split("\n");
+
+          for (const line of lines) {
+            if (!line.startsWith("data:")) continue;
+
+            const data = line.slice(5).trim();
+            if (!data) continue;
+
             try {
-              const payload = JSON.parse(line.slice(5).trim());
+              const payload = JSON.parse(data);
+
               if (Array.isArray(payload) && payload[0]) {
-                const raw = payload[0];
-                const clean = raw
-                  .replace(/\n\n---\n\*\*📎 Sources[\s\S]*$/g, "")
-                  .replace(/\[Chunk \d+\][\s\S]*?(?=\n\n|$)/g, "")
-                  .replace(/^(Selon le contexte[^,]*,\s*|D'après[^,]*,\s*)/gi, "")
-                  .replace(/📎 Sources[\s\S]*$/g, "")
-                  .trim();
-                answer = clean;
+                answer = cleanAnswer(payload[0]);
                 typing.textContent = answer;
                 messages.scrollTop = messages.scrollHeight;
               }
-            } catch { /* ligne partielle ignorée */ }
+            } catch {
+              // Ignore les fragments JSON incomplets
+            }
           }
         }
+
+        history.push(
+          { role: "user", content: q },
+          { role: "assistant", content: answer || "Je n'ai pas pu générer de réponse." }
+        );
+
+        if (history.length > 12) {
+          history = history.slice(-12);
+        }
+      } catch (err) {
+        typing.classList.remove("typing");
+        typing.textContent = "❌ Erreur de connexion. Réessayez.";
+        console.error(err);
+      } finally {
+        sendBtn.disabled = false;
+        input.focus();
       }
-
-      history.push([q, answer]);
-      if (history.length > 6) history.shift();
-
-    } catch (err) {
-      typing.textContent = "❌ Erreur de connexion. Réessayez.";
-      console.error(err);
-    } finally {
-      sendBtn.disabled = false;
-      input.focus();
     }
-  }
 
-  sendBtn.addEventListener("click", send);
-  input.addEventListener("keydown", e => {
-    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
-  });
-  input.addEventListener("input", () => {
-    input.style.height = "40px";
-    input.style.height = Math.min(input.scrollHeight, 120) + "px";
-  });
+    if (sendBtn) sendBtn.addEventListener("click", send);
+
+    if (input) {
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          send();
+        }
+      });
+
+      input.addEventListener("input", () => {
+        input.style.height = "40px";
+        input.style.height = Math.min(input.scrollHeight, 120) + "px";
+      });
+    }
+  })();
 </script>
 </body>
 
