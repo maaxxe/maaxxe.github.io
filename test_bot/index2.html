@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vision AI — Assistant Expert</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 720px;
+      text-align: center;
+    }
+
+    .title {
+      margin-bottom: 18px;
+    }
+
+    .title h1 {
+      font-size: 2rem;
+      margin-bottom: .4rem;
+    }
+
+    .title p {
+      color: #94a3b8;
+      font-size: .95rem;
+    }
+
+    #chat-box {
+      width: 100%;
+      height: 70vh;
+      min-height: 520px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 22px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 48px rgba(0,0,0,.45);
+    }
+
+    #chat-header {
+      padding: 1rem 1.2rem;
+      background: linear-gradient(135deg, #10b981, #059669); /* Changement de couleur pour un côté plus tech/vert */
+      color: white;
+      font-weight: 600;
+      font-size: .95rem;
+      text-align: left;
+    }
+
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      background: #1e293b;
+    }
+
+    .msg {
+      max-width: 85%;
+      padding: .75rem 1rem;
+      border-radius: 16px;
+      font-size: .92rem;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: #10b981;
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg.bot {
+      align-self: flex-start;
+      background: #0f172a;
+      color: #e2e8f0;
+      border-bottom-left-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; /* Police monospace pour l'expert */
+    }
+
+    .msg.typing {
+      color: #94a3b8;
+      font-style: italic;
+    }
+
+    #input-area {
+      display: flex;
+      gap: .6rem;
+      padding: 1rem;
+      border-top: 1px solid #334155;
+      background: #1e293b;
+    }
+
+    #user-input {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #e2e8f0;
+      border-radius: 12px;
+      padding: .8rem .95rem;
+      font-size: .92rem;
+      outline: none;
+      resize: none;
+      height: 46px;
+      max-height: 120px;
+      font-family: inherit;
+    }
+
+    #user-input:focus {
+      border-color: #10b981;
+    }
+
+    #send-btn {
+      width: 46px;
+      height: 46px;
+      border: none;
+      border-radius: 12px;
+      background: #10b981;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    #send-btn:hover {
+      background: #059669;
+    }
+
+    #send-btn:disabled {
+      background: #334155;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 12px; }
+      .title h1 { font-size: 1.5rem; }
+      #chat-box {
+        height: 82vh;
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="title">
+      <h1>Expert Computer Vision</h1>
+      <p>Posez vos questions sur vos architectures, pipelines ou implémentations.</p>
+    </div>
+
+    <div id="chat-box" role="dialog" aria-label="Assistant CV">
+      <div id="chat-header">Terminal de support Vision & IA</div>
+
+      <div id="messages">
+        <div class="msg bot">Prêt. Quel est le problème sur ton pipeline CV (CUDA, OpenCV, PyTorch) aujourd'hui ?</div>
+      </div>
+
+      <div id="input-area">
+        <textarea id="user-input" placeholder="Ex : Optimisation FPN, débuggage ResNet, gradients..." rows="1"></textarea>
+        <button id="send-btn" aria-label="Envoyer">➤</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const API_BASE = "https://maaxxe-rag-cv-pdf.hf.space";
+
+    const messages = document.getElementById("messages");
+    const input = document.getElementById("user-input");
+    const sendBtn = document.getElementById("send-btn");
+
+    let history = [];
+
+    function addMsg(text, role, extraClass = "") {
+      const div = document.createElement("div");
+      div.className = `msg ${role} ${extraClass}`.trim();
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+      return div;
+    }
+
+    async function send() {
+      const q = input.value.trim();
+      if (!q || sendBtn.disabled) return;
+
+      addMsg(q, "user");
+      input.value = "";
+      input.style.height = "46px";
+      sendBtn.disabled = true;
+
+      const typing = addMsg("Inférence en cours...", "bot", "typing");
+
+      try {
+        const enhancedQuestion = `
+Tu es un Expert Senior en Vision par Ordinateur.
+Ton rôle est d'accompagner techniquement sur des projets d'implémentation.
+Directives de réponse :
+- Rigueur technique : Utilise une terminologie précise (backpropagation, tenseurs, noyaux de convolution).
+- Ton : Direct, professionnel, efficace, orienté ingénieur. Pas de fioritures inutiles.
+
+Question utilisateur : ${q}
+        `.trim();
+
+        const res = await fetch(`${API_BASE}/gradio_api/call/respond`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            data: [
+              enhancedQuestion,
+              history,
+              "",
+              8,
+              0.85,
+              false,
+              2
+            ]
+          })
+        });
+
+        const { event_id } = await res.json();
+
+        const stream = await fetch(`${API_BASE}/gradio_api/call/respond/${event_id}`);
+        const reader = stream.body.getReader();
+        const decoder = new TextDecoder();
+        let answer = "";
+
+        typing.classList.remove("typing");
+        typing.textContent = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const lines = decoder.decode(value).split("\n");
+          for (const line of lines) {
+            if (line.startsWith("data:")) {
+              try {
+                const payload = JSON.parse(line.slice(5).trim());
+                if (Array.isArray(payload) && payload[0]) {
+                  const raw = payload[0];
+                  const clean = raw
+                    .replace(/\n\n---\n\*\*📎 Sources[\s\S]*$/g, "")
+                    .replace(/\[Chunk \d+\][\s\S]*?(?=\n\n|$)/g, "")
+                    .replace(/^(Selon le contexte[^,]*,\s*|D'après[^,]*,\s*)/gi, "")
+                    .replace(/📎 Sources[\s\S]*$/g, "")
+                    .trim();
+
+                  answer = clean;
+                  typing.textContent = answer;
+                  messages.scrollTop = messages.scrollHeight;
+                }
+              } catch {}
+            }
+          }
+        }
+
+        history.push([q, answer]);
+        if (history.length > 6) history.shift();
+
+      } catch (err) {
+        typing.textContent = "Erreur de connexion à l'API RAG.";
+        console.error(err);
+      } finally {
+        sendBtn.disabled = false;
+        input.focus();
+      }
+    }
+
+    sendBtn.addEventListener("click", send);
+
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        send();
+      }
+    });
+
+    input.addEventListener("input", () => {
+      input.style.height = "46px";
+      input.style.height = Math.min(input.scrollHeight, 120) + "px";
+    });
+  </script>
+</body>
+</html>
