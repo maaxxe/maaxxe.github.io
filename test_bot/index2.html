@@ -181,6 +181,21 @@
   <script>
     const API_BASE = "https://maaxxe-rag-cv-pdf.hf.space";
 
+    // ── Booléen en dur : choisis le comportement souhaité ──────────────────────
+    // true  → le site envoie PERSONA_PROMPT comme override. Il ne sera utilisé
+    //         par le serveur que si AUCUN prompt n'est activé pour ce bot dans
+    //         l'onglet Documents de l'app (le prompt du bot a priorité absolue).
+    // false → le site n'envoie aucun override (chaîne vide). Le serveur utilise
+    //         alors uniquement ce qui est configuré pour le bot, ou le prompt
+    //         commun par défaut si rien n'est configuré.
+    const SEND_PERSONA_OVERRIDE = true;
+
+    const PERSONA_PROMPT = `Tu es un Expert Senior en Vision par Ordinateur.
+Ton rôle est d'accompagner techniquement sur des projets d'implémentation.
+Directives de réponse :
+- Rigueur technique : Utilise une terminologie précise (backpropagation, tenseurs, noyaux de convolution).
+- Ton : Direct, professionnel, efficace, orienté ingénieur. Pas de fioritures inutiles.`;
+
     const messages = document.getElementById("messages");
     const input = document.getElementById("user-input");
     const sendBtn = document.getElementById("send-btn");
@@ -208,28 +223,19 @@
       const typing = addMsg("Inférence en cours...", "bot", "typing");
 
       try {
-        const enhancedQuestion = `
-Tu es un Expert Senior en Vision par Ordinateur.
-Ton rôle est d'accompagner techniquement sur des projets d'implémentation.
-Directives de réponse :
-- Rigueur technique : Utilise une terminologie précise (backpropagation, tenseurs, noyaux de convolution).
-- Ton : Direct, professionnel, efficace, orienté ingénieur. Pas de fioritures inutiles.
-
-Question utilisateur : ${q}
-        `.trim();
-
         const res = await fetch(`${API_BASE}/gradio_api/call/respond`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             data: [
-              enhancedQuestion,
+              q,                                            // message : la question brute, propre (utilisée pour le retrieval)
               history,
-              "",
-              8,
-              0.85,
-              false,
-              2
+              "",                                            // source_filter
+              8,                                              // top_k
+              0.85,                                           // max_distance
+              false,                                          // use_rewrite
+              2,                                              // bot_id
+              SEND_PERSONA_OVERRIDE ? PERSONA_PROMPT : ""      // system_prompt_override
             ]
           })
         });
