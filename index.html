@@ -108,109 +108,165 @@
       </div>
     </section>
 
-    <section class="projects-section reveal">
-      <h2>Projets phares</h2>
-      <div class="projects-grid">
-        
-        <article class="project-card reveal-scale reveal-delay-1">
-          <h3>PlankEye v1 – Vision par Ordinateur</h3>
-          <p>
-            <strong>Python, FPN, CUDA, OpenCV</strong><br>
-            Développement d'un modèle de vision pour la détection de coins sur des planches de bois. Utilisation de réseaux de caractéristiques pyramidales (FPN) avec accélération GPU (CUDA).
-          </p>
-        </article>
+<section class="projects-section reveal">
+  <h2>Projets phares</h2>
+  <div class="projects-grid">
 
-        <article class="project-card reveal-scale reveal-delay-2">
-          <h3>Agent IA – Ms. Pac-Man</h3>
-          <p>
-            <strong>Python, Deep Reinforcement Learning, DQN</strong><br>
-            Développement et optimisation d'un agent intelligent capable de jouer à Ms. Pac-Man de manière autonome en utilisant l'apprentissage par renforcement profond (Deep Q-Network).
-          </p>
-        </article>
+    <article class="project-card reveal-scale reveal-delay-1">
+      <h3>PlankEye v2 – Détection de coins par Deep Learning</h3>
+      <p>
+        <strong>Python, PyTorch, MobileNetV3, BiFPN, OpenCV</strong><br>
+        Pipeline de détection de keypoints sur planches de bois : backbone MobileNetV3-Large + BiFPN, décodage par heatmap (soft-argmax), Modified Focal Loss + Wing Loss. Comparatif face à ResNet, HRNet et YOLO (métriques en % de largeur de planche).
+      </p>
+    </article>
 
-        <article class="project-card reveal-scale reveal-delay-3">
-          <h3>Chatbot RAG – Analyse de CV</h3>
-          <p>
-            <strong>Python, ChromaDB, Hugging Face, Gradio</strong><br>
-            Architecture RAG (Retrieval-Augmented Generation) couplée à un LLM pour interroger le contenu de mon CV PDF. Module déployé sur un espace Hugging Face Spaces.
-          </p>
-        </article>
+    <article class="project-card reveal-scale reveal-delay-2">
+      <h3>Caméra robotisée de suivi de personnes</h3>
+      <p>
+        <strong>Python, YOLO, Vision temps réel, Asservissement</strong><br>
+        Caméra pan-tilt pilotée par détection YOLO : suivi automatique d'une personne avec asservissement moteur pour la garder centrée. En cas de perte de cible, poursuite du dernier mouvement connu, puis retour en position de repos après un délai.
+      </p>
+    </article>
 
-        <article class="project-card reveal-scale reveal-delay-4">
-          <h3>Génération d'Images Industrielles (GAN)</h3>
-          <p>
-            <strong>Python, PyTorch, DCGAN, ResNet</strong><br>
-            Configuration et entraînement de réseaux antagonistes génératifs (GANs) sur un dataset de pièces industrielles afin d'améliorer la diversité et la stabilité des données de test.
-          </p>
-        </article>
+    <article class="project-card reveal-scale reveal-delay-3">
+      <h3>IHM2 – Interface de pilotage vision industrielle</h3>
+      <p>
+        <strong>Python, PyQt5, OpenCV, Capteur Keyence</strong><br>
+        Application HMI intégrant plusieurs types de caméras (MJPEG, déclenchement, API REST) et un capteur Keyence pour la détection et l'alignement de pièces en temps réel. Multi-threading, export de points vers un robot, calibration caméra/capteur par homographie.
+      </p>
+    </article>
 
-        <article class="project-card reveal-scale reveal-delay-5">
-          <h3>Application Android – Gestion de restaurant</h3>
-          <p>
-            <strong>Java, Android Studio, MVVM</strong><br>
-            Outil pour restaurateurs : gestion des tables, création de commandes, suivi des prix et totaux. Architecture MVVM pour une maintenabilité optimale.
-          </p>
-          <a href="https://github.com/maaxxe/Projet_Android" target="_blank" class="project-link">
-            → Voir le projet
-          </a>
-        </article>
+    <article class="project-card reveal-scale reveal-delay-4">
+      <h3>RAG local – Assistant documentaire</h3>
+      <p>
+        <strong>Python, ChromaDB, Ollama, Gradio</strong><br>
+        Deux déploiements : une version locale sur PC (ingestion de documents, plusieurs modes de réponse, historique persistant, LLM mistral-nemo via Ollama) et une version cloud sur Hugging Face Spaces, intégrée en temps réel à ce portfolio (voir le chat 💬 ci-dessus).
+      </p>
+    </article>
 
-        <article class="project-card reveal-scale reveal-delay-6">
-          <h3>Site Web avec Gestion des Droits d'Accès</h3>
-          <p>
-            <strong>HTML, CSS, JavaScript, SQL</strong><br>
-            Site web dynamique avec système de gestion des droits d'accès à trois niveaux (Administrateur, Salarié, Visiteur). Authentification sécurisée, attribution de rôles et interface adaptative selon les permissions utilisateur.
-          </p>
-          <a href="https://github.com/maaxxe/projet_SQL" target="_blank" class="project-link">
-            → Voir le projet
-          </a>
-        </article>
+    <article class="project-card reveal-scale reveal-delay-5">
+      <h3>Assistant vocal local – STT/LLM/TTS</h3>
+      <p>
+        <strong>Python, faster-whisper, Ollama, Pipewire</strong><br>
+        Pipeline vocal complet en local sur Arch Linux : transcription speech-to-text (faster-whisper, filtrage VAD anti-hallucination), traitement par LLM via Ollama, synthèse vocale en réponse. Capture audio via Pipewire/PyAudio.
+      </p>
+    </article>
 
-        <article class="project-card reveal-scale reveal-delay-7">
-          <h3>Contrôle de robot autonome</h3>
-          <p>
-            <strong>C, Pthread, Sockets TCP/IP, Java</strong><br>
-            Application de contrôle de robot en C communicant avec un simulateur Java. Programmation de trajectoires prédéfinies, mode suivi de mur, gestion multitâche et interface utilisateur interactive. Communication réseau via sockets.
-          </p>
-          <a href="https://github.com/maaxxe/Projet_robot" target="_blank" class="project-link">
-            → Voir le projet
-          </a>
-        </article>
+    <article class="project-card reveal-scale reveal-delay-6">
+      <h3>AutoFillAgent – Automatisation de formulaires web</h3>
+      <p>
+        <strong>Python, Playwright, Ollama</strong><br>
+        Agent d'automatisation de remplissage de formulaires web combinant Playwright (contrôle navigateur) et un LLM local via Ollama. Architecture modulaire récemment refactorisée.
+      </p>
+    </article>
 
-        <article class="project-card reveal-scale reveal-delay-1">
-          <h3>Système de détection d'intrusion (ProSe)</h3>
-          <p>
-            <strong>C, Android, Raspberry Pi</strong><br>
-            Réseau de caméras de surveillance Raspberry Pi + caméras IP + application Android. Intégration complète : capture sécurisée, transmission et monitoring.
-          </p>
-        </article>
+    <article class="project-card reveal-scale reveal-delay-1">
+      <h3>Génération d'images synthétiques (GAN)</h3>
+      <p>
+        <strong>Python, PyTorch, FastGAN, ADA, EMA</strong><br>
+        Implémentation d'un FastGAN (blocs SLE, EMA, régularisation R1) optimisée pour GPU à VRAM limitée (4 Go), pour générer des données d'entraînement synthétiques de planches de bois. Projet en pause : manque de données terrain et contraintes matérielles.
+      </p>
+    </article>
 
-        <article class="project-card reveal-scale reveal-delay-2">
-          <h3>Réseaux de neurones – IA appliquée</h3>
-          <p>
-            <strong>Python, PyTorch, NumPy, Pandas</strong><br>
-            Projets de cours en deep learning : classification d'images, traitement de données, modèles CNN et analyse statistique.
-          </p>
-        </article>
+    <article class="project-card reveal-scale reveal-delay-2">
+      <h3>Pixel Clock connecté – ESP32 / AWTRIX 3</h3>
+      <p>
+        <strong>Python, ESP32, AWTRIX 3</strong><br>
+        Application Python pilotant un afficheur pixel art (Ulanzi TC001, firmware AWTRIX 3) : pages de countdown F1, statistiques GPU/CPU en temps réel, détection de présence du PC en ligne.
+      </p>
+    </article>
 
-        <article class="project-card reveal-scale reveal-delay-3">
-          <h3>Automatisation – Lignes de production Stellantis</h3>
-          <p>
-            <strong>TIA Portal, STEP7, Robots &amp; Automates</strong><br>
-            Modernisation des chaînes Citroën C3 &amp; Opel Frontera : commissioning, optimisation des temps de cycle, intégration de capteurs et amélioration continue.
-          </p>
-        </article>
+    <article class="project-card reveal-scale reveal-delay-3">
+      <h3>MotorTrack – Calendrier Motorsport</h3>
+      <p>
+        <strong>Flask, JavaScript</strong><br>
+        Application web de calendrier motorsport agrégeant les dates de courses (F1, etc.) dans une interface simple et accessible.
+      </p>
+    </article>
 
-        <article class="project-card reveal-scale reveal-delay-4">
-          <h3>Simulation d'Attaque et Analyse (Pentesting)</h3>
-          <p>
-            <strong>Kali Linux, Metasploit, Nmap, Bash</strong><br>
-            Exploitation d'une vulnérabilité via un port ouvert pour obtenir une session distante (Reverse Shell). Élévation de privilèges et mise en place d'un système de logging (Keylogger/Spyware) pour l'analyse comportementale de la cible dans un cadre académique.
-          </p>
-        </article>
-        
-      </div>
-    </section>
+    <article class="project-card reveal-scale reveal-delay-4">
+      <h3>Quiz multijoueur en temps réel</h3>
+      <p>
+        <strong>Firebase Realtime Database, JavaScript</strong><br>
+        Jeu de quiz multijoueur avec synchronisation des scores en direct, déployé sur GitHub Pages.
+      </p>
+    </article>
+
+    <article class="project-card reveal-scale reveal-delay-5">
+      <h3>Agent IA – Ms. Pac-Man</h3>
+      <p>
+        <strong>Python, Deep Reinforcement Learning, DQN</strong><br>
+        Développement et optimisation d'un agent intelligent capable de jouer à Ms. Pac-Man de manière autonome en utilisant l'apprentissage par renforcement profond (Deep Q-Network).
+      </p>
+    </article>
+
+    <article class="project-card reveal-scale reveal-delay-6">
+      <h3>Application Android – Gestion de restaurant</h3>
+      <p>
+        <strong>Java, Android Studio, MVVM</strong><br>
+        Outil pour restaurateurs : gestion des tables, création de commandes, suivi des prix et totaux. Architecture MVVM pour une maintenabilité optimale.
+      </p>
+      <a href="https://github.com/maaxxe/Projet_Android" target="_blank" class="project-link">
+        → Voir le projet
+      </a>
+    </article>
+
+    <article class="project-card reveal-scale reveal-delay-1">
+      <h3>Site Web avec Gestion des Droits d'Accès</h3>
+      <p>
+        <strong>HTML, CSS, JavaScript, SQL</strong><br>
+        Site web dynamique avec système de gestion des droits d'accès à trois niveaux (Administrateur, Salarié, Visiteur). Authentification sécurisée, attribution de rôles et interface adaptative selon les permissions utilisateur.
+      </p>
+      <a href="https://github.com/maaxxe/projet_SQL" target="_blank" class="project-link">
+        → Voir le projet
+      </a>
+    </article>
+
+    <article class="project-card reveal-scale reveal-delay-2">
+      <h3>Contrôle de robot autonome</h3>
+      <p>
+        <strong>C, Pthread, Sockets TCP/IP, Java</strong><br>
+        Application de contrôle de robot en C communicant avec un simulateur Java. Programmation de trajectoires prédéfinies, mode suivi de mur, gestion multitâche et interface utilisateur interactive. Communication réseau via sockets.
+      </p>
+      <a href="https://github.com/maaxxe/Projet_robot" target="_blank" class="project-link">
+        → Voir le projet
+      </a>
+    </article>
+
+    <article class="project-card reveal-scale reveal-delay-3">
+      <h3>Système de détection d'intrusion (ProSe)</h3>
+      <p>
+        <strong>C, Android, Raspberry Pi</strong><br>
+        Réseau de caméras de surveillance Raspberry Pi + caméras IP + application Android. Intégration complète : capture sécurisée, transmission et monitoring.
+      </p>
+    </article>
+
+    <article class="project-card reveal-scale reveal-delay-4">
+      <h3>Réseaux de neurones – IA appliquée</h3>
+      <p>
+        <strong>Python, PyTorch, NumPy, Pandas</strong><br>
+        Projets de cours en deep learning : classification d'images, traitement de données, modèles CNN et analyse statistique.
+      </p>
+    </article>
+
+    <article class="project-card reveal-scale reveal-delay-5">
+      <h3>Automatisation – Lignes de production Stellantis</h3>
+      <p>
+        <strong>TIA Portal, STEP7, Robots &amp; Automates</strong><br>
+        Modernisation des chaînes Citroën C3 &amp; Opel Frontera : commissioning, optimisation des temps de cycle, intégration de capteurs et amélioration continue.
+      </p>
+    </article>
+
+    <article class="project-card reveal-scale reveal-delay-6">
+      <h3>Simulation d'Attaque et Analyse (Pentesting)</h3>
+      <p>
+        <strong>Kali Linux, Metasploit, Nmap, Bash</strong><br>
+        Exploitation d'une vulnérabilité via un port ouvert pour obtenir une session distante (Reverse Shell). Élévation de privilèges et mise en place d'un système de logging pour l'analyse comportementale de la cible dans un cadre académique.
+      </p>
+    </article>
+
+  </div>
+</section>
 
     <section class="education-section reveal">
       <h2>Formation</h2>
