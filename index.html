@@ -107,7 +107,6 @@
         </p>
       </div>
     </section>
-
 <section class="projects-section reveal">
   <h2>Projets phares</h2>
   <div class="projects-grid">
@@ -193,10 +192,13 @@
     </article>
 
     <article class="project-card reveal-scale reveal-delay-5">
-      <h3>Agent IA – Ms. Pac-Man</h3>
+      <h3>DQN MsPacman – Apprentissage par Renforcement Profond</h3>
       <p>
-        <strong>Python, Deep Reinforcement Learning, DQN</strong><br>
-        Développement et optimisation d'un agent intelligent capable de jouer à Ms. Pac-Man de manière autonome en utilisant l'apprentissage par renforcement profond (Deep Q-Network).
+        <strong>Python, PyTorch, Gymnasium, ALE</strong><br>
+        Agent Deep Q-Network entraîné sur ALE/MsPacman-v5, combinant Double DQN (correction du biais de sur-estimation), Dueling DQN (séparation valeur d'état / avantage) et Prioritized Experience Replay (sampling priorisé par TD-error).
+      </p>
+      <p>
+        Deux contributions originales : un système de récompenses configurable (hot-reload) et un <em>Trophy Buffer</em> — boost rétroactif des transitions issues d'épisodes exceptionnels. Meilleur épisode : 180 gommes mangées sur 158 visées (niveau quasiment complété).
       </p>
     </article>
 
