@@ -33,11 +33,14 @@
     <div class="hero-gradient"></div>
     <div class="hero-pattern"></div>
 
-    <div class="hero-container">
-      <div class="hero-badge">
-        <span class="badge-icon"></span>
-        <h1>Vous pouvez essayer le chatbot pour toute question concernant mon parcours et mon CV en cliquant sur le logo 💬<br> </h1>
-      </div>
+  <div class="hero-badge">
+    <span class="badge-icon"></span>
+    <h1>
+      <a href="#" onclick="document.getElementById('chat-bubble').click(); return false;" style="text-decoration:underline; cursor:pointer;">
+        Vous pouvez essayer le chatbot pour toute question concernant mon parcours et mon CV en cliquant sur le logo 💬
+      </a>
+    </h1>
+  </div>
 
       <h1 class="hero-title">
         Ingénieur<br>
@@ -128,10 +131,10 @@
     </article>
 
     <article class="project-card reveal-scale reveal-delay-3">
-      <h3>IHM2 – Interface de pilotage vision industrielle</h3>
+      <h3>PlankEye – Interface de pilotage vision industrielle</h3>
       <p>
         <strong>Python, PyQt5, OpenCV, Capteur Keyence</strong><br>
-        Application HMI intégrant plusieurs types de caméras (MJPEG, déclenchement, API REST) et un capteur Keyence pour la détection et l'alignement de pièces en temps réel. Multi-threading, export de points vers un robot, calibration caméra/capteur par homographie.
+        Application HMI intégrant plusieurs types de caméras (MJPEG, déclenchement, API REST) et un capteur Keyence pour la détection des 4 coins de pièces en temps réel. Multi-threading, export de points vers un robot, calibration caméra/capteur par homographie et comunication TCP/IP.
       </p>
     </article>
 
@@ -139,7 +142,7 @@
       <h3>RAG local – Assistant documentaire</h3>
       <p>
         <strong>Python, ChromaDB, Ollama, Gradio</strong><br>
-        Deux déploiements : une version locale sur PC (ingestion de documents, plusieurs modes de réponse, historique persistant, LLM mistral-nemo via Ollama) et une version cloud sur Hugging Face Spaces, intégrée en temps réel à ce portfolio (voir le chat 💬 ci-dessus).
+        Deux déploiements : une version locale sur PC (ingestion de documents, plusieurs modes de réponse, historique persistant, LLM mistral-nemo via Ollama) et une version cloud sur Hugging Face Spaces, intégrée en temps réel à ce portfolio (ici lien vers le chat bulle💬 ).
       </p>
     </article>
 
@@ -159,14 +162,13 @@
       </p>
     </article>
 
-    <article class="project-card reveal-scale reveal-delay-1">
-      <h3>Génération d'images synthétiques (GAN)</h3>
-      <p>
-        <strong>Python, PyTorch, FastGAN, ADA, EMA</strong><br>
-        Implémentation d'un FastGAN (blocs SLE, EMA, régularisation R1) optimisée pour GPU à VRAM limitée (4 Go), pour générer des données d'entraînement synthétiques de planches de bois. Projet en pause : manque de données terrain et contraintes matérielles.
-      </p>
-    </article>
-
+  <article class="project-card reveal-scale reveal-delay-1">
+    <h3>Génération d'images synthétiques (GAN)</h3>
+    <p>
+      <strong>Python, PyTorch</strong><br>
+      Je me suis penché sur la génération d'images synthétiques via un GAN, dans l'idée de créer des données d'entraînement artificielles pour la détection de planches de bois.
+    </p>
+  </article>
     <article class="project-card reveal-scale reveal-delay-2">
       <h3>Pixel Clock connecté – ESP32 / AWTRIX 3</h3>
       <p>
@@ -187,17 +189,20 @@
       <h3>Quiz multijoueur en temps réel</h3>
       <p>
         <strong>Firebase Realtime Database, JavaScript</strong><br>
-        Jeu de quiz multijoueur avec synchronisation des scores en direct, déployé sur GitHub Pages.
+        Jeu de quiz multijoueur avec synchronisation des scores en direct, déployé en ligne sur .web.app/.
       </p>
     </article>
 
-    <article class="project-card reveal-scale reveal-delay-5">
-      <h3>DQN MsPacman – Apprentissage par Renforcement Profond</h3>
-      <p>
-        <strong>Python, PyTorch, Gymnasium, ALE</strong><br>
-        Agent Deep Q-Network combinant Double DQN, Dueling DQN et Prioritized Experience Replay, avec une contribution originale : le Trophy Buffer, un boost rétroactif des épisodes exceptionnels. Meilleur épisode : 180 gommes mangées sur 158 visées.
-      </p>
-</article>
+  <article class="project-card reveal-scale reveal-delay-5">
+    <h3>DQN MsPacman – Apprentissage par Renforcement Profond</h3>
+    <p>
+      <strong>Python, PyTorch, Gymnasium, ALE</strong><br>
+      Agent Deep Q-Network combinant Double DQN, Dueling DQN et Prioritized Experience Replay, avec une contribution originale : le Trophy Buffer, un boost rétroactif des épisodes exceptionnels. Meilleur épisode : 180 gommes mangées sur 158 visées.
+    </p>
+    <a href="images/video/pacman.mp4" target="_blank" class="project-link">
+      → Voir la vidéo
+    </a>
+  </article>
 
     <article class="project-card reveal-scale reveal-delay-6">
       <h3>Application Android – Gestion de restaurant</h3>
@@ -327,6 +332,7 @@
           <li>Entraînement et optimisation du modèle de détection.</li>
           <li>Développement d'une IHM (Qt) pour la visualisation et la validation des détections par l'opérateur.</li>
           <li>Intégration du pipeline vision vers le robot </li>
+          <li>mise en place liaison tcp-ip </li>
         </ul>
         <div class="skills-tags" style="margin-top:8px;">
           <span>Vision par Ordinateur</span> <span>Deep Learning</span> <span>OpenCV</span> <span>Qt</span> <span>Robotique collaborative</span> <span>TCP/IP</span>
