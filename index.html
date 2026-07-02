@@ -280,7 +280,7 @@
             </div>
             <p class="edu-meta"><strong>Diplômé - Maîtrise en informatique</strong> – Spécialisation IA (2025–2026)</p>
             <p>
-              Double diplôme avec l’ESEO. Approfondissement en apprentissage automatique, vision par ordinateur et réseaux de neurones.
+              Double diplôme avec l'ESEO. Approfondissement en apprentissage automatique, vision par ordinateur et réseaux de neurones.
             </p>
             <div class="logo-row">
               <img src="images/flags/flag_ca.png" alt="Canada" class="tiny-logo">
@@ -495,7 +495,7 @@
           <h3>Lettonie – Échange universitaire</h3>
           <p>
             <strong>Fév. 2023 – Août 2023</strong><br>
-            Semestre d’échange en Lettonie : cours en anglais, découverte d’un nouveau système universitaire et d’une culture différente.
+            Semestre d'échange en Lettonie : cours en anglais, découverte d'un nouveau système universitaire et d'une culture différente.
           </p>
         </div>
 
@@ -589,10 +589,10 @@
             <img src="images/logos/logo_toeic.jpeg" alt="TOEIC" class="tiny-logo">
             <div>
               <strong>TOEIC – Test of English for International Communication</strong><br>
-              Score : <em>825 / 990</em> · Délivré en mai 2025 · Valable jusqu’en mai 2027.<br>
+              Score : <em>825 / 990</em> · Délivré en mai 2025 · Valable jusqu'en mai 2027.<br>
               <a href="https://www.etsglobal.org/fr/en/digital-score-report/73E35303C45BE8C7C6C16CE0068C55F40403A97E8CC66C3E72D3CEC3FD95B2AANThOeTdBQm5FVEFkdTNROU11VWxDdTdhMytadkx5UXpNckk2REJzSEs4dFV5OVVM"
                 class="certification-button" target="_blank">
-                → Voir l’attestation
+                → Voir l'attestation
               </a>
             </div>
           </div>
@@ -620,11 +620,11 @@
               <a href="https://mon.certificat-voltaire.fr/verification-certificat/" target="_blank"
                 class="certification-button">
                 → Voir certification:
-                <a href="#" onclick="copyToClipboard('DANWX7P', event)" class="copy-code"
-                  style="text-decoration: none; color: inherit;">
-                  <span id="certification-code">DANWX7P</span>
-                  (cliquer pour copier)
-                </a>
+              </a>
+              <a href="#" onclick="copyToClipboard('DANWX7P', event)" class="copy-code"
+                style="text-decoration: none; color: inherit;">
+                <span id="certification-code">DANWX7P</span>
+                (cliquer pour copier)
               </a>
             </div>
           </div>
@@ -666,7 +666,47 @@
     </div>
   </footer>
 
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Fonction manquante utilisée par le bouton de copie du code Voltaire
+    function copyToClipboard(text, event) {
+      if (event) event.preventDefault();
+      const codeEl = document.getElementById('certification-code');
+      const restore = () => {
+        if (codeEl) {
+          const original = text;
+          codeEl.textContent = 'Copié !';
+          setTimeout(() => { codeEl.textContent = original; }, 1500);
+        }
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(restore).catch(() => {
+          fallbackCopy(text, restore);
+        });
+      } else {
+        fallbackCopy(text, restore);
+      }
+    }
+
+    function fallbackCopy(text, cb) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {
+        document.execCommand('copy');
+      } catch (e) {
+        console.error('Copie impossible :', e);
+      }
+      document.body.removeChild(ta);
+      if (cb) cb();
+    }
+  </script>
   <script src="/js/scripts.js"></script>
 <div id="chat-popup" role="dialog" aria-modal="true" aria-label="Assistant IA">
   <div id="chat-header">
