@@ -48,8 +48,8 @@
   "days": [
     {
       "date": "2026-08-18",
-      "lunch": false,
-      "dinner": false,
+      "lunch": true,
+      "dinner": true,
       "lunchItems": [],
       "dinnerItems": []
     },
