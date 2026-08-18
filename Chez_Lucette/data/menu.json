@@ -9,11 +9,142 @@
     "displayDays": 7
   },
   "tags": [
-    {"id":"t1","name":"Entrée du moment","category":"entree","description":"À personnaliser dans l'administration","price":""},
-    {"id":"t2","name":"Plat du jour","category":"plat","description":"À personnaliser dans l'administration","price":""},
-    {"id":"t3","name":"Suggestion de Lucette","category":"plat","description":"À personnaliser dans l'administration","price":""},
-    {"id":"t4","name":"Dessert maison","category":"dessert","description":"À personnaliser dans l'administration","price":""},
-    {"id":"t5","name":"Boisson du moment","category":"boisson","description":"À personnaliser dans l'administration","price":""}
+    {
+      "id": "t1",
+      "name": "Entrée du moment",
+      "category": "entree",
+      "description": "À personnaliser dans l'administration",
+      "price": ""
+    },
+    {
+      "id": "t2",
+      "name": "Plat du jour",
+      "category": "plat",
+      "description": "À personnaliser dans l'administration",
+      "price": ""
+    },
+    {
+      "id": "t3",
+      "name": "Suggestion de Lucette",
+      "category": "plat",
+      "description": "À personnaliser dans l'administration",
+      "price": ""
+    },
+    {
+      "id": "t4",
+      "name": "Dessert maison",
+      "category": "dessert",
+      "description": "À personnaliser dans l'administration",
+      "price": ""
+    },
+    {
+      "id": "t5",
+      "name": "Boisson du moment",
+      "category": "boisson",
+      "description": "À personnaliser dans l'administration",
+      "price": ""
+    }
   ],
-  "days": []
+  "days": [
+    {
+      "date": "2026-08-18",
+      "lunch": false,
+      "dinner": false,
+      "lunchItems": [],
+      "dinnerItems": []
+    },
+    {
+      "date": "2026-08-19",
+      "lunch": false,
+      "dinner": false,
+      "lunchItems": [],
+      "dinnerItems": []
+    },
+    {
+      "date": "2026-08-20",
+      "lunch": true,
+      "dinner": false,
+      "lunchItems": [
+        "t1"
+      ],
+      "dinnerItems": []
+    },
+    {
+      "date": "2026-08-21",
+      "lunch": true,
+      "dinner": false,
+      "lunchItems": [],
+      "dinnerItems": []
+    },
+    {
+      "date": "2026-08-22",
+      "lunch": true,
+      "dinner": true,
+      "lunchItems": [],
+      "dinnerItems": []
+    },
+    {
+      "date": "2026-08-23",
+      "lunch": true,
+      "dinner": false,
+      "lunchItems": [],
+      "dinnerItems": []
+    },
+    {
+      "date": "2026-08-24",
+      "lunch": false,
+      "dinner": false,
+      "lunchItems": [],
+      "dinnerItems": []
+    },
+    {
+      "date": "2026-08-25",
+      "lunch": false,
+      "dinner": false,
+      "lunchItems": [],
+      "dinnerItems": []
+    },
+    {
+      "date": "2026-08-26",
+      "lunch": false,
+      "dinner": false,
+      "lunchItems": [],
+      "dinnerItems": []
+    },
+    {
+      "date": "2026-08-27",
+      "lunch": true,
+      "dinner": false,
+      "lunchItems": [],
+      "dinnerItems": []
+    },
+    {
+      "date": "2026-08-28",
+      "lunch": true,
+      "dinner": false,
+      "lunchItems": [],
+      "dinnerItems": []
+    },
+    {
+      "date": "2026-08-29",
+      "lunch": true,
+      "dinner": true,
+      "lunchItems": [],
+      "dinnerItems": []
+    },
+    {
+      "date": "2026-08-30",
+      "lunch": true,
+      "dinner": false,
+      "lunchItems": [],
+      "dinnerItems": []
+    },
+    {
+      "date": "2026-08-31",
+      "lunch": false,
+      "dinner": false,
+      "lunchItems": [],
+      "dinnerItems": []
+    }
+  ]
 }
