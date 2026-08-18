@@ -6,7 +6,7 @@
     "phone": "07 66 37 00 20"
   },
   "settings": {
-    "displayDays": 5
+    "displayDays": 8
   },
   "tags": [
     {
@@ -64,7 +64,7 @@
     },
     {
       "date": "2026-08-20",
-      "lunch": true,
+      "lunch": false,
       "dinner": false,
       "lunchItems": [
         "t1"
@@ -73,21 +73,21 @@
     },
     {
       "date": "2026-08-21",
-      "lunch": true,
+      "lunch": false,
       "dinner": false,
       "lunchItems": [],
       "dinnerItems": []
     },
     {
       "date": "2026-08-22",
-      "lunch": true,
-      "dinner": true,
+      "lunch": false,
+      "dinner": false,
       "lunchItems": [],
       "dinnerItems": []
     },
     {
       "date": "2026-08-23",
-      "lunch": true,
+      "lunch": false,
       "dinner": false,
       "lunchItems": [],
       "dinnerItems": []
