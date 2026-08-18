@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administration — Chez Lucette</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="admin-page">
+  <header class="admin-header">
+    <div class="admin-brand">
+      <img class="admin-brand-logo" src="image/logo.jpg" alt="Logo Chez Lucette" onerror="this.style.display='none'" />
+      <div>
+        <p class="eyebrow">Chez Lucette • Administration</p>
+        <h1>Gestion des menus</h1>
+      </div>
+    </div>
+    <div class="admin-header-actions">
+      <a class="button button-ghost" href="index.html" target="_blank">Voir le site</a>
+      <button id="publishBtn" class="button button-primary">Publier</button>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <section class="sidebar-section">
+        <div class="sidebar-title-row">
+          <div>
+            <p class="eyebrow">Étiquettes</p>
+            <h2>Plats disponibles</h2>
+          </div>
+          <button id="newTagBtn" class="icon-button" title="Créer une étiquette">+</button>
+        </div>
+        <div class="sidebar-callout"><strong>Très simple :</strong> créez un plat avec le bouton +, puis faites-le glisser dans le midi ou le soir du jour souhaité. Cliquez sur une étiquette pour la modifier.</div>
+        <div class="filter-row" id="categoryFilters"></div>
+        <div id="tagLibrary" class="tag-library"></div>
+      </section>
+
+      <section class="sidebar-section settings-section">
+        <p class="eyebrow">Affichage</p>
+        <h2>Nombre de jours</h2>
+        <div class="days-setting">
+          <input id="displayDays" type="range" min="1" max="14" value="7" />
+          <strong><span id="displayDaysValue">7</span> jours</strong>
+        </div>
+      </section>
+
+      <section class="sidebar-section settings-section">
+        <p class="eyebrow">Restaurant</p>
+        <label>Nom<input id="restaurantNameInput" type="text" /></label>
+        <label>Sous-titre<input id="restaurantSubtitleInput" type="text" /></label>
+        <label>Adresse<input id="addressInput" type="text" /></label>
+        <label>Téléphone<input id="phoneInput" type="text" /></label>
+      </section>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-toolbar">
+        <div>
+          <p class="eyebrow">Planning</p>
+          <h2 id="planningTitle">Les 7 prochains jours</h2>
+        </div>
+        <div class="toolbar-actions">
+          <button id="resetBtn" class="button button-ghost">Réinitialiser</button>
+          <button id="exportBtn" class="button button-ghost">Exporter JSON</button>
+          <label class="button button-ghost file-button">Importer JSON<input id="importInput" type="file" accept="application/json" hidden /></label>
+        </div>
+      </div>
+
+      <div id="adminDays" class="admin-days"></div>
+    </main>
+  </div>
+
+  <dialog id="tagDialog" class="modal">
+    <form method="dialog" id="tagForm">
+      <div class="modal-head">
+        <div>
+          <p class="eyebrow">Étiquette</p>
+          <h2 id="dialogTitle">Nouveau plat</h2>
+        </div>
+        <button class="icon-button" value="cancel" aria-label="Fermer">×</button>
+      </div>
+
+      <input type="hidden" id="tagId" />
+      <label>Nom du plat<input id="tagName" required maxlength="80" placeholder="Ex. Filet de dorade" /></label>
+      <label>Catégorie
+        <select id="tagCategory">
+          <option value="entree">Entrée</option>
+          <option value="plat">Plat</option>
+          <option value="dessert">Dessert</option>
+          <option value="boisson">Boisson</option>
+          <option value="accompagnement">Accompagnement</option>
+          <option value="autre">Autre</option>
+        </select>
+      </label>
+      <label>Description<textarea id="tagDescription" rows="3" placeholder="Optionnel"></textarea></label>
+      <label>Prix (€)<input id="tagPrice" type="number" min="0" step="0.10" placeholder="Optionnel" /></label>
+
+      <div class="modal-actions">
+        <button id="deleteTagBtn" type="button" class="button button-danger hidden">Supprimer</button>
+        <span class="modal-spacer"></span>
+        <button type="button" id="cancelTagBtn" class="button button-ghost">Annuler</button>
+        <button type="submit" class="button button-primary">Enregistrer</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="publishDialog" class="modal publish-modal">
+    <div class="modal-head">
+      <div>
+        <p class="eyebrow">Confirmation</p>
+        <h2>Publier les modifications ?</h2>
+      </div>
+      <button id="closePublishBtn" class="icon-button">×</button>
+    </div>
+    <p id="publishModeText">Confirmez pour publier le nouveau menu.</p>
+    <div class="publish-summary" id="publishSummary"></div>
+    <label class="publish-password">Mot de passe administrateur
+      <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Mot de passe de publication" />
+    </label>
+    <div class="modal-actions">
+      <button id="cancelPublishBtn" class="button button-ghost">Annuler</button>
+      <button id="confirmPublishBtn" class="button button-primary">Confirmer la publication</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,2 @@
+Placez ici le logo du restaurant sous le nom : logo.jpg
+Chemin attendu par le site : image/logo.jpg

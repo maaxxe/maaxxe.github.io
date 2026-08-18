@@ -1,0 +1,19 @@
+{
+  "restaurant": {
+    "name": "Chez Lucette",
+    "subtitle": "Cuisine conviviale • Plombières-les-Bains",
+    "address": "Passage Voltaire, 88370 Plombières-les-Bains",
+    "phone": "07 66 37 00 20"
+  },
+  "settings": {
+    "displayDays": 7
+  },
+  "tags": [
+    {"id":"t1","name":"Entrée du moment","category":"entree","description":"À personnaliser dans l'administration","price":""},
+    {"id":"t2","name":"Plat du jour","category":"plat","description":"À personnaliser dans l'administration","price":""},
+    {"id":"t3","name":"Suggestion de Lucette","category":"plat","description":"À personnaliser dans l'administration","price":""},
+    {"id":"t4","name":"Dessert maison","category":"dessert","description":"À personnaliser dans l'administration","price":""},
+    {"id":"t5","name":"Boisson du moment","category":"boisson","description":"À personnaliser dans l'administration","price":""}
+  ],
+  "days": []
+}

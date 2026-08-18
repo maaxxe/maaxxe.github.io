@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chez Lucette — Menus à Plombières-les-Bains</title>
+  <meta name="description" content="Découvrez les menus du moment et les jours d'ouverture de Chez Lucette à Plombières-les-Bains." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="public-page">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <img class="brand-logo" src="image/logo.png" alt="Logo Chez Lucette" onerror="this.style.display='none'" />
+        <span>
+          <strong id="restaurantName">Chez Lucette</strong>
+          <small id="restaurantSubtitle">Cuisine conviviale • Plombières-les-Bains</small>
+        </span>
+      </a>
+      <nav>
+        <a href="#menus">Menus</a>
+        <a href="#infos">Horaires & contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div>
+          <p class="eyebrow">Chez Lucette • Plombières-les-Bains</p>
+          <h1>À table<br>chez Lucette.</h1>
+          <p id="heroText" class="hero-copy">Retrouvez ici les menus proposés selon les jours et les services. La carte est mise à jour directement par le restaurant.</p>
+          <div class="hero-actions">
+            <a class="hero-action primary" href="#menus">Voir les menus</a>
+            <a class="hero-action" href="tel:+33766370020">Appeler</a>
+          </div>
+        </div>
+
+        <aside class="hero-logo-card">
+          <img class="hero-logo" src="image/logo.jpg" alt="Chez Lucette" onerror="this.style.display='none'" />
+          <p class="hero-location">Passage Voltaire<br>88370 Plombières-les-Bains</p>
+          <div class="hero-status">
+            <span class="status-dot"></span>
+            <div>
+              <strong id="todayStatus">Ouvert aujourd’hui</strong>
+              <small id="todayHours">Consultez les services ci-dessous</small>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="menus" class="section container">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Cette semaine</p>
+          <h2>Les menus du moment</h2>
+          <p class="menu-intro">Choisissez un jour pour voir ce qui est proposé le midi et le soir. Les jours fermés sont indiqués automatiquement.</p>
+        </div>
+      </div>
+      <div id="daysGrid" class="days-grid" aria-live="polite"></div>
+    </section>
+
+    <section id="infos" class="section section-muted">
+      <div class="container info-grid">
+        <article class="info-card">
+          <p class="eyebrow">Ouvertures</p>
+          <h2>Les prochains jours</h2>
+          <div id="hoursSummary" class="hours-list"></div>
+        </article>
+        <article class="info-card">
+          <p class="eyebrow">Chez Lucette</p>
+          <h2 id="contactTitle">Chez Lucette</h2>
+          <p id="address">Passage Voltaire, 88370 Plombières-les-Bains</p>
+          <p><a id="phone" href="tel:+33766370020">07 66 37 00 20</a></p>
+          <p class="help-text">Pour une réservation ou une question sur le menu, contactez directement le restaurant.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span id="footerName">Chez Lucette</span>
+      <a href="admin.html" class="admin-link">Administration</a>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
