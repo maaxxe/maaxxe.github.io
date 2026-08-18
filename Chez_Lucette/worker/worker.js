@@ -1,11 +1,10 @@
-const API_VERSION = '2026-03-10';
-const FILE_PATH = 'Chez_Lucette/data/menu.json';
+const API_VERSION = '2022-11-28';
 
 function corsHeaders(origin, allowedOrigin) {
   const allowed = !allowedOrigin || allowedOrigin === '*' || origin === allowedOrigin;
   return {
     'Access-Control-Allow-Origin': allowed ? (allowedOrigin === '*' ? '*' : origin || allowedOrigin) : 'null',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, X-Admin-Password',
     'Vary': 'Origin',
     'Content-Type': 'application/json; charset=utf-8'
@@ -48,11 +47,21 @@ export default {
     const headers = corsHeaders(origin, env.ALLOWED_ORIGIN || '*');
 
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
-    if (request.method !== 'POST') return json({ error: 'Méthode non autorisée' }, 405, headers);
 
-    if (env.ALLOWED_ORIGIN && env.ALLOWED_ORIGIN !== '*' && origin !== env.ALLOWED_ORIGIN) {
+    if (env.ALLOWED_ORIGIN && env.ALLOWED_ORIGIN !== '*' && origin && origin !== env.ALLOWED_ORIGIN) {
       return json({ error: 'Origine non autorisée' }, 403, headers);
     }
+
+    if (request.method === 'GET') {
+      return json({
+        ok: true,
+        service: 'chez-lucette-publisher',
+        repository: `${env.GITHUB_OWNER || ''}/${env.GITHUB_REPO || ''}`,
+        filePath: env.GITHUB_FILE_PATH || 'Chez_Lucette/data/menu.json'
+      }, 200, headers);
+    }
+
+    if (request.method !== 'POST') return json({ error: 'Méthode non autorisée' }, 405, headers);
 
     const suppliedPassword = request.headers.get('X-Admin-Password') || '';
     if (!env.ADMIN_PASSWORD || !constantTimeEqual(suppliedPassword, env.ADMIN_PASSWORD)) {
@@ -71,12 +80,13 @@ export default {
     }
 
     const branch = env.GITHUB_BRANCH || 'main';
-    const apiUrl = `https://api.github.com/repos/${encodeURIComponent(env.GITHUB_OWNER)}/${encodeURIComponent(env.GITHUB_REPO)}/contents/${FILE_PATH}`;
+    const filePath = env.GITHUB_FILE_PATH || 'Chez_Lucette/data/menu.json';
+    const apiUrl = `https://api.github.com/repos/${encodeURIComponent(env.GITHUB_OWNER)}/${encodeURIComponent(env.GITHUB_REPO)}/contents/${filePath.split('/').map(encodeURIComponent).join('/')}`;
     const ghHeaders = {
       'Accept': 'application/vnd.github+json',
       'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
       'X-GitHub-Api-Version': API_VERSION,
-      'User-Agent': 'restaurant-menu-publisher'
+      'User-Agent': 'chez-lucette-menu-publisher'
     };
 
     const current = await fetch(`${apiUrl}?ref=${encodeURIComponent(branch)}`, { headers: ghHeaders });
@@ -91,7 +101,7 @@ export default {
       method: 'PUT',
       headers: { ...ghHeaders, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        message: `menu: mise à jour depuis l'administration`,
+        message: 'menu: mise à jour depuis l’administration Chez Lucette',
         content: toBase64Utf8(content),
         sha: currentFile.sha,
         branch

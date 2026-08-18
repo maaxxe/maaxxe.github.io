@@ -3,11 +3,13 @@
   "name": "chez-lucette-publisher",
   "main": "worker.js",
   "compatibility_date": "2026-08-18",
-
+  "workers_dev": true,
+  "preview_urls": false,
   "vars": {
     "GITHUB_OWNER": "maaxxe",
     "GITHUB_REPO": "maaxxe.github.io",
     "GITHUB_BRANCH": "main",
+    "GITHUB_FILE_PATH": "Chez_Lucette/data/menu.json",
     "ALLOWED_ORIGIN": "https://maaxxe.github.io"
   }
 }

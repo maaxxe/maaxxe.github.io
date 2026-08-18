@@ -1,9 +1,13 @@
-const STORAGE_KEY = 'restaurant-menu-data-v1';
+const STORAGE_KEY = 'restaurant-menu-data-v2';
 const categoryLabels = { entree:'Entrée', plat:'Plat', dessert:'Dessert', boisson:'Boisson', accompagnement:'Accompagnement', autre:'Autre' };
 let data;
 let activeFilter = 'all';
 let dragTagId = null;
-const publishEndpoint = window.RESTAURANT_ADMIN_CONFIG?.publishEndpoint?.trim() || '';
+const DEFAULT_PUBLISH_ENDPOINT = 'https://chez-lucette-publisher.maaxxe.workers.dev';
+
+function getPublishEndpoint() {
+  return (window.RESTAURANT_ADMIN_CONFIG?.publishEndpoint || DEFAULT_PUBLISH_ENDPOINT || '').trim();
+}
 
 
 const $ = id => document.getElementById(id);
@@ -152,15 +156,17 @@ function openPublishDialog() {
   const openDays=data.days.slice(0,data.settings.displayDays).filter(d=>d.lunch||d.dinner).length;
   const assignments=data.days.slice(0,data.settings.displayDays).reduce((n,d)=>n+d.lunchItems.length+d.dinnerItems.length,0);
   $('publishSummary').innerHTML=`<strong>${openDays}</strong> jour(s) avec au moins un service ouvert<br><strong>${assignments}</strong> plat(s) placé(s) sur le planning<br><strong>${data.tags.length}</strong> étiquette(s) disponibles`;
+  const publishEndpoint = getPublishEndpoint();
   $('publishModeText').textContent = publishEndpoint
-    ? 'Après confirmation, le fichier data/menu.json sera mis à jour sur GitHub et un commit sera créé automatiquement.'
-    : 'Mode local : configurez publishEndpoint dans config.js pour activer le commit GitHub automatique. En attendant, les changements restent visibles dans ce navigateur et peuvent être exportés en JSON.';
+    ? 'Worker connecté : après confirmation, le menu sera envoyé vers GitHub et publié automatiquement.'
+    : 'Mode local : le Worker de publication n’est pas configuré. Les changements restent dans ce navigateur.';
   $('adminPassword').closest('label').classList.toggle('hidden', !publishEndpoint);
   $('publishDialog').showModal();
 }
 
 async function confirmPublish() {
   persistDraft();
+  const publishEndpoint = getPublishEndpoint();
   if (!publishEndpoint) {
     $('publishDialog').close();
     toast('Enregistré localement — Worker non configuré');
@@ -205,5 +211,29 @@ function bind() {
   $('cancelPublishBtn').onclick=()=> $('publishDialog').close(); $('closePublishBtn').onclick=()=> $('publishDialog').close(); $('confirmPublishBtn').onclick=confirmPublish;
 }
 
+async function updateWorkerStatus() {
+  const endpoint = getPublishEndpoint();
+  const status = $('workerStatus');
+  if (!status) return;
+  if (!endpoint) {
+    status.textContent = 'Worker non configuré';
+    status.className = 'worker-status offline';
+    return;
+  }
+  status.textContent = 'Vérification du Worker…';
+  status.className = 'worker-status checking';
+  try {
+    const res = await fetch(endpoint, { method: 'GET', cache: 'no-store' });
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok || !body.ok) throw new Error('Worker indisponible');
+    status.textContent = 'Worker connecté';
+    status.className = 'worker-status online';
+  } catch (err) {
+    console.warn('Vérification Worker:', err);
+    status.textContent = 'Worker configuré — test indisponible';
+    status.className = 'worker-status checking';
+  }
+}
+
 function renderAll(){ renderFilters(); renderTagLibrary(); renderRestaurantFields(); renderDays(); }
-loadData().then(d=>{data=d; bind(); renderAll();});
+loadData().then(d=>{data=d; bind(); renderAll(); updateWorkerStatus();});

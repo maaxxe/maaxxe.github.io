@@ -1,92 +1,50 @@
-# Site restaurant — GitHub Pages + administration visuelle
+# Chez Lucette — site et administration
 
-Projet sans framework, prévu pour un restaurateur qui n'a jamais besoin d'utiliser Git.
+Ce dossier est prévu pour être placé dans le dépôt `maaxxe/maaxxe.github.io` sous `Chez_Lucette/`.
 
-## Ce qui est déjà inclus
+## URLs
 
-- Page publique responsive avec les menus selon les jours.
-- Affichage configurable de **1 à 14 jours**.
-- Pour chaque jour : **fermé**, **midi**, **soir** ou **midi + soir**.
-- Bibliothèque d'**étiquettes** de plats.
-- Création / modification / suppression d'une étiquette.
-- Catégories : entrée, plat, dessert, boisson, accompagnement, autre.
-- **Glisser-déposer** d'un plat vers le midi ou le soir du jour voulu.
-- Prix et description facultatifs.
-- Modification du nom, sous-titre, adresse et téléphone du restaurant.
-- Import / export JSON.
-- Bouton **Publier** avec confirmation.
-- Prévisualisation immédiate dans le navigateur.
-- Worker Cloudflare fourni pour transformer **Publier → commit GitHub automatique** sans exposer le token GitHub.
+- Site : `https://maaxxe.github.io/Chez_Lucette/`
+- Admin : `https://maaxxe.github.io/Chez_Lucette/admin.html`
+- Worker : `https://chez-lucette-publisher.maaxxe.workers.dev`
 
-## Tester le site localement
+## Publication automatique
 
-Depuis le dossier du projet :
+L'admin envoie le menu au Cloudflare Worker. Le Worker met à jour :
+
+`Chez_Lucette/data/menu.json`
+
+dans le dépôt :
+
+`maaxxe/maaxxe.github.io`
+
+Le token GitHub et le mot de passe admin ne sont jamais présents dans le site. Ils doivent rester dans les secrets Cloudflare :
 
 ```bash
-python3 -m http.server 8000
+cd Chez_Lucette/worker
+npx wrangler secret put GITHUB_TOKEN
+npx wrangler secret put ADMIN_PASSWORD
+npx wrangler deploy
 ```
 
-Ouvrir ensuite :
+Les secrets déjà enregistrés sur le Worker `chez-lucette-publisher` n'ont pas besoin d'être recréés lors d'un simple redéploiement.
 
-- Site : `http://localhost:8000/`
-- Administration : `http://localhost:8000/admin.html`
+## Mettre cette version dans le dépôt
 
-Les modifications sont enregistrées dans le stockage local du navigateur pendant le développement.
+Remplacer le contenu du dossier `Chez_Lucette` par celui de cette archive, en conservant votre vrai fichier `image/logo.jpg`, puis :
 
-## Mettre le site sur GitHub Pages
-
-1. Créer un dépôt, par exemple `restaurant-le-bistrot`.
-2. Mettre les fichiers du projet à la racine du dépôt.
-3. Ouvrir **Settings → Pages** dans GitHub.
-4. Choisir le déploiement depuis la branche `main`, dossier `/root`.
-5. Le site public sera disponible avec GitHub Pages.
-
-## Activer le vrai bouton Publier
-
-GitHub Pages est statique : un token GitHub ne doit jamais être enregistré dans `admin.js` ou `config.js`.
-
-Le dossier `worker/` contient donc un petit Cloudflare Worker. Il reçoit le JSON et met à jour `data/menu.json` via l'API GitHub. L'API GitHub de mise à jour de fichier nécessite le contenu en Base64 ainsi que le SHA du fichier existant ; un token finement limité peut recevoir uniquement la permission `Contents: write` sur ce dépôt.
-
-### Configuration du Worker
-
-Dans `worker/wrangler.jsonc.example`, remplacer :
-
-- `GITHUB_OWNER` : compte GitHub, ex. `maaxxe`
-- `GITHUB_REPO` : dépôt du restaurant
-- `GITHUB_BRANCH` : généralement `main`
-- `ALLOWED_ORIGIN` : origine du site, par ex. `https://maaxxe.github.io`
-
-Les valeurs sensibles doivent rester dans les **secrets Cloudflare** :
-
-- `GITHUB_TOKEN` : fine-grained GitHub token limité au dépôt du restaurant, avec `Contents: Read and write`
-- `ADMIN_PASSWORD` : mot de passe choisi pour le restaurateur
-
-Une fois le Worker déployé, copier son URL dans `config.js` :
-
-```js
-window.RESTAURANT_ADMIN_CONFIG = {
-  publishEndpoint: "https://restaurant-menu-publisher.VOTRE-COMPTE.workers.dev/publish"
-};
+```bash
+cd /home/max/Projets/maaxxe.github.io
+git add Chez_Lucette
+git commit -m "Fix publication Chez Lucette"
+git push
 ```
 
-Le fonctionnement devient alors :
+Ensuite redéployer le Worker :
 
-`admin.html → Confirmer → Worker → data/menu.json → commit GitHub → GitHub Pages`
-
-## Structure
-
-```text
-restaurant-site/
-├── index.html
-├── admin.html
-├── styles.css
-├── app.js
-├── admin.js
-├── config.js
-├── data/
-│   └── menu.json
-└── worker/
-    ├── worker.js
-    ├── wrangler.jsonc.example
-    └── .gitignore
+```bash
+cd /home/max/Projets/maaxxe.github.io/Chez_Lucette/worker
+npx wrangler deploy
 ```
+
+L'admin affiche maintenant un badge `Worker connecté` quand le Worker répond.

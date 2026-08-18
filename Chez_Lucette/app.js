@@ -1,5 +1,3 @@
-const STORAGE_KEY = 'restaurant-menu-data-v1';
-
 const categoryLabels = {
   entree: 'Entrée', plat: 'Plat', dessert: 'Dessert', boisson: 'Boisson', accompagnement: 'Accompagnement', autre: 'Autre'
 };
@@ -37,9 +35,10 @@ function normalizeData(data) {
 }
 
 async function loadData() {
-  const local = localStorage.getItem(STORAGE_KEY);
-  if (local) return normalizeData(JSON.parse(local));
-  const response = await fetch('data/menu.json', { cache: 'no-store' });
+  // Le site public affiche uniquement la version publiée sur GitHub.
+  // Un cache-buster évite de conserver un ancien menu après un commit.
+  const response = await fetch(`data/menu.json?v=${Date.now()}`, { cache: 'no-store' });
+  if (!response.ok) throw new Error(`Chargement menu impossible (${response.status})`);
   return normalizeData(await response.json());
 }
 

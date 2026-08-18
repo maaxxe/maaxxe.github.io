@@ -1,15 +1,15 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "restaurant-menu-publisher",
+  "name": "chez-lucette-publisher",
   "main": "worker.js",
   "compatibility_date": "2026-08-18",
+  "workers_dev": true,
+  "preview_urls": false,
   "vars": {
     "GITHUB_OWNER": "maaxxe",
-    "GITHUB_REPO": "restaurant-nom",
+    "GITHUB_REPO": "maaxxe.github.io",
     "GITHUB_BRANCH": "main",
+    "GITHUB_FILE_PATH": "Chez_Lucette/data/menu.json",
     "ALLOWED_ORIGIN": "https://maaxxe.github.io"
-  },
-  "secrets": {
-    "required": ["GITHUB_TOKEN", "ADMIN_PASSWORD"]
   }
 }
