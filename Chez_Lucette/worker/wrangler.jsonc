@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "chez-lucette-publisher",
+  "main": "worker.js",
+  "compatibility_date": "2026-08-18",
+
+  "vars": {
+    "GITHUB_OWNER": "maaxxe",
+    "GITHUB_REPO": "Chez_Lucette",
+    "GITHUB_BRANCH": "main",
+    "ALLOWED_ORIGIN": "https://maaxxe.github.io"
+  }
+}
