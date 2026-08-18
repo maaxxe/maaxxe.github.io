@@ -6,7 +6,7 @@
     "phone": "07 66 37 00 20"
   },
   "settings": {
-    "displayDays": 1
+    "displayDays": 5
   },
   "tags": [
     {
@@ -50,7 +50,9 @@
       "date": "2026-08-18",
       "lunch": true,
       "dinner": true,
-      "lunchItems": [],
+      "lunchItems": [
+        "t1"
+      ],
       "dinnerItems": []
     },
     {
