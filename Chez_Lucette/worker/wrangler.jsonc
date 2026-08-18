@@ -6,7 +6,7 @@
 
   "vars": {
     "GITHUB_OWNER": "maaxxe",
-    "GITHUB_REPO": "Chez_Lucette",
+    "GITHUB_REPO": "maaxxe.github.io",
     "GITHUB_BRANCH": "main",
     "ALLOWED_ORIGIN": "https://maaxxe.github.io"
   }

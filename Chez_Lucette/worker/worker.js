@@ -1,5 +1,5 @@
 const API_VERSION = '2026-03-10';
-const FILE_PATH = 'data/menu.json';
+const FILE_PATH = 'Chez_Lucette/data/menu.json';
 
 function corsHeaders(origin, allowedOrigin) {
   const allowed = !allowedOrigin || allowedOrigin === '*' || origin === allowedOrigin;
