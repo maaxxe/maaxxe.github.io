@@ -4,13 +4,13 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Maxime Robin – Ingénieur Systèmes embarqués & IA</title>
+  <title>Maxime Robin – Ingénieur en systèmes embarqués & IA</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta
     name="description"
-    content="Portfolio de Maxime Robin, ingénieur systèmes embarqués et IA"
+    content="Portfolio de Maxime Robin, ingénieur en systèmes embarqués et IA : vision par ordinateur, robotique, Deep Learning, RAG et systèmes industriels."
   >
 
   <link rel="stylesheet" href="style.css">
@@ -36,7 +36,7 @@
           </span>
 
           <span class="brand-subtitle">
-            Ingénieur Systèmes embarqués & IA
+            Ingénieur en systèmes embarqués & IA
           </span>
 
         </a>
@@ -88,7 +88,7 @@
         <span class="badge-icon"></span>
 
         <h1>
-          Disponible pour un poste à partir de décembre 2026
+          Disponible pour un poste d’ingénieur
         </h1>
 
       </div>
@@ -106,19 +106,20 @@
 
 
       <p class="hero-specialization">
-        Système embarqué · Computer Vision · Deep Learning · Linux · Cloud & ML Engineering
+        Systèmes embarqués · Computer Vision · Deep Learning · Robotique · RAG · Cloud & ML Engineering
       </p>
 
 
       <p class="hero-lead">
 
-        Actuellement en stage, je serai diplômé en décembre 2026
-        d’un double cursus <br>
+        Ingénieur diplômé en systèmes embarqués à l’ESEO
+        et titulaire d’une maîtrise en informatique spécialisée en intelligence artificielle <br>
 
         <strong>ESEO × Université de Sherbrooke</strong><br>
 
-        combinant un diplôme d’ingénieur en systèmes embarqués
-        et une maîtrise en informatique spécialisée en intelligence artificielle.
+        Un double cursus associant ingénierie des systèmes embarqués
+        et intelligence artificielle. <br>
+        La maîtrise canadienne est équivalente à un Master en France.
 
       </p>
 
@@ -147,6 +148,10 @@
 
         <span class="tag">
           ML Engineering
+        </span>
+
+        <span class="tag">
+          RAG & LLM
         </span>
 
         <span class="tag">
@@ -297,7 +302,6 @@
 
     <!-- ======================================================= -->
     <!-- A PROPOS -->
-    <!-- ======================================================= -->
 
     <section
       id="about-section"
@@ -312,41 +316,14 @@
       <div class="about-content">
 
         <p>
-
-          Actuellement en double cursus entre
-          <strong>l’ESEO</strong>
-          en systèmes embarqués et
-          <strong>l’Université de Sherbrooke</strong>
-          en intelligence artificielle,
-          je développe des solutions à l’intersection du logiciel,
-          du Deep Learning, de la vision par ordinateur,
-          de la robotique et des systèmes physiques.
-
+          Ingénieur diplômé en <strong>systèmes embarqués à l’ESEO</strong> et titulaire d’une
+          <strong>maîtrise en informatique spécialisée en IA</strong> à l’Université de Sherbrooke,
+          équivalente à un <strong>Master en France</strong>.
         </p>
 
-
         <p class="about-highlight">
-
-          <strong>Objectif :</strong>
-
-          concevoir des systèmes intelligents capables de passer
-          du prototype expérimental à une utilisation concrète
-          dans un environnement réel, de l’IA embarquée aux architectures
-          RAG et aux déploiements sur infrastructures cloud.
-
-        </p>
-
-
-        <p class="about-highlight">
-
-          <strong>Mobilité :</strong>
-
-          mes expériences académiques et professionnelles
-          en France, au Canada, en Slovaquie et en Lettonie
-          m’ont appris à évoluer rapidement
-          dans des environnements multiculturels,
-          exigeants et techniquement variés.
-
+          Je développe des solutions combinant <strong>IA, vision par ordinateur, robotique
+          et systèmes embarqués</strong>, avec une approche orientée applications industrielles.
         </p>
 
       </div>
@@ -354,9 +331,7 @@
     </section>
 
 
-
-    <!-- ======================================================= -->
-    <!-- PROJETS -->
+        <!-- PROJETS -->
     <!-- ======================================================= -->
 
     <section
@@ -559,6 +534,35 @@
 
 
 
+        <!-- WIFI REPEATER ESP32 -->
+
+        <article class="project-card reveal-scale reveal-delay-6">
+
+          <h3>
+            Repeater WiFi ESP32
+          </h3>
+
+          <p>
+
+            <strong>
+              C, ESP32, ESP-IDF, WiFi AP+STA, NAPT, DNS, DHCP
+            </strong>
+
+            <br>
+
+            Développé un répéteur WiFi sur ESP32 combinant
+            un point d’accès local et une connexion simultanée
+            au réseau amont en mode AP+STA.
+
+            Configuré le routage NAPT, le DNS et le DHCP,
+            puis débogué, compilé et flashé le firmware sous ESP-IDF
+            afin d’obtenir une chaîne réseau autonome sur microcontrôleur.
+
+          </p>
+
+        </article>
+
+
         <!-- CAMERA YOLO -->
 
         <article class="project-card reveal-scale reveal-delay-6">
@@ -598,7 +602,7 @@
         <article class="project-card reveal-scale reveal-delay-1">
 
           <h3>
-            RAG local – Assistant documentaire
+            RAG industriel – Assistant documentaire technique
           </h3>
 
           <p>
@@ -609,28 +613,65 @@
 
             <br>
 
-            Conçu et déployé des assistants documentaires RAG
-            permettant d’ingérer,
-            indexer
-            et interroger des documents.
+            Développé un système RAG permettant d’exploiter
+            et d’interroger de la documentation technique interne,
+            avec ingestion de documents, découpage, indexation vectorielle,
+            recherche sémantique et génération de réponses contextualisées.
 
-            Structuré la chaîne autour de ChromaDB
-            pour la recherche vectorielle,
-            d’Ollama pour l’inférence LLM locale
-            et de Gradio pour l’interface utilisateur.
+            Structuré la chaîne autour de ChromaDB pour la recherche vectorielle,
+            de modèles LLM locaux ou cloud et de Gradio pour l’interface utilisateur.
 
             Mis en place des versions locales et cloud,
-            avec déploiement sur AWS,
-            utilisation d’instances de calcul
-            et expérimentation avec Google AI Studio.
+            notamment sur AWS, et expérimenté différentes solutions
+            d’inférence et d’hébergement pour comparer leurs contraintes
+            de coût, de performance et de déploiement.
 
           </p>
 
         </article>
 
 
+        
 
-        <!-- ASSISTANT VOCAL -->
+        <!-- PROSE / KEREVAL -->
+
+        <article class="project-card reveal-scale reveal-delay-2">
+
+          <h3>
+            Projet industriel long – Système de détection d’intrusion ProSe
+          </h3>
+
+          <p>
+
+            <strong>
+              ESEO × Kereval · Projet ingénieur de 6 mois · Équipe de 6
+            </strong>
+
+            <br><br>
+
+            <strong>
+              C, Android, Raspberry Pi, Caméras IP, Git
+            </strong>
+
+            <br>
+
+            Conçu en équipe un système embarqué complet de vidéosurveillance
+            et de détection d’intrusion dans le cadre d’un projet d’ingénierie
+            réalisé pour Kereval.
+
+            Participé à la définition de l’architecture logicielle,
+            à l’intégration d’un réseau de Raspberry Pi et de caméras IP,
+            ainsi qu’au développement d’une application Android de supervision.
+
+            Intégré les fonctions de capture, transmission, détection,
+            alertes et monitoring dans une architecture distribuée,
+            avec travail collaboratif et gestion du développement sous Git.
+
+          </p>
+
+        </article>
+
+<!-- ASSISTANT VOCAL -->
 
         <article class="project-card reveal-scale reveal-delay-2">
 
@@ -967,45 +1008,7 @@
           </a>
 
         </article>
-
-
-
-        <!-- PROSE -->
-
-        <article class="project-card reveal-scale reveal-delay-5">
-
-          <h3>
-            Système de détection d’intrusion – ProSe
-          </h3>
-
-          <p>
-
-            <strong>
-              C, Android, Raspberry Pi, Caméras IP
-            </strong>
-
-            <br>
-
-            Conçu un système complet
-            de détection d’intrusion
-            reposant sur un réseau de Raspberry Pi,
-            de caméras IP
-            et une application Android de supervision.
-
-            Intégré capture,
-            transmission,
-            détection
-            et monitoring
-            dans une architecture
-            orientée systèmes embarqués.
-
-          </p>
-
-        </article>
-
-
-
-        <!-- STELLANTIS AUTOMATION -->
+<!-- STELLANTIS AUTOMATION -->
 
         <article class="project-card reveal-scale reveal-delay-6">
 
@@ -1095,7 +1098,50 @@
 
 
       <div class="education-timeline">
+        <!-- ESEO -->
 
+        <div class="edu-item reveal-left reveal-delay-2">
+
+          <div class="edu-content">
+
+            <div class="logo-row">
+
+              <img
+                src="images/logos/logo_eseo.png"
+                alt="ESEO"
+                class="tiny-logo"
+              >
+
+              <h3>
+                ESEO – École supérieure d’électronique de l’Ouest
+              </h3>
+
+            </div>
+
+
+            <p class="edu-meta">
+              <strong>Diplôme d’ingénieur</strong>
+              – Spécialisation Systèmes embarqués (2023–2026)
+            </p>
+
+            <p>
+              Formation d’ingénieur orientée électronique, informatique,
+              systèmes embarqués, robotique, automatisation, IoT
+              et intégration de solutions logicielles et matérielles.
+            </p>
+
+            <div class="logo-row">
+              <img
+                src="images/flags/flag_fr.png"
+                alt="France"
+                class="tiny-logo"
+              >
+              <span class="country-badge">Angers & Paris, France</span>
+            </div>
+
+          </div>
+
+        </div>
 
         <!-- SHERBROOKE -->
 
@@ -1119,42 +1165,23 @@
 
 
             <p class="edu-meta">
-
-              <strong>
-                Maîtrise en informatique
-              </strong>
-
-              – Spécialisation intelligence artificielle
-              (2025–2026)
-
+              <strong>Maîtrise en informatique</strong>
+              – Spécialisation Intelligence artificielle · Équivalent Master en France (2025–2026)
             </p>
-
 
             <p>
-
-              Formation avancée en apprentissage automatique,
-              vision par ordinateur,
-              réseaux de neurones,
-              apprentissage par renforcement
-              et conception de modèles IA
-              appliqués à des problématiques réelles,
-              dans le cadre d’un double diplôme avec l’ESEO.
-
+              Formation avancée en apprentissage automatique, vision par ordinateur,
+              réseaux de neurones, apprentissage par renforcement et conception
+              de solutions IA appliquées à des problématiques réelles.
             </p>
 
-
             <div class="logo-row">
-
               <img
                 src="images/flags/flag_ca.png"
                 alt="Canada"
                 class="tiny-logo"
               >
-
-              <span class="country-badge">
-                Québec, Canada
-              </span>
-
+              <span class="country-badge">Sherbrooke, Québec, Canada</span>
             </div>
 
           </div>
@@ -1163,7 +1190,45 @@
 
 
 
-        <!-- ESEO -->
+
+
+        <!-- ERASMUS TSI -->
+
+        <div class="edu-item reveal-left reveal-delay-3">
+
+          <div class="edu-content">
+
+            <div class="logo-row">
+              <h3>
+                Transport and Telecommunication Institute (TSI)
+              </h3>
+            </div>
+
+            <p class="edu-meta">
+              <strong>Semestre Erasmus – Informatique</strong>
+              · Février 2023 – Juillet 2023
+            </p>
+
+            <p>
+              Semestre international suivi en anglais à Riga,
+              consacré à l’informatique et à l’ouverture internationale.
+            </p>
+
+            <div class="logo-row">
+              <img
+                src="images/flags/flag_lv.png"
+                alt="Lettonie"
+                class="tiny-logo"
+              >
+              <span class="country-badge">Riga, Lettonie</span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- PREPA ESEO -->
 
         <div class="edu-item reveal-left reveal-delay-4">
 
@@ -1178,52 +1243,45 @@
               >
 
               <h3>
-                ESEO – École supérieure d’électronique de l’Ouest
+                ESEO – Classes préparatoires intégrées
               </h3>
 
             </div>
 
-
             <p class="edu-meta">
-
-              <strong>
-                Diplôme d’ingénieur
-              </strong>
-
-              – Génie des systèmes embarqués
-              (2023–2026)
-
+              <strong>Cycle préparatoire intégré</strong>
+              · Paris · 2021–2023
             </p>
 
+          </div>
 
-            <p>
+        </div>
 
-              Formation d’ingénieur orientée électronique,
-              informatique,
-              systèmes embarqués
-              et intégration de solutions logicielles et matérielles.
 
-              Réalisation de projets appliqués
-              en robotique,
-              automatisation,
-              IoT
-              et systèmes connectés.
+        <!-- BACCALAUREAT -->
 
-            </p>
+        <div class="edu-item reveal-left reveal-delay-5">
 
+          <div class="edu-content">
 
             <div class="logo-row">
+              <h3>
+                Lycée Louis Bascan
+              </h3>
+            </div>
 
+            <p class="edu-meta">
+              <strong>Baccalauréat général</strong>
+              – Mathématiques, SVT, Physique · 2018–2021
+            </p>
+
+            <div class="logo-row">
               <img
                 src="images/flags/flag_fr.png"
                 alt="France"
                 class="tiny-logo"
               >
-
-              <span class="country-badge">
-                Angers & Paris, France
-              </span>
-
+              <span class="country-badge">Rambouillet, France</span>
             </div>
 
           </div>
@@ -1238,7 +1296,9 @@
 
 
     <!-- ======================================================= -->
-    <!-- EXPERIENCE -->
+
+
+        <!-- EXPERIENCE -->
     <!-- ======================================================= -->
 
     <section class="experience-section reveal">
@@ -1266,82 +1326,62 @@
               >
 
               <h3>
-                Stage Ingénieur IA – Isybot
+                Stage Ingénieur IA – Vision & Robotique collaborative
               </h3>
 
             </div>
 
 
             <p class="exp-meta">
-
               Isybot, Les Ulis (France) ·
-
-              <strong>
-                Mai 2026 – Octobre 2026 (en cours)
-              </strong>
-
+              <strong>Mai 2026 – Octobre 2026</strong>
             </p>
 
 
             <p>
-
-              Développement d’une chaîne complète
-              de vision par ordinateur
-              pour un cobot de ponçage,
-              avec pour objectif
-              la détection automatique
-              de la géométrie des surfaces
-              et l’intégration
-              des résultats de vision
-              dans un environnement robotique réel.
-
+              Développement de solutions d’intelligence artificielle
+              pour un cobot industriel de ponçage, avec intégration
+              de la vision, des capteurs et des outils opérateur
+              dans une chaîne robotique réelle.
             </p>
 
 
             <ul>
 
               <li>
-                Comparé des approches de vision classique OpenCV
-                et de Deep Learning
-                pour la détection précise de coins.
+                Mis en place un modèle de vision spécialisé
+                dans la détection précise des coins de planches.
               </li>
 
               <li>
-                Conçu, entraîné et optimisé
-                des modèles de Computer Vision
-                sous PyTorch.
+                Conçu et entraîné des modèles de Deep Learning,
+                ainsi que les pipelines d’entraînement,
+                de validation et de benchmarking.
               </li>
 
               <li>
-                Mis en place des pipelines d’entraînement GPU,
-                de validation
-                et de benchmarking des modèles.
+                Développé un pipeline GAN pour générer
+                des données synthétiques et augmenter le dataset.
               </li>
 
               <li>
-                Expérimenté la génération de données synthétiques
-                par GAN
-                avec PyTorch et PaddlePaddle.
+                Développé un système RAG pour exploiter
+                et interroger la documentation technique interne de l’entreprise.
               </li>
 
               <li>
-                Développé une IHM industrielle PyQt5
-                permettant à l’opérateur
-                de visualiser,
-                contrôler
-                et corriger les détections.
+                Développé une IHM PyQt5 permettant à l’opérateur
+                de visualiser et corriger les détections.
               </li>
 
               <li>
-                Intégré des données provenant
-                d’une caméra industrielle
-                et d’un capteur Keyence.
+                Intégré les résultats de vision avec les données
+                d’une caméra industrielle et d’un capteur Keyence.
               </li>
 
               <li>
-                Développé la communication TCP/IP
-                entre les différents composants
-                de la chaîne vision et robotique.
+                Mis en place la communication TCP/IP
+                entre les différents composants de la chaîne vision et robotique.
               </li>
 
             </ul>
@@ -1351,47 +1391,18 @@
               class="skills-tags"
               style="margin-top:8px;"
             >
-
-              <span>
-                Computer Vision
-              </span>
-
-              <span>
-                Deep Learning
-              </span>
-
-              <span>
-                PyTorch
-              </span>
-
-              <span>
-                PaddlePaddle
-              </span>
-
-              <span>
-                GAN
-              </span>
-
-              <span>
-                OpenCV
-              </span>
-
-              <span>
-                PyQt5
-              </span>
-
-              <span>
-                CUDA
-              </span>
-
-              <span>
-                Robotique collaborative
-              </span>
-
-              <span>
-                TCP/IP
-              </span>
-
+              <span>Computer Vision</span>
+              <span>Deep Learning</span>
+              <span>PyTorch</span>
+              <span>PaddlePaddle</span>
+              <span>GAN</span>
+              <span>RAG</span>
+              <span>ChromaDB</span>
+              <span>PyQt5</span>
+              <span>OpenCV</span>
+              <span>CUDA</span>
+              <span>Robotique collaborative</span>
+              <span>TCP/IP</span>
             </div>
 
 
@@ -1417,115 +1428,6 @@
         </div>
 
 
-
-        <!-- KEREVAL -->
-
-        <div class="exp-item reveal-right reveal-delay-2">
-
-          <div class="exp-content">
-
-            <div class="logo-row">
-
-              <img
-                src="images/logos/logo_kereval.jpeg"
-                alt="Kereval"
-                class="tiny-logo"
-              >
-
-              <h3>
-                Projet ProSe – Système de vidéo-surveillance pour Kereval
-              </h3>
-
-            </div>
-
-
-            <p class="exp-meta">
-
-              Kereval, Rennes (France) ·
-
-              <strong>
-                Février 2025 – Juin 2025
-              </strong>
-
-            </p>
-
-
-            <p>
-
-              Piloté en équipe la conception
-              d’un système embarqué
-              de vidéo-surveillance multi-caméras
-              avec détection d’intrusion,
-              dans le cadre d’un projet long
-              réalisé pour Kereval.
-
-            </p>
-
-
-            <ul>
-
-              <li>
-                Développé une architecture de supervision
-                reposant sur des Raspberry Pi
-                et des caméras IP.
-              </li>
-
-              <li>
-                Intégré des mécanismes d’alerte
-                permettant de signaler les intrusions.
-              </li>
-
-              <li>
-                Structuré le développement collaboratif
-                avec Git et GitHub.
-              </li>
-
-              <li>
-                Mené l’intégration
-                dans un contexte
-                de systèmes embarqués.
-              </li>
-
-            </ul>
-
-
-            <div
-              class="skills-tags"
-              style="margin-top:8px;"
-            >
-
-              <span>Raspberry Pi</span>
-              <span>Caméras IP</span>
-              <span>Systèmes embarqués</span>
-              <span>Git/GitHub</span>
-              <span>Travail d’équipe</span>
-
-            </div>
-
-
-            <div
-              class="logo-row"
-              style="margin-top:8px;"
-            >
-
-              <img
-                src="images/flags/flag_fr.png"
-                alt="France"
-                class="tiny-logo"
-              >
-
-              <span class="country-badge">
-                Angers, France
-              </span>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-
         <!-- OTHUA -->
 
         <div class="exp-item reveal-right reveal-delay-3">
@@ -1547,7 +1449,7 @@
               >
 
               <h3>
-                Automation Engineering Intern – OTHUA
+                Stage en automatisme industriel – OTHUA
               </h3>
 
             </div>
@@ -1733,7 +1635,7 @@
               >
 
               <h3>
-                Stagiaire ouvrier – Contrôle électrique
+                Travail en usine – Contrôle électrique
               </h3>
 
             </div>
@@ -1985,7 +1887,7 @@
           <p>
 
             <strong>
-              Février 2023 – Août 2023
+              Février 2023 – Juillet 2023
             </strong>
 
             <br>
@@ -2070,7 +1972,7 @@
           <ul>
 
             <li>
-              Python, PyTorch, PaddlePaddle,
+              Python, PyTorch, PaddlePaddle, TensorFlow,
               NumPy, Pandas et Scikit-learn
             </li>
 
@@ -2285,10 +2187,8 @@
           <ul>
 
             <li>
-              C,
-              Raspberry Pi,
-              ESP32
-              et systèmes Linux embarqués
+              C, C++, STM32, Raspberry Pi, ESP32,
+              ESP-IDF et systèmes Linux embarqués
             </li>
 
             <li>
@@ -2305,7 +2205,7 @@
 
             <li>
               Communication TCP/IP,
-              sockets
+              sockets, Pthreads
               et échanges machine-machine
             </li>
 
@@ -2316,10 +2216,9 @@
             </li>
 
             <li>
-              Commissioning,
-              diagnostic terrain
-              et optimisation
-              de processus industriels
+              Linux embarqué, IoT,
+              commissioning, diagnostic terrain
+              et optimisation de processus industriels
             </li>
 
           </ul>
@@ -2422,6 +2321,55 @@
 
         </div>
 
+
+      </div>
+
+    </section>
+
+
+
+
+    <!-- ======================================================= -->
+    <!-- LANGUES & LOISIRS -->
+    <!-- ======================================================= -->
+
+    <section class="skills-section reveal">
+
+      <h2>
+        Langues & Loisirs
+      </h2>
+
+      <div class="skills-container">
+
+        <div class="skill-block reveal-scale reveal-delay-1">
+
+          <h3>
+            Langues
+          </h3>
+
+          <ul>
+            <li>Français – langue maternelle</li>
+            <li>Anglais professionnel – TOEIC 825 / 990</li>
+            <li>Espagnol – niveau intermédiaire</li>
+          </ul>
+
+        </div>
+
+
+        <div class="skill-block reveal-scale reveal-delay-2">
+
+          <h3>
+            Centres d’intérêt
+          </h3>
+
+          <ul>
+            <li>Natation</li>
+            <li>Formule 1 et sport automobile</li>
+            <li>Projets techniques, robotique et informatique</li>
+            <li>Voyages internationaux</li>
+          </ul>
+
+        </div>
 
       </div>
 
@@ -2647,11 +2595,13 @@
       <p>
 
         Je suis ouvert aux opportunités
-        en intelligence artificielle,
+        en systèmes embarqués,
+        intelligence artificielle,
         Computer Vision,
         robotique,
-        ML Engineering
-        et systèmes embarqués.
+        ML Engineering,
+        RAG
+        et automatisation industrielle.
 
       </p>
 
