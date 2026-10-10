@@ -921,6 +921,10 @@ section h2::after {
   transition: background 0.3s ease;
 }
 
+.dot.starting { background: #fbbf24; animation: blink 1.4s infinite; }
+.dot.offline { background: #fca5a5; }
+.chat-status { font-size: 0.72rem; font-weight: 400; opacity: 0.92; white-space: nowrap; }
+
 .dot.online {
   background: var(--accent);
   animation: blink 2s infinite;
